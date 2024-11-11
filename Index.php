@@ -23,7 +23,11 @@
                 <li><a href="#">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
             </ul>
+            
         </nav>
+        <div class="account">
+        <li><a href="#">Přihlásit se</a></li>
+        </div>
     </header>
 
 
