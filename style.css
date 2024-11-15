@@ -17,7 +17,7 @@ body {
 /* Hlavička */
 header {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     padding: 20px;
     background-color: #FFFDF2;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -38,8 +38,6 @@ header nav ul {
     list-style: none;
     align-items: center;
     
-   
- 
 }
 
 header nav ul li {
@@ -55,23 +53,257 @@ header nav ul li a {
     font-size: 20px;
     font-weight: bold;
     
-    
-    
 }
 
 
 img {
     width: 55px;
     height: 55px;
+    margin-right: auto;
     
 }
 
-div.account {
-
-    position: relative;
+.account a {
     text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    font-size: 10px;
-    font-weight: normal;
+    color: #000000;
+    font-weight: bold;
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
 }
+
+.account a:hover {
+    color: #666666;
+}
+
+
+
+/* Kontejner přihlašovacího formuláře */
+.login-form-container {
+    display: none; /* Skryje formulář při načtení stránky */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.login-form-container form {
+    background-color: #fafafa;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.login-form-container h2 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #444;
+    font-weight: bold;
+}
+
+.login-form-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #666;
+    text-align: left;
+}
+
+.login-form-container input[type="text"],
+.login-form-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+.login-form-container input[type="text"]:focus,
+.login-form-container input[type="password"]:focus {
+    outline: none;
+    border-color: #009688;
+    box-shadow: 0 0 5px rgba(0, 150, 136, 0.3);
+}
+
+.login-form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #009688;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form-container button[type="submit"]:hover {
+    background-color: #00796b;
+}
+
+.login-form-container button[type="button"] {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: #e57373;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form-container button[type="button"]:hover {
+    background-color: #d32f2f;
+}
+
+
+
+.password-container, 
+.new-password-container{
+    position: relative;
+    width: 100%;
+}
+
+.password-container input[type="password"],
+.new-password-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    padding-right: 40px; /* Místo pro ikonu oka */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;  /* Posun ikony doprava */
+    top: 50%;
+    transform: translateY(-75%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    transition: color 0.3s;
+    
+}
+
+.toggle-password:hover {
+    color: #009688;
+}
+
+
+
+
+
+/* Kontejner registračního formuláře */
+.register-form-container {
+    display: none; /* Skryje formulář při načtení stránky */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.register-form-container form {
+    background-color: #fafafa;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.register-form-container h2 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #444;
+    font-weight: bold;
+}
+
+.register-form-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #666;
+    text-align: left;
+}
+
+.register-form-container input[type="text"],
+.register-form-container input[type="email"],
+.register-form-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+.register-form-container input[type="text"]:focus,
+.register-form-container input[type="email"]:focus,
+.register-form-container input[type="password"]:focus {
+    outline: none;
+    border-color: #009688;
+    box-shadow: 0 0 5px rgba(0, 150, 136, 0.3);
+}
+
+.register-form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #009688;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-form-container button[type="submit"]:hover {
+    background-color: #00796b;
+}
+
+.register-form-container button[type="button"] {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: #e57373;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-form-container button[type="button"]:hover {
+    background-color: #d32f2f;
+}
+
+
+
