@@ -10,14 +10,14 @@
     
 </head>
 <body>
-
+   
     <!-- Hlavička s navigací -->
     <header>
         <img src="/images/logoBAT.png">
         <nav>
             <ul>
-                <li><a href="#">Úvod</a></li>
-                <li><a href="Poradatel.php">Pořadatel</a></li>
+                <li><a href="Index.php" target="_self">Úvod</a></li>
+                <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
                 <li><a href="#">Akce</a></li>
                 <li><a href="#">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
@@ -26,12 +26,14 @@
         </nav>
         <div class="account">
         <a href="#" onclick="openForm()">Přihlásit se</a>
+        <img src="/images/login.png">
         </div>
 
 
     </div>
 
     </header>
+     
 
  <!-- Formulář jako modální okno -->
     <div class="login-form-container" id="loginForm">
@@ -123,6 +125,6 @@ document.getElementById('toggleNewPassword').addEventListener('click', function 
 
 
    
-
+   
 </body>
 </html>

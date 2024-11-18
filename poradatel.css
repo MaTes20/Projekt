@@ -1,18 +1,14 @@
-/* Obecný reset stylu */
-
-
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 body {
     font-family: Arial, sans-serif;
     color: #333;
-    background-color: #ffd900;
+    background-color: #FFFDF2;
+    transition: ease;
 }
 
 /* Hlavička */
@@ -20,13 +16,11 @@ header {
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #ffd900ca;
+    background-color: #FFFDF2;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
    
     
 }
-
-
 
 header nav {
     position: absolute;
@@ -41,12 +35,12 @@ header nav ul {
     list-style: none;
     align-items: center;
     
-    
 }
 
 header nav ul li {
     margin-left: 20px;
    
+    
 }
 
 header nav ul li a {
@@ -57,6 +51,7 @@ header nav ul li a {
     font-weight: 500;
     
 }
+
 header nav ul li a:hover {
     color: #666666;
     font-size: 20.5px;
@@ -77,15 +72,23 @@ img {
     margin-left: auto;
     width: 20px;
     height: 20px;
-    padding: 5px;
-    
 }
 
 .account a:hover {
     color: #666666;
-    
 }
 
+
+
+.Info {
+    width: 500px;
+    height: 100px;
+    color: #333;
+    margin: auto;
+    font-weight: 500;
+    
+   
+}
 
 
 /* Kontejner přihlašovacího formuláře */
@@ -314,6 +317,3 @@ img {
 .register-form-container button[type="button"]:hover {
     background-color: #d32f2f;
 }
-
-
-
