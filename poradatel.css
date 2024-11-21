@@ -16,7 +16,7 @@ header {
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #FFFDF2;
+    background-color: #ffd900ca;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
    
     
@@ -72,6 +72,8 @@ img {
     margin-left: auto;
     width: 20px;
     height: 20px;
+    padding: 5px;
+    
 }
 
 .account a:hover {
@@ -81,11 +83,14 @@ img {
 
 
 .Info {
-    width: 500px;
+    width: 700px;
     height: 100px;
     color: #333;
     margin: auto;
+    margin-top: 50px;
     font-weight: 500;
+    font-size: 20px;
+    border-radius: 20px;
     
    
 }

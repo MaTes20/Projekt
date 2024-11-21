@@ -24,6 +24,7 @@
         </nav>
         <div class="account">
         <a href="#" onclick="openForm()">Přihlásit se</a>
+        <img src="/images/login.png">
         </div>
 
 
