@@ -30,12 +30,15 @@
         </div>
 
 
-    </div>
 
     </header>
     
     
-    
+    <div class="UvodPanel">
+        <h3>Vítejte na stránkách bezva tábora!</h3>
+        
+
+    </div>
 
  <!-- Formulář jako modální okno -->
     <div class="login-form-container" id="loginForm">
@@ -85,7 +88,7 @@
 
 
    
-    <form name="prihlaska" onsubmit="return kontrola();" action="prihlaska.php?akce_id=<?php echo $_GET['akce_id']; ?>" method="post">
+    <form name="prihlaska"  id="prihlaska" method="post">
     <p><i>Pole označené <b style="color: red; font-size: 20px;">*</b> jsou povinné. Bez jejich vyplnění nelze přihlášku odeslat.</i></p>
     <hr>
 
@@ -188,6 +191,7 @@
     <script>
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
+            console.log("kookt");
             closeRegisterForm();
         }
         function closeForm() {
@@ -205,6 +209,7 @@
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
+            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {

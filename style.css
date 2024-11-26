@@ -13,7 +13,7 @@ body {
     height: 200vh;
     font-family: Arial, Helvetica, sans-serif;
     color: #333;
-    background-color: #ffd900;
+    background-color: #e5e5e5;
 }
 
 /* Hlavička */
@@ -24,9 +24,11 @@ header {
     z-index: 1000;  
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 20px;
-    background-color: #363131ca;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #d4d1d1ca;
+    box-shadow: 0 2px 4px rgba(115, 112, 112, 0.832);
+
    
     
 }
@@ -35,8 +37,14 @@ header {
 
 header nav {
     position: absolute;
+    display: flex;
     left: 50%;
     transform: translateX(-50%); /* Horizontálně centruje navigaci */
+    justify-content: center; /* Zarovnání navigačního textu na střed */
+    width: 50%; /* Navigace zabírá celou šířku hlavičky */
+    
+    
+
 }
 
 
@@ -101,16 +109,58 @@ img {
     color: #000000;
     font-weight: 500;
     margin-left: auto;
-    width: 20px;
-    height: 20px;
     padding: 5px;
+    position: relative; /* Pro absolutní pozicování čáry */
+    display: inline-block; /* Zajišťuje, že čára pod textem bude fungovat správně */
+    transition: color 0.3s ease; /* Přechod pro změnu barvy textu */
     
 }
 
 .account a:hover {
-    color: #666666;
+    color: #000000;
     
 }
+
+.account a::after {
+    content: '';
+    position: absolute;
+    left: 50%; /* Umístění čáry na střed */
+    bottom: 0; /* Vzdálenost čáry od textu */
+    transform: translateX(-50%) scaleX(0); /* Zmenší čáru na 0 a umístí ji na střed */
+    transform-origin: center; /* Čára se rozšiřuje ze středu */
+    width: 100%; /* Šířka čáry */
+    height: 2px; /* Tloušťka čáry */
+    background-color: #eeff00; /* Barva čáry */
+    transition: transform 0.3s ease; /* Přechod pro roztažení čáry */
+}
+
+.account a:hover::after {
+    transform: translateX(-50%) scaleX(1); /* Čára expanduje na plnou šířku */
+}
+
+
+.UvodPanel{
+    width: 800px;
+    height: 200px;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,31 +1,50 @@
+/* Obecný reset stylu */
+
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 body {
-    font-family: Arial, sans-serif;
+    height: 200vh;
+    font-family: Arial, Helvetica, sans-serif;
     color: #333;
-    background-color: #FFFDF2;
-    transition: ease;
+    background-color: #ffd900;
 }
 
 /* Hlavička */
 header {
+    font-family: Arial, Helvetica, sans-serif;
+    position: sticky; /* Zajistí plovoucí chování */
+    top: 0;           /* Hlavička se zarovná k horní části stránky */
+    z-index: 1000;  
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 20px;
-    background-color: #ffd900ca;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #d4d1d1ca;
+    box-shadow: 0 2px 4px rgba(115, 112, 112, 0.832);
+
    
     
 }
 
+
+
 header nav {
     position: absolute;
+    display: flex;
     left: 50%;
     transform: translateX(-50%); /* Horizontálně centruje navigaci */
+    justify-content: center; /* Zarovnání navigačního textu na střed */
+    width: 50%; /* Navigace zabírá celou šířku hlavičky */
+    
+    
+
 }
 
 
@@ -35,28 +54,48 @@ header nav ul {
     list-style: none;
     align-items: center;
     
+    
 }
 
 header nav ul li {
     margin-left: 20px;
+    position: relative;
    
-    
 }
 
 header nav ul li a {
    text-decoration: none;
-    color: #333;
+    color: #0e0e0e;
     font-weight: 500;
     font-size: 20px;
     font-weight: 500;
+    transition: color 0.3s ease; /* Animace změny barvy textu */
+
     
 }
-
 header nav ul li a:hover {
-    color: #666666;
+    color: #000000;
     font-size: 20.5px;
 }
 
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 50%; /* Umístění na střed */
+    bottom: -3px; /* Vzdálenost čáry od textu */
+    transform: translateX(-50%) scaleX(0); /* Čára je zmenšená na 0 a na středu */
+    transform-origin: center; /* Šíření čáry ze středu */
+    width: 100%;
+    height: 2px;
+    background-color: #eeff00; /* Barva čáry */
+    transition: transform 0.3s ease; /* Animace transformace */
+}
+
+/* Při najetí myší čára expanduje */
+nav ul li a:hover::after {
+    transform: translateX(-50%) scaleX(1); /* Čára expanduje na plnou šířku */
+}
 
 img {
     width: 55px;
@@ -70,16 +109,34 @@ img {
     color: #000000;
     font-weight: 500;
     margin-left: auto;
-    width: 20px;
-    height: 20px;
     padding: 5px;
+    position: relative; /* Pro absolutní pozicování čáry */
+    display: inline-block; /* Zajišťuje, že čára pod textem bude fungovat správně */
+    transition: color 0.3s ease; /* Přechod pro změnu barvy textu */
     
 }
 
 .account a:hover {
-    color: #666666;
+    color: #000000;
+    
 }
 
+.account a::after {
+    content: '';
+    position: absolute;
+    left: 50%; /* Umístění čáry na střed */
+    bottom: 0; /* Vzdálenost čáry od textu */
+    transform: translateX(-50%) scaleX(0); /* Zmenší čáru na 0 a umístí ji na střed */
+    transform-origin: center; /* Čára se rozšiřuje ze středu */
+    width: 100%; /* Šířka čáry */
+    height: 2px; /* Tloušťka čáry */
+    background-color: #eeff00; /* Barva čáry */
+    transition: transform 0.3s ease; /* Přechod pro roztažení čáry */
+}
+
+.account a:hover::after {
+    transform: translateX(-50%) scaleX(1); /* Čára expanduje na plnou šířku */
+}
 
 
 .Info {
