@@ -42,7 +42,7 @@
 
  <!-- Formulář jako modální okno -->
     <div class="login-form-container" id="loginForm">
-        <form>
+        <form action="Index.php" method="POST">
             <h2>Přihlášení</h2>
             <label for="username">Uživatelské jméno</label>
             <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
@@ -64,17 +64,17 @@
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form>
+        <form action="Index.php" method="post">
             <h2>Registrace</h2>
             <label for="new-username">Uživatelské jméno</label>
-            <input type="text" id="new-username" name="new-username" placeholder="Zadejte uživatelské jméno" required>
+            <input type="text" id="new-username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
             
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Zadejte email" required>
             
             <label for="new-password">Heslo</label>
             <div class="new-password-container">
-                <input type="password" id="new-password" name="new-password" placeholder="Zadejte heslo" required>
+                <input type="password" id="new-password" name="new_password" placeholder="Zadejte heslo" required>
                 <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
             </div>
             
@@ -238,3 +238,70 @@ document.getElementById('toggleNewPassword').addEventListener('click', function 
    
 </body>
 </html>
+
+
+<?php
+// Připojení k databázi
+$servername = "localhost"; // nebo IP adresa serveru
+$username = "root"; // uživatelské jméno databáze
+$password = ""; // heslo k databázi
+$dbname = "tabor"; // název databáze
+$conn = "";
+
+// Vytvoření připojení
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+
+
+// Zpracování registrace
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_username'])) {
+    $new_username = $conn->real_escape_string($_POST['new_username']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT); // Hashování hesla
+
+    // Uložení do databáze
+    $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES ('$new_username', '$email', '$new_password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Registrace byla úspěšná!";
+    } else {
+        echo "Chyba: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+ // Ověření přihlašovacích údajů
+ if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $conn->real_escape_string($_POST['username']);
+    $password = $_POST['password'];
+
+    // Vyhledání uživatele v databázi podle uživatelského jména
+    $sql = "SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hashed_password = $row['heslo'];
+
+       
+
+        // Ověření hesla pomocí password_verify
+        if (password_verify($password, $hashed_password)) {
+            echo "Přihlášení úspěšné! Vítejte, " . htmlspecialchars($username) . ".";
+        } else {
+            echo "Nesprávné heslo!";
+        }
+    } else {
+        echo "Uživatel neexistuje!";
+    }
+
+    $stmt->close();
+}
+
+$conn->close();
+
+   
+
+?>
