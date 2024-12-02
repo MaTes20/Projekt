@@ -11,6 +11,7 @@
 </head>
 <body>
    
+   
     <!-- Hlavička s navigací -->
     <header>
         <img src="/images/logoBAT.png">
@@ -81,6 +82,9 @@
             <button type="submit">Registrovat se</button>
             <button type="button" onclick="closeRegisterForm()">Zavřít</button>
             <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+
+
+            
 
         </form>
     </div>
