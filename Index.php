@@ -37,8 +37,16 @@
     
     <div class="UvodPanel">
         <h3>Vítejte na stránkách bezva tábora!</h3>
+        <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče. Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
+
         
 
+    </div>
+
+    <br></br>
+
+    <div class="Aktualita">
+        
     </div>
 
  <!-- Formulář jako modální okno -->
