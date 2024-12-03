@@ -67,8 +67,8 @@
     <div class="register-form-container" id="registerForm">
         <form action="Index.php" method="post">
             <h2>Registrace</h2>
-            <label for="new-username">Uživatelské jméno</label>
-            <input type="text" id="new-username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+            <label for="username">Uživatelské jméno</label>
+            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
             
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Zadejte email" required>
@@ -258,13 +258,13 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 
 // Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_username'])) {
-    $new_username = $conn->real_escape_string($_POST['new_username']);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'])) {
+    $username = $conn->real_escape_string($_POST['username']);
     $email = $conn->real_escape_string($_POST['email']);
-    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT); // Hashování hesla
+    $new_password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hashování hesla
 
     // Uložení do databáze
-    $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES ('$new_username', '$email', '$new_password')";
+    $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES ('$username', '$email', '$new_password')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Registrace byla úspěšná!";
@@ -274,7 +274,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_username'])) {
 }
 
  // Ověření přihlašovacích údajů
- if (isset($_POST['username']) && isset($_POST['password'])) {
+if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $conn->real_escape_string($_POST['username']);
     $password = $_POST['password'];
 
@@ -288,8 +288,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_username'])) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hashed_password = $row['heslo'];
-
-       
 
         // Ověření hesla pomocí password_verify
         if (password_verify($password, $hashed_password)) {
