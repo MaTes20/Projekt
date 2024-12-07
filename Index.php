@@ -52,7 +52,10 @@
  <!-- Formulář jako modální okno -->
     <div class="login-form-container" id="loginForm">
         <form action="Index.php" method="POST">
+        <input type="hidden" name="action" value="login">
+
             <h2>Přihlášení</h2>
+            
             <label for="username">Uživatelské jméno</label>
             <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
             
@@ -73,7 +76,9 @@
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="post">
+        <form action="Index.php" method="POST">
+        <input type="hidden" name="action" value="register">
+
             <h2>Registrace</h2>
             <label for="username">Uživatelské jméno</label>
             <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
@@ -81,9 +86,9 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Zadejte email" required>
             
-            <label for="new-password">Heslo</label>
+            <label for="password">Heslo</label>
             <div class="new-password-container">
-                <input type="password" id="new-password" name="new_password" placeholder="Zadejte heslo" required>
+                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
                 <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
             </div>
             
@@ -264,54 +269,58 @@ $conn = "";
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 
+// Zpracování formuláře
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
+    $action = $_POST['action'];
 
-// Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'])) {
-    $username = $conn->real_escape_string($_POST['username']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $new_password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hashování hesla
+    if ($action === "register") {
+        // Zpracování registrace
+        if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
+            $username = $conn->real_escape_string($_POST['username']);
+            $email = $conn->real_escape_string($_POST['email']);
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Uložení do databáze
-    $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES ('$username', '$email', '$new_password')";
+            $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sss", $username, $email, $password);
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Registrace byla úspěšná!";
-    } else {
-        echo "Chyba: " . $sql . "<br>" . $conn->error;
-    }
-}
-
- // Ověření přihlašovacích údajů
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $_POST['password'];
-
-    // Vyhledání uživatele v databázi podle uživatelského jména
-    $sql = "SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $hashed_password = $row['heslo'];
-
-        // Ověření hesla pomocí password_verify
-        if (password_verify($password, $hashed_password)) {
-            echo "Přihlášení úspěšné! Vítejte, " . htmlspecialchars($username) . ".";
+            if ($stmt->execute()) {
+                echo "Registrace byla úspěšná!";
+            } else {
+                echo "Chyba při registraci: " . $stmt->error;
+            }
+            $stmt->close();
         } else {
-            echo "Nesprávné heslo!";
+            echo "Všechna pole jsou povinná!";
         }
-    } else {
-        echo "Uživatel neexistuje!";
+    } elseif ($action === "login") {
+        // Zpracování přihlášení
+        if (isset($_POST['username'], $_POST['password'])) {
+            $username = $conn->real_escape_string($_POST['username']);
+            $password = $_POST['password'];
+
+            $sql = "SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                if (password_verify($password, $row['heslo'])) {
+                    echo "Přihlášení úspěšné!";
+                } else {
+                    echo "Chybné heslo.";
+                }
+            } else {
+                echo "Uživatel neexistuje.";
+            }
+            $stmt->close();
+        } else {
+            echo "Všechna pole jsou povinná!";
+        }
     }
-
-    $stmt->close();
 }
-
 $conn->close();
-
-   
 
 ?>
