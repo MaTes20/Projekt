@@ -1,3 +1,69 @@
+<?php
+session_start(); // Musí být na začátku
+
+// Check if the user is logged in
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username']; // Assign session username to a variable
+} else {
+    $username = 'Guest'; // Default if not logged in
+}
+
+// Připojení k databázi
+$servername = "localhost";
+$usernameDB = "root"; // Renamed variable to avoid conflict with $username
+$password = "";
+$dbname = "tabor";
+
+$conn = mysqli_connect($servername, $usernameDB, $password, $dbname);
+
+if (!$conn) {
+    die("Připojení k databázi selhalo: " . mysqli_connect_error());
+}
+
+// Zpracování registrace
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_username'], $_POST['email'], $_POST['new_password'])) {
+    $username = $conn->real_escape_string($_POST['new_username']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES ('$username', '$email', '$new_password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Registrace byla úspěšná!";
+    } else {
+        echo "Chyba: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Zpracování přihlášení
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['password'])) {
+    $uzivatelske_jmeno = $conn->real_escape_string($_POST['username']);
+    $heslo = $_POST['password'];
+
+    $sql = "SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $uzivatelske_jmeno);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if (password_verify($heslo, $row['heslo'])) {
+            $_SESSION['username'] = $uzivatelske_jmeno; // Uložíme uživatele do session
+            header("Location: Index.php"); // Po přihlášení přesměrujeme zpět na tuto stránku
+            exit();
+        } else {
+            echo "Chybné heslo.";
+        }
+    } else {
+        echo "Uživatel neexistuje.";
+    }
+    $stmt->close();
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -26,10 +92,29 @@
             
         </nav>
         <div class="account">
-        <a href="#" onclick="openForm()">Přihlásit se</a>
-        <img src="/images/login.png">
-        </div>
+       
+        <!-- Profile section with hover effect -->
+<div class="profile-dropdown">
+    <div class="profile">
+        <span><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></span>
+    </div>
 
+    <!-- Dropdown menu for login/logout -->
+    <div class="dropdown">
+       
+        <div class="dropdown-content">
+            <?php if (isset($_SESSION['username'])): ?>
+                <!-- Show 'Logout' if the user is logged in -->
+                <a href="logout.php">Odhlásit se</a>
+            <?php else: ?>
+                <!-- Show 'Login' if the user is not logged in -->
+                <a href="#" onclick="openForm()">Přihlásit se</a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+    </div>
 
 
     </header>
@@ -247,6 +332,18 @@ document.getElementById('toggleNewPassword').addEventListener('click', function 
         });
 
 
+
+  // Detect the scroll event and change the header's background color
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('header');
+    if (window.scrollY > 0) {
+        header.classList.add('scrolled'); // Add 'scrolled' class when user scrolls down
+    } else {
+        header.classList.remove('scrolled'); // Remove 'scrolled' class when at the top
+    }
+});
+
+
     </script>
 
 
@@ -257,70 +354,3 @@ document.getElementById('toggleNewPassword').addEventListener('click', function 
 </html>
 
 
-<?php
-// Připojení k databázi
-$servername = "localhost"; // nebo IP adresa serveru
-$username = "root"; // uživatelské jméno databáze
-$password = ""; // heslo k databázi
-$dbname = "tabor"; // název databáze
-$conn = "";
-
-// Vytvoření připojení
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-
-// Zpracování formuláře
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
-    $action = $_POST['action'];
-
-    if ($action === "register") {
-        // Zpracování registrace
-        if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
-            $username = $conn->real_escape_string($_POST['username']);
-            $email = $conn->real_escape_string($_POST['email']);
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-            $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $username, $email, $password);
-
-            if ($stmt->execute()) {
-                echo "Registrace byla úspěšná!";
-            } else {
-                echo "Chyba při registraci: " . $stmt->error;
-            }
-            $stmt->close();
-        } else {
-            echo "Všechna pole jsou povinná!";
-        }
-    } elseif ($action === "login") {
-        // Zpracování přihlášení
-        if (isset($_POST['username'], $_POST['password'])) {
-            $username = $conn->real_escape_string($_POST['username']);
-            $password = $_POST['password'];
-
-            $sql = "SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                if (password_verify($password, $row['heslo'])) {
-                    echo "Přihlášení úspěšné!";
-                } else {
-                    echo "Chybné heslo.";
-                }
-            } else {
-                echo "Uživatel neexistuje.";
-            }
-            $stmt->close();
-        } else {
-            echo "Všechna pole jsou povinná!";
-        }
-    }
-}
-$conn->close();
-
-?>

@@ -10,95 +10,86 @@
     
 }
 
+
 body {
     height: 200vh;
     font-family: Arial, Helvetica, sans-serif;
     color: #333;
-    background-color: rgba(58, 149, 246, 0.5);
+    background-color: #ddd;
 }
 
-
-
-/* Hlavička */
+/* Base styles for header */
 header {
-    font-family: Arial, Helvetica, sans-serif;
-    position: sticky; /* Zajistí plovoucí chování */
-    top: 0;           /* Hlavička se zarovná k horní části stránky */
-    z-index: 1000;  
+    position: sticky;
+    top: 0;
+    background-color: rgb(63, 63, 63); /* Initial background color */
+    color: white;
+    padding: 20px 40px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px;
-    background-color: rgb(68, 68, 68);
-    box-shadow: 0 2px 4px rgba(115, 112, 112, 0.832);
-
-   
-    
+    align-items: center;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    z-index: 1000;
 }
 
-
-
-header nav {
-    position: absolute;
+nav {
     display: flex;
-    left: 50%;
-    transform: translateX(-50%); /* Horizontálně centruje navigaci */
-    justify-content: center; /* Zarovnání navigačního textu na střed */
-    width: 50%; /* Navigace zabírá celou šířku hlavičky */
-    
-    
-
+    justify-content: center; /* Center navigation links */
+    width: 100%;
+    max-width: 1200px; /* Optional: limit the width */
 }
 
-
-
-header nav ul {
+nav ul {
     display: flex;
     list-style: none;
-    align-items: center;
-    
-    
+    margin: 0;
+    padding: 0;
 }
 
-header nav ul li {
-    margin-left: 20px;
+nav ul li {
+    margin: 0 20px;
     position: relative;
-   
 }
 
-header nav ul li a {
-   text-decoration: none;
-    color: #0e0e0e;
-    font-weight: 500;
-    font-size: 20px;
-    font-weight: 500;
-    transition: color 0.3s ease; /* Animace změny barvy textu */
-
-    
-}
-header nav ul li a:hover {
-    color: #000000;
-    font-size: 20.5px;
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
+nav ul li a:hover {
+    color: #eee; /* Yellow color for hover effect */
+    transform: scale(1.05); /* Slightly scale up on hover for modern look */
+}
 
+/* Underline effect animation from center to sides */
 nav ul li a::after {
     content: '';
+    display: block;
     position: absolute;
-    left: 50%; /* Umístění na střed */
-    bottom: -3px; /* Vzdálenost čáry od textu */
-    transform: translateX(-50%) scaleX(0); /* Čára je zmenšená na 0 a na středu */
-    transform-origin: center; /* Šíření čáry ze středu */
+    left: 50%;
+    bottom: -5px; /* Distance of the underline from the text */
+    transform: translateX(-50%) scaleX(0); /* Start with no width */
+    transform-origin: center;
     width: 100%;
     height: 2px;
-    background-color: #eeff00; /* Barva čáry */
-    transition: transform 0.3s ease; /* Animace transformace */
+    background-color: #f5e300;
+    transition: transform 0.3s ease; /* Animate width */
 }
 
-/* Při najetí myší čára expanduje */
+/* Hover: Expand underline */
 nav ul li a:hover::after {
-    transform: translateX(-50%) scaleX(1); /* Čára expanduje na plnou šířku */
+    transform: translateX(-50%) scaleX(1); /* Expand underline */
 }
+
+/* Styles for header when scrolled */
+header.scrolled {
+    background-color: #222; /* Darker background when scrolled */
+}
+
+
 
 img {
     width: 55px;
@@ -142,6 +133,7 @@ img {
 }
 
 
+
 .UvodPanel{
     width: 800px;
     height: 200px;
@@ -156,6 +148,98 @@ img {
 
 }
 
+
+/* Main Profile Section */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px; /* Add some margin to ensure it doesn't touch the edge */
+    margin-left: 20px; /* Add margin on the left side to push it away from the edge */
+}
+
+/* Profile text styling */
+.profile {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 20px;
+   
+}
+
+/* Hover effect for profile text */
+.profile:hover {
+    color: #eee;
+}
+
+/* Dropdown Menu Styling */
+.profile-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* Position dropdown right under the profile */
+    left: 0;
+    min-width: 160px;
+    background-color: #333; /* Dark background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show dropdown on hover */
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+/* Dropdown links */
+.profile-dropdown .dropdown-content a {
+    color: #eee;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid #444;
+}
+
+/* Hover effect for links */
+.profile-dropdown .dropdown-content a:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+/* Optional focus effect for accessibility */
+.profile-dropdown .dropdown-content a:focus {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Hide the last border */
+.profile-dropdown .dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+/* Ensure the dropdown doesn't go out of view */
+.profile-dropdown:hover .dropdown-content {
+    max-height: 400px; /* Limit the height of the dropdown */
+    overflow-y: auto;  /* Scroll if the content is too large */
+}
+
+/* Adjust for mobile screens */
+@media (max-width: 600px) {
+    .profile-dropdown .dropdown-content {
+        width: 100%;
+        left: 0;
+        border-radius: 0;
+    }
+}
 
 
 
