@@ -26,17 +26,19 @@ header {
     color: white;
     padding: 20px 40px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: auto; /* Keeps the header height based on content */
     transition: background-color 0.3s ease; /* Smooth transition for background color */
     z-index: 1000;
 }
 
+/* Navigation styles */
 nav {
     display: flex;
     justify-content: center; /* Center navigation links */
-    width: 100%;
-    max-width: 1200px; /* Optional: limit the width */
+    align-items: center; /* Align links vertically in header */
+    width: 100%; /* Optional: Full width for nav alignment */
 }
 
 nav ul {
@@ -59,35 +61,36 @@ nav ul li a {
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
+/* Hover effects */
 nav ul li a:hover {
-    color: #eee; /* Yellow color for hover effect */
-    transform: scale(1.05); /* Slightly scale up on hover for modern look */
+    color: #eee;
+    transform: scale(1.05);
 }
 
-/* Underline effect animation from center to sides */
 nav ul li a::after {
     content: '';
     display: block;
     position: absolute;
     left: 50%;
-    bottom: -5px; /* Distance of the underline from the text */
-    transform: translateX(-50%) scaleX(0); /* Start with no width */
+    bottom: -5px;
+    transform: translateX(-50%) scaleX(0);
     transform-origin: center;
     width: 100%;
     height: 2px;
     background-color: #f5e300;
-    transition: transform 0.3s ease; /* Animate width */
+    transition: transform 0.3s ease;
 }
 
-/* Hover: Expand underline */
 nav ul li a:hover::after {
-    transform: translateX(-50%) scaleX(1); /* Expand underline */
+    transform: translateX(-50%) scaleX(1);
 }
 
 /* Styles for header when scrolled */
 header.scrolled {
     background-color: #222; /* Darker background when scrolled */
 }
+
+
 
 
 
