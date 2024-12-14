@@ -10,27 +10,29 @@
     
 }
 
-
 body {
     height: 200vh;
     font-family: Arial, Helvetica, sans-serif;
-    color: #333;
-    background-color: #ddd;
+    background-color: #62718474 !important;
+   
+   
 }
 
 /* Base styles for header */
 header {
     position: sticky;
     top: 0;
-    background-color: rgb(63, 63, 63); /* Initial background color */
-    color: white;
-    padding: 20px 40px;
+    background-color: #265a8b00; /* Initial background color */
+    color: #333;
+    padding: 5px 15px;
     display: flex;
     justify-content: center; /* Center content horizontally */
     align-items: center; /* Center content vertically */
     height: auto; /* Keeps the header height based on content */
     transition: background-color 0.3s ease; /* Smooth transition for background color */
     z-index: 1000;
+    font-family:Arial, Helvetica, sans-serif;
+   
 }
 
 /* Navigation styles */
@@ -55,7 +57,8 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: white;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     font-weight: 600;
     transition: color 0.3s ease, transform 0.3s ease;
@@ -137,18 +140,38 @@ img {
 
 
 
-.UvodPanel{
-    width: 800px;
-    height: 200px;
-    padding: 20px;
-    margin: 20px auto;
-    text-align: center;
-    background-color: rgb(184, 184, 184);
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
+.UvodPanel {
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    color: #333; /* Tmavší text */
+    margin: 50px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 12px; /* Lehce zaoblené rohy */
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Jemný přechod */
+    padding: 20px 30px; /* Vnitřní odsazení */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
+    transition: all 0.3s ease; /* Plynulý efekt při interakci */
+}
 
+.UvodPanel:hover {
+    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
+}
+
+/* Nadpis styl */
+.UvodPanel h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #444; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+}
+
+/* Styl odstavce */
+.UvodPanel p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+    text-align: center; /* Zarovnání textu na střed */
 }
 
 

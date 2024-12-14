@@ -1,3 +1,14 @@
+<?php
+session_start(); // Zahájí práci se session
+
+// Kontrola přihlášení
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username']; // Uživatel je přihlášen
+} else {
+    $username = 'Guest'; // Výchozí hodnota pro nepřihlášené
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,8 +34,28 @@
             
         </nav>
         <div class="account">
-        <a href="#" onclick="openForm()">Přihlásit se</a>
-        <img src="/images/login.png">
+        
+        <!-- Profile section with hover effect -->
+<div class="profile-dropdown">
+    <div class="profile">
+        <span><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></span>
+    </div>
+
+    <!-- Dropdown menu for login/logout -->
+    <div class="dropdown">
+       
+        <div class="dropdown-content">
+            <?php if (isset($_SESSION['username'])): ?>
+                <!-- Show 'Logout' if the user is logged in -->
+                <a href="logout.php">Odhlásit se</a>
+            <?php else: ?>
+                <!-- Show 'Login' if the user is not logged in -->
+                <a href="#" onclick="openForm()">Přihlásit se</a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+       
         </div>
 
 
@@ -79,10 +110,36 @@
 
 
 
-
+                 <!-- Div s informacemi -->
     <div class="Info">
-        <p>Chcete jet s námi na letní tábor, ale nevíte, kdo vlastně jsme? Pak jsi na správném místě. Kontakty na vedoucí najdeš u jednotlivých námi pořádaných akcí.</p>
+        <h2>Pořadatel</h2>
+        <p>Chcete jet s námi na letní tábor, ale nevíte, kdo vlastně jsme? Pak jsi na správném místě. 
+        Kontakty na vedoucí najdeš u jednotlivých námi pořádaných akcí.</p>
+        <br>
+        <p>Původně byly tábory pořádány Městským klubem Votice, po jeho převedení pod Město Votice jejich pořádání převzalo Město. Úplně první tábor byl v Jablonné, další tábor byl na Kačinách a pak následovaly Střížovice.<br></br>
+        Poté, co tábořiště koupila soukromá osoba, přestaly ceny být pro tábor únosné a místo už jsme také měli okoukané. Vybrali jsme na čtrnáct dní (poprvé) tábor u stádleckého mostu, který však byl poničen záplavami, takže jsme na poslední chvíli a jen na týden sehnali Vestec u Slapské přehrady. Od roku 2003 již pořádáme tábory v délce 14 dní.</p>
     </div>
+
+    <div class="Kontakty">
+        <h2>Kontakty</h2>
+        <p>Bezva Tábor z.s. <br>
+        Smilkov 50 <br>
+        257 89 Heřmaničky <br></br>
+        Kontakt: Karel BUKY Bukovský karel@bezvatabor.cz <br>
+        Kontakt: Aleš ALI Kovařík ali@bezvatabor.cz <br></br>
+
+        E-mail - informace@bezvatabor.cz <br>
+        WWW - http://www.bezvatabor.cz/os <br></br>
+
+        do roku 2003 ve spolupráci s <br>
+        Městským kulturním centrem <br>
+        Komenského náměstí 177 <br>
+        259 01 Votice <br></br>
+        Kontakt: Jan Žaloudek
+
+            </p>
+     </div>
+   
 
 
 

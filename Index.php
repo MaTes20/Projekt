@@ -76,11 +76,12 @@ $conn->close();
     
 </head>
 <body>
-   
+
    
     <!-- Hlavička s navigací -->
     <header>
         <img src="/images/logoBAT.png">
+        
         <nav>
             <ul>
                 <li><a href="Index.php" target="_self">Úvod</a></li>
@@ -88,6 +89,7 @@ $conn->close();
                 <li><a href="#">Akce</a></li>
                 <li><a href="#">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
+                <li><a href="#">Fotoalbum</a></li>
             </ul>
             
         </nav>
@@ -119,14 +121,13 @@ $conn->close();
 
     </header>
     
+                
     
     <div class="UvodPanel">
-        <h3>Vítejte na stránkách bezva tábora!</h3>
-        <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče. Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
-
-        
-
-    </div>
+    <h2>Vítejte na stránkách bezva tábora!</h2>
+    <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
+    <p>Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p> 
+</div>
 
     <br></br>
 

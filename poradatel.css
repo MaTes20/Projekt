@@ -2,100 +2,93 @@
 
 
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    
-}
+
+
 
 body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #818080; /* Světle šedé pozadí */
+    color: #333; /* Tmavě šedý text */
     height: 200vh;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #333;
-    background-color: #ffd900;
 }
 
-/* Hlavička */
+/* Base styles for header */
 header {
-    font-family: Arial, Helvetica, sans-serif;
-    position: sticky; /* Zajistí plovoucí chování */
-    top: 0;           /* Hlavička se zarovná k horní části stránky */
-    z-index: 1000;  
+    position: sticky;
+    top: 0;
+    background-color: rgb(63, 63, 63); /* Initial background color */
+    color: white;
+    padding: 20px 40px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #d4d1d1ca;
-    box-shadow: 0 2px 4px rgba(115, 112, 112, 0.832);
-
-   
-    
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: auto; /* Keeps the header height based on content */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    z-index: 1000;
 }
 
-
-
-header nav {
-    position: absolute;
+/* Navigation styles */
+nav {
     display: flex;
-    left: 50%;
-    transform: translateX(-50%); /* Horizontálně centruje navigaci */
-    justify-content: center; /* Zarovnání navigačního textu na střed */
-    width: 50%; /* Navigace zabírá celou šířku hlavičky */
-    
-    
-
+    justify-content: center; /* Center navigation links */
+    align-items: center; /* Align links vertically in header */
+    width: 100%; /* Optional: Full width for nav alignment */
 }
 
-
-
-header nav ul {
+nav ul {
     display: flex;
     list-style: none;
-    align-items: center;
-    
-    
+    margin: 0;
+    padding: 0;
 }
 
-header nav ul li {
-    margin-left: 20px;
+nav ul li {
+    margin: 0 20px;
     position: relative;
-   
 }
 
-header nav ul li a {
-   text-decoration: none;
-    color: #0e0e0e;
-    font-weight: 500;
-    font-size: 20px;
-    font-weight: 500;
-    transition: color 0.3s ease; /* Animace změny barvy textu */
-
-    
-}
-header nav ul li a:hover {
-    color: #000000;
-    font-size: 20.5px;
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
+/* Hover effects */
+nav ul li a:hover {
+    color: #eee;
+    transform: scale(1.05);
+}
 
 nav ul li a::after {
     content: '';
+    display: block;
     position: absolute;
-    left: 50%; /* Umístění na střed */
-    bottom: -3px; /* Vzdálenost čáry od textu */
-    transform: translateX(-50%) scaleX(0); /* Čára je zmenšená na 0 a na středu */
-    transform-origin: center; /* Šíření čáry ze středu */
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
     width: 100%;
     height: 2px;
-    background-color: #eeff00; /* Barva čáry */
-    transition: transform 0.3s ease; /* Animace transformace */
+    background-color: #f5e300;
+    transition: transform 0.3s ease;
 }
 
-/* Při najetí myší čára expanduje */
 nav ul li a:hover::after {
-    transform: translateX(-50%) scaleX(1); /* Čára expanduje na plnou šířku */
+    transform: translateX(-50%) scaleX(1);
 }
+
+/* Styles for header when scrolled */
+header.scrolled {
+    background-color: #222; /* Darker background when scrolled */
+}
+
+
+
+
 
 img {
     width: 55px;
@@ -139,18 +132,174 @@ img {
 }
 
 
-.Info {
-    width: 700px;
-    height: 100px;
-    color: #333;
-    margin: auto;
-    margin-top: 50px;
-    font-weight: 500;
-    font-size: 20px;
-    border-radius: 20px;
-    
+
+
+
+
+/* Main Profile Section */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px; /* Add some margin to ensure it doesn't touch the edge */
+    margin-left: 20px; /* Add margin on the left side to push it away from the edge */
+}
+
+/* Profile text styling */
+.profile {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 20px;
    
 }
+
+/* Hover effect for profile text */
+.profile:hover {
+    color: #eee;
+}
+
+/* Dropdown Menu Styling */
+.profile-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* Position dropdown right under the profile */
+    left: 0;
+    min-width: 160px;
+    background-color: #333; /* Dark background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show dropdown on hover */
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+/* Dropdown links */
+.profile-dropdown .dropdown-content a {
+    color: #eee;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid #444;
+}
+
+/* Hover effect for links */
+.profile-dropdown .dropdown-content a:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+/* Optional focus effect for accessibility */
+.profile-dropdown .dropdown-content a:focus {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Hide the last border */
+.profile-dropdown .dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+/* Ensure the dropdown doesn't go out of view */
+.profile-dropdown:hover .dropdown-content {
+    max-height: 400px; /* Limit the height of the dropdown */
+    overflow-y: auto;  /* Scroll if the content is too large */
+}
+
+/* Adjust for mobile screens */
+@media (max-width: 600px) {
+    .profile-dropdown .dropdown-content {
+        width: 100%;
+        left: 0;
+        border-radius: 0;
+    }
+}
+
+
+
+
+.Info {
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    color: #ffffff; /* Tmavší text */
+    margin: 50px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 12px; /* Lehce zaoblené rohy */
+    background: linear-gradient(135deg, #ADD8E6, #000000); /* Jemný přechod */
+    padding: 20px 30px; /* Vnitřní odsazení */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
+    transition: all 0.3s ease; /* Plynulý efekt při interakci */
+}
+
+.Info:hover {
+    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
+}
+
+/* Nadpis styl */
+.Info h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #ffffff; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+}
+
+/* Styl odstavce */
+.Info p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+}
+
+
+
+.Kontakty{
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    color: #ffffff; /* Tmavší text */
+    margin: 50px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 12px; /* Lehce zaoblené rohy */
+    background: linear-gradient(135deg, #ffee2d, #858484); /* Jemný přechod */
+    padding: 20px 30px; /* Vnitřní odsazení */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
+    transition: all 0.3s ease; /* Plynulý efekt při interakci */
+}
+
+.Kontakty:hover {
+    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
+}
+
+/* Nadpis styl */
+.Kontakty h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #ffffff; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+}
+
+/* Styl odstavce */
+.Kontakty p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+}
+
+
 
 
 /* Kontejner přihlašovacího formuláře */
