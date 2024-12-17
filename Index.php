@@ -1,65 +1,31 @@
 <?php
-session_start(); // Musí být na začátku
-
-// Check if the user is logged in
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username']; // Assign session username to a variable
-} else {
-    $username = 'Guest'; // Default if not logged in
-}
+// Načtení souborů
+require 'Database.php';
+require 'Functions.php';
 
 // Připojení k databázi
-$servername = "localhost";
-$usernameDB = "root"; // Renamed variable to avoid conflict with $username
-$password = "";
-$dbname = "tabor";
+$conn = connectToDatabase();
 
-$conn = mysqli_connect($servername, $usernameDB, $password, $dbname);
-
-if (!$conn) {
-    die("Připojení k databázi selhalo: " . mysqli_connect_error());
-}
+// Získání aktuálního uživatele
+$currentUsername = getCurrentUsername();
 
 // Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_username'], $_POST['email'], $_POST['new_password'])) {
-    $username = $conn->real_escape_string($_POST['new_username']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-
-    $sql = "INSERT INTO ucet (uzivatelske_jmeno, email, heslo) VALUES ('$username', '$email', '$new_password')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Registrace byla úspěšná!";
-    } else {
-        echo "Chyba: " . $sql . "<br>" . $conn->error;
-    }
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
+    echo $message;
 }
 
 // Zpracování přihlášení
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['username'], $_POST['password'])) {
-    $uzivatelske_jmeno = $conn->real_escape_string($_POST['username']);
-    $heslo = $_POST['password'];
-
-    $sql = "SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $uzivatelske_jmeno);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (password_verify($heslo, $row['heslo'])) {
-            $_SESSION['username'] = $uzivatelske_jmeno; // Uložíme uživatele do session
-            header("Location: Index.php"); // Po přihlášení přesměrujeme zpět na tuto stránku
-            exit();
-        } else {
-            echo "Chybné heslo.";
-        }
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $result = loginUser($conn, $_POST['username'], $_POST['password']);
+    if ($result === true) {
+        header("Location: Index.php"); // Přesměrování po úspěšném přihlášení
+        exit();
     } else {
-        echo "Uživatel neexistuje.";
+        echo $result;
     }
-    $stmt->close();
 }
+
 
 $conn->close();
 ?>
