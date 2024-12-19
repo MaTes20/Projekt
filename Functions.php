@@ -1,5 +1,7 @@
 <?php
-session_start(); // Musí být na začátku
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 
 // Zjisti, zda je uživatel přihlášen
