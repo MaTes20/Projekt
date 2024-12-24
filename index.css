@@ -2,16 +2,20 @@
 
 
 
-
-
-
-body {
+* {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #818080; /* Světle šedé pozadí */
-    color: #333; /* Tmavě šedý text */
+    box-sizing: border-box;
+   
+    
+}
+
+body {
     height: 200vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffffff !important;
+   
+   
 }
 
 /* Base styles for header */
@@ -30,6 +34,7 @@ header {
     font-family:Arial, Helvetica, sans-serif;
    
 }
+
 /* Navigation styles */
 nav {
     display: flex;
@@ -53,6 +58,7 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     font-weight: 600;
     transition: color 0.3s ease, transform 0.3s ease;
@@ -134,7 +140,39 @@ img {
 
 
 
+.UvodPanel {
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    color: #333; /* Tmavší text */
+    margin: 50px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 12px; /* Lehce zaoblené rohy */
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Jemný přechod */
+    padding: 20px 30px; /* Vnitřní odsazení */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
+    transition: all 0.3s ease; /* Plynulý efekt při interakci */
+}
 
+.UvodPanel:hover {
+    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
+}
+
+/* Nadpis styl */
+.UvodPanel h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #444; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+}
+
+/* Styl odstavce */
+.UvodPanel p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+    text-align: center; /* Zarovnání textu na střed */
+}
 
 
 /* Main Profile Section */
@@ -232,73 +270,10 @@ img {
 
 
 
-.Info {
-    width: 700px;
-    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    color: #ffffff; /* Tmavší text */
-    margin: 50px auto; /* Zarovnání na střed a odsazení */
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.6; /* Lepší čitelnost */
-    border-radius: 12px; /* Lehce zaoblené rohy */
-    background: linear-gradient(135deg, #ADD8E6, #000000); /* Jemný přechod */
-    padding: 20px 30px; /* Vnitřní odsazení */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
-    transition: all 0.3s ease; /* Plynulý efekt při interakci */
-}
-
-.Info:hover {
-    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
-}
-
-/* Nadpis styl */
-.Info h2 {
-    font-size: 35px; /* Velikost nadpisu */
-    color: #ffffff; /* Tmavší šedá pro nadpis */
-    margin-bottom: 15px; /* Odsazení pod nadpisem */
-    text-align: center; /* Zarovnání nadpisu na střed */
-}
-
-/* Styl odstavce */
-.Info p {
-    margin: 0; /* Odstranění vnějšího odsazení */
-}
 
 
 
-.Kontakty{
-    width: 700px;
-    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    color: #ffffff; /* Tmavší text */
-    margin: 50px auto; /* Zarovnání na střed a odsazení */
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.6; /* Lepší čitelnost */
-    border-radius: 12px; /* Lehce zaoblené rohy */
-    background: linear-gradient(135deg, #ffee2d, #858484); /* Jemný přechod */
-    padding: 20px 30px; /* Vnitřní odsazení */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
-    transition: all 0.3s ease; /* Plynulý efekt při interakci */
-}
 
-.Kontakty:hover {
-    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
-}
-
-/* Nadpis styl */
-.Kontakty h2 {
-    font-size: 35px; /* Velikost nadpisu */
-    color: #ffffff; /* Tmavší šedá pro nadpis */
-    margin-bottom: 15px; /* Odsazení pod nadpisem */
-    text-align: center; /* Zarovnání nadpisu na střed */
-}
-
-/* Styl odstavce */
-.Kontakty p {
-    margin: 0; /* Odstranění vnějšího odsazení */
-}
 
 
 
@@ -529,3 +504,118 @@ img {
 .register-form-container button[type="button"]:hover {
     background-color: #d32f2f;
 }
+
+
+
+
+/* Obecné stylování formuláře */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Stylování labelů */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Stylování vstupních polí */
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form input[type="date"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="number"]:focus,
+form input[type="date"]:focus,
+form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Stylování textarea */
+form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Stylování checkboxů a rádiových tlačítek */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Stylování tlačítka */
+form input[type="submit"] {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Stylování odkazů */
+form a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+/* Nadpisy a sekce */
+form p,
+form hr,
+form small {
+    margin-bottom: 20px;
+}
+
+form hr {
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* Červené upozornění */
+form span[style*="color: red"] {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Sekce SPAM ochrany */
+form span {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+

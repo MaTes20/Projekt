@@ -1,28 +1,56 @@
 <?php
-session_start(); // Zahájí práci se session
-
-// Kontrola přihlášení
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username']; // Uživatel je přihlášen
-} else {
-    $username = 'Guest'; // Výchozí hodnota pro nepřihlášené
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+// Načtení souborů
+require 'Database.php';
+require 'Functions.php';
+
+// Připojení k databázi
+$conn = connectToDatabase();
+
+// Získání aktuálního uživatele
+$currentUsername = getCurrentUsername();
+
+// Zpracování registrace
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
+    echo $message;
+}
+
+// Zpracování přihlášení
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $result = loginUser($conn, $_POST['username'], $_POST['password']);
+    if ($result === true) {
+        header("Location: Index.php"); // Přesměrování po úspěšném přihlášení
+        exit();
+    } else {
+        echo $result;
+    }
+}
+
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pořadatel</title>
-    <link rel="stylesheet" href="poradatel.css">
+    <title>Akce</title>
+    <link rel="stylesheet" href="akce.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   
+    
 </head>
 <body>
-    
- <!-- Hlavička s navigací -->
- <header>
+
+   
+    <!-- Hlavička s navigací -->
+    <header>
         <img src="/images/logoBAT.png">
+        
         <nav>
             <ul>
                 <li><a href="Index.php" target="_self">Úvod</a></li>
@@ -31,12 +59,11 @@ if (isset($_SESSION['username'])) {
                 <li><a href="#">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
                 <li><a href="#">Fotoalbum</a></li>
-
             </ul>
             
         </nav>
         <div class="account">
-        
+       
         <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
@@ -57,18 +84,32 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 </div>
-       
-        </div>
-
 
     </div>
 
-    </header>
 
-     <!-- Formulář jako modální okno -->
-     <div class="login-form-container" id="loginForm">
-        <form>
+    </header>
+    <div class="dropdown">
+    <button class="dropdown-button">Vyber akci</button>
+    <div class="dropdown-menu">
+        <a href="akce1.php">Akce 1</a>
+        <a href="akce2.php">Akce 2</a>
+        <a href="akce3.php">Akce 3</a>
+        <a href="akce4.php">Akce 4</a>
+    </div>
+</div>
+
+    
+                
+    
+   
+ <!-- Formulář jako modální okno -->
+    <div class="login-form-container" id="loginForm">
+        <form action="Index.php" method="POST">
+        <input type="hidden" name="action" value="login">
+
             <h2>Přihlášení</h2>
+            
             <label for="username">Uživatelské jméno</label>
             <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
             
@@ -89,17 +130,19 @@ if (isset($_SESSION['username'])) {
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form>
+        <form action="Index.php" method="POST">
+        <input type="hidden" name="action" value="register">
+
             <h2>Registrace</h2>
-            <label for="new-username">Uživatelské jméno</label>
-            <input type="text" id="new-username" name="new-username" placeholder="Zadejte uživatelské jméno" required>
+            <label for="username">Uživatelské jméno</label>
+            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
             
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Zadejte email" required>
             
-            <label for="new-password">Heslo</label>
+            <label for="password">Heslo</label>
             <div class="new-password-container">
-                <input type="password" id="new-password" name="new-password" placeholder="Zadejte heslo" required>
+                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
                 <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
             </div>
             
@@ -107,48 +150,11 @@ if (isset($_SESSION['username'])) {
             <button type="button" onclick="closeRegisterForm()">Zavřít</button>
             <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
 
+
+            
+
         </form>
     </div>
-
-
-
-                 <!-- Div s informacemi -->
-    <div class="Info">
-        <h2>Pořadatel</h2>
-        <p>Chcete jet s námi na letní tábor, ale nevíte, kdo vlastně jsme? Pak jsi na správném místě. 
-        Kontakty na vedoucí najdeš u jednotlivých námi pořádaných akcí.</p>
-        <br>
-        <p>Původně byly tábory pořádány Městským klubem Votice, po jeho převedení pod Město Votice jejich pořádání převzalo Město. Úplně první tábor byl v Jablonné, další tábor byl na Kačinách a pak následovaly Střížovice.<br></br>
-        Poté, co tábořiště koupila soukromá osoba, přestaly ceny být pro tábor únosné a místo už jsme také měli okoukané. Vybrali jsme na čtrnáct dní (poprvé) tábor u stádleckého mostu, který však byl poničen záplavami, takže jsme na poslední chvíli a jen na týden sehnali Vestec u Slapské přehrady. Od roku 2003 již pořádáme tábory v délce 14 dní.</p>
-    </div>
-
-    <div class="Kontakty">
-        <h2>Kontakty</h2>
-        <p>Bezva Tábor z.s. <br>
-        Smilkov 50 <br>
-        257 89 Heřmaničky <br></br>
-        Kontakt: Karel BUKY Bukovský karel@bezvatabor.cz <br>
-        Kontakt: Aleš ALI Kovařík ali@bezvatabor.cz <br></br>
-
-        E-mail - informace@bezvatabor.cz <br>
-        WWW - http://www.bezvatabor.cz/os <br></br>
-
-        do roku 2003 ve spolupráci s <br>
-        Městským kulturním centrem <br>
-        Komenského náměstí 177 <br>
-        259 01 Votice <br></br>
-        Kontakt: Jan Žaloudek
-
-            </p>
-     </div>
-   
-
-
-
-
-
-
-
 
 
 
@@ -156,6 +162,7 @@ if (isset($_SESSION['username'])) {
     <script>
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
+            console.log("kookt");
             closeRegisterForm();
         }
         function closeForm() {
@@ -173,6 +180,7 @@ if (isset($_SESSION['username'])) {
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
+            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -193,6 +201,45 @@ document.getElementById('toggleNewPassword').addEventListener('click', function 
         });
 
 
+
+  // Detect the scroll event and change the header's background color
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('header');
+    if (window.scrollY > 0) {
+        header.classList.add('scrolled'); // Add 'scrolled' class when user scrolls down
+    } else {
+        header.classList.remove('scrolled'); // Remove 'scrolled' class when at the top
+    }
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdown = document.querySelector(".dropdown");
+    const button = document.querySelector(".dropdown-button");
+
+    // Toggle the dropdown menu on button click
+    button.addEventListener("click", function () {
+        dropdown.classList.toggle("active");
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener("click", function (e) {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove("active");
+        }
+    });
+});
+
+
+
     </script>
+
+
+
+   
+   
 </body>
 </html>
+
+
