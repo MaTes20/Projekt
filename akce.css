@@ -93,62 +93,72 @@ header.scrolled {
     background-color: #222; /* Darker background when scrolled */
 }
 
-/* Dropdown container */
-.dropdown {
-    position: relative;
-    display: inline-block;
-    font-family: Arial, sans-serif;
+/* Centrovaný kontejner */
+.centered-content {
+    max-width: 600px; /* Maximální šířka */
+    margin: 50px auto; /* Zarovnání na střed */
+    text-align: center; /* Zarovnání textu na střed */
+    color: #333; /* Neutrální barva textu */
+    font-family: Arial, sans-serif; /* Jednoduché písmo */
 }
 
-/* Button styling */
-.dropdown-button {
-    background-color: #f5f5f5;
-    color: #333;
-    padding: 12px 20px;
+/* Nadpis sekce */
+.section-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+/* Popis sekce */
+.section-description {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Podnadpis sekce */
+.section-subtitle {
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+/* Dropdown styling */
+.dropdown-select {
+    padding: 10px 12px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    color: #333; /* Neutrální text */
+    border: 1px solid #ccc; /* Jemný rámeček */
+    border-radius: 4px; /* Zaoblené rohy */
+    background-color: #fff; /* Bílé pozadí */
     cursor: pointer;
-    transition: all 0.3s ease;
+    width: 100%; /* Přizpůsobení šířky */
+    max-width: 300px; /* Maximální šířka dropdownu */
+    margin: 0 auto; /* Zarovnání na střed */
 }
 
-.dropdown-button:hover {
-    background-color: #e0e0e0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.dropdown-select:focus {
+    border-color: #000000; /* Zvýraznění při fokusu */
+    outline: none;
 }
 
-/* Dropdown menu */
-.dropdown-menu {
-    display: none; /* Hidden by default */
-    position: absolute;
-    background-color: #fff;
-    min-width: 200px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px; /* Posunutí menu pod tlačítko */
+/* Submit button styling */
+.submit-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff; /* Bílý text */
+    background-color: #1cab06; /* Modré pozadí */
+    border: none; /* Bez rámečku */
+    border-radius: 4px; /* Zaoblené rohy */
+    cursor: pointer;
+    margin-top: 20px;
 }
 
-/* Dropdown items */
-.dropdown-menu a {
-    display: block;
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+.submit-button:hover {
+    background-color: #21d115; /* Tmavší modrá při hoveru */
 }
-
-.dropdown-menu a:hover {
-    background-color: #f0f0f0;
-}
-
-/* Show dropdown when active */
-.dropdown.active .dropdown-menu {
-    display: block;
-}
-
-
 
 
 

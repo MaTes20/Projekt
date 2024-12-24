@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         exit();
     } else {
         echo $result;
+        echo "not working";
     }
 }
 
@@ -89,15 +90,30 @@ $conn->close();
 
 
     </header>
-    <div class="dropdown">
-    <button class="dropdown-button">Vyber akci</button>
-    <div class="dropdown-menu">
-        <a href="akce1.php">Akce 1</a>
-        <a href="akce2.php">Akce 2</a>
-        <a href="akce3.php">Akce 3</a>
-        <a href="akce4.php">Akce 4</a>
-    </div>
+    <div class="centered-content">
+    <h6 class="section-title">Již pořádané akce</h6>
+    <p class="section-description">
+        Hledáš fotografie z letního tábora? Nebo si jen chceš připomenout, jaké celotáborové hry se minulý, 
+        nebo předminulý rok hrály? Právě tady najdeš všechny informace, včetně fotografií. Stačí si jen 
+        vybrat, který tábor tě zajímá.
+    </p>
+
+    <h6 class="section-subtitle">Vyber si akci ze seznamu, o které chceš vědět více.</h6>
+
+    <form action="akce_handler.php" method="POST" class="dropdown_akce_form">
+        <div class="dropdown_akce">
+            <select name="akce" class="dropdown-select">
+                <option value="" disabled selected>Vyber akci</option>
+                <option value="akce1">Akce 1</option>
+                <option value="akce2">Akce 2</option>
+                <option value="akce3">Akce 3</option>
+                <option value="akce4">Akce 4</option>
+            </select>
+        </div>
+        <button type="submit" class="submit-button">Potvrdit</button>
+    </form>
 </div>
+
 
     
                 
@@ -215,18 +231,18 @@ window.addEventListener('scroll', function() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const dropdown = document.querySelector(".dropdown");
-    const button = document.querySelector(".dropdown-button");
+    const dropdownAkce = document.querySelector(".dropdown_akce");
+    const buttonAkce = document.querySelector(".dropdown_akce .dropdown-button");
 
     // Toggle the dropdown menu on button click
-    button.addEventListener("click", function () {
-        dropdown.classList.toggle("active");
+    buttonAkce.addEventListener("click", function () {
+        dropdownAkce.classList.toggle("active");
     });
 
     // Close dropdown if clicked outside
     document.addEventListener("click", function (e) {
-        if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove("active");
+        if (!dropdownAkce.contains(e.target)) {
+            dropdownAkce.classList.remove("active");
         }
     });
 });
