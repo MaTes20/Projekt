@@ -1,5 +1,6 @@
 <?php
 
+
 function connectToDatabase(){
     // Připojení k databázi
 $servername = "localhost";

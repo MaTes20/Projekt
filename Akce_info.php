@@ -2,57 +2,51 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Načtení souborů
-require 'Database.php';
-require 'Functions.php';
 
-// Připojení k databázi
+require 'Database.php';
+
 $conn = connectToDatabase();
 
-// Získání aktuálního uživatele
-$currentUsername = getCurrentUsername();
+// Kontrola, zda byl odeslán název akce
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
+    $nazevAkce = $conn->real_escape_string($_POST['akce']);
 
-// Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
-    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
-    echo $message;
-}
+    // Načtení detailů vybrané akce
+    $sql = "SELECT * FROM akce WHERE nazev = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $nazevAkce);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Zpracování přihlášení
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    $result = loginUser($conn, $_POST['username'], $_POST['password']);
-    if ($result === true) {
-        header("Location: Index.php"); // Přesměrování po úspěšném přihlášení
-        exit();
+    // Zpracování výsledků
+    if ($result->num_rows > 0) {
+        $akce = $result->fetch_assoc();
     } else {
-        echo $result;
-        echo "not working";
+        echo "Akce nenalezena.";
+        exit;
     }
-}
+    $stmt->close();
+}else {
+    echo "Žádná akce nebyla vybrána.";
+    exit;
+     
+} 
 
-// Získání dat z tabulky akce
-$sql = "SELECT nazev FROM akce ORDER BY datum_uzaverky DESC";
-$result = $conn->query($sql);
 
-$conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akce</title>
-    <link rel="stylesheet" href="akce.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   
-    
+    <link rel="stylesheet" href="akce_info.css">
+
+    <title>Akce_info</title>
 </head>
 <body>
-
-   
-    <!-- Hlavička s navigací -->
-    <header>
+      <!-- Hlavička s navigací -->
+      <header>
         <img src="/images/logoBAT.png">
         
         <nav>
@@ -93,43 +87,40 @@ $conn->close();
 
 
     </header>
-    <div class="centered-content">
-    <h6 class="section-title">Již pořádané akce</h6>
-    <p class="section-description">
-        Hledáš fotografie z letního tábora? Nebo si jen chceš připomenout, jaké celotáborové hry se minulý, 
-        nebo předminulý rok hrály? Právě tady najdeš všechny informace, včetně fotografií. Stačí si jen 
-        vybrat, který tábor tě zajímá.
-    </p>
 
-    <h6 class="section-subtitle">Vyber si akci ze seznamu, o které chceš vědět více.</h6>
+    <div class="container">
+    <!-- Zobrazení informací o vybrané akci -->
+    <?php if (isset($akce)): ?>
+        <h1 class="event-title"><?php echo htmlspecialchars($akce['nazev']); ?></h1>
+        
+        <div class="event-details">
+            <p><strong>Místo:</strong> <?php echo htmlspecialchars($akce['misto']); ?></p>
+            <p><strong>Téma:</strong> <?php echo htmlspecialchars($akce['tema']); ?></p>
+            <p><strong>Datum uzávěrky:</strong> <?php echo htmlspecialchars($akce['datum_uzaverky']); ?></p>
+            
+            <p><strong>Popis:</strong> <?php echo html_entity_decode($akce['popis']); ?></p>
 
-    <form action="Akce_info.php" method="POST" class="dropdown_akce_form">
-        <div class="dropdown_akce">
-            <select name="akce" class="dropdown-select" required>
-                <option value="" disabled selected>Vyber akci</option>
-                <?php
-                // Vykreslení možností dropdownu z databáze
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . htmlspecialchars($row['nazev']) . "'>" . htmlspecialchars($row['nazev']) . "</option>";
-                    }
-                } else {
-                    echo "<option value='' disabled>Není dostupná žádná akce</option>";
-                }
-                ?>
-            </select>
+            <p><strong>Datum konání:</strong> od <?php echo htmlspecialchars($akce['datum_od']); ?> do <?php echo htmlspecialchars($akce['datum_do']); ?></p>
         </div>
-        <button  a href="Akce_info.php" type="submit" class="submit-button">Potvrdit</button>
-    </form>
+
+        <div class="event-packing">
+            <h3>Co s sebou:</h3>
+            <p><?php echo html_entity_decode($akce['cosebou']); ?></p>
+        </div>
+
+        <div class="event-info">
+            <h3>Další informace:</h3>
+            <p><?php echo html_entity_decode($akce['dalsi_info']); ?></p>
+        </div>
+
+        <a href="akce.php" class="btn-back">Zpět na seznam akcí</a>
+    <?php endif; ?>
 </div>
 
 
-    
-                
-    
-   
+       
  <!-- Formulář jako modální okno -->
-    <div class="login-form-container" id="loginForm">
+ <div class="login-form-container" id="loginForm">
         <form action="Index.php" method="POST">
         <input type="hidden" name="action" value="login">
 
@@ -259,12 +250,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     </script>
-
-
-
-   
-   
 </body>
 </html>
-
-
