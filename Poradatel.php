@@ -1,12 +1,37 @@
 <?php
-session_start(); // Zahájí práci se session
-
-// Kontrola přihlášení
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username']; // Uživatel je přihlášen
-} else {
-    $username = 'Guest'; // Výchozí hodnota pro nepřihlášené
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+
+// Načtení souborů
+require 'Database.php';
+require 'Functions.php';
+
+// Připojení k databázi
+$conn = connectToDatabase();
+
+// Získání aktuálního uživatele
+$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+// Zpracování registrace
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
+    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
+    echo $message;
+    header("Location: Index.php");
+    exit();
+}
+
+// Zpracování přihlášení
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
+    $result = loginUser($conn, $_POST['username'], $_POST['password']);
+    if ($result === true) {
+        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        exit();
+    } else {
+        echo $result; // Zobrazení chyby
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +53,7 @@ if (isset($_SESSION['username'])) {
                 <li><a href="Index.php" target="_self">Úvod</a></li>
                 <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
                 <li><a href="Akce.php">Akce</a></li>
-                <li><a href="#">Dovednosti</a></li>
+                <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
                 <li><a href="#">Fotoalbum</a></li>
 

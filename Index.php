@@ -1,7 +1,9 @@
 <?php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 // Načtení souborů
 require 'Database.php';
 require 'Functions.php';
@@ -10,29 +12,30 @@ require 'Functions.php';
 $conn = connectToDatabase();
 
 // Získání aktuálního uživatele
-$currentUsername = getCurrentUsername();
+$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
 // Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
     echo $message;
+    header("Location: Index.php");
+    exit();
 }
 
 // Zpracování přihlášení
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $result = loginUser($conn, $_POST['username'], $_POST['password']);
     if ($result === true) {
-        header("Location: Index.php"); // Přesměrování po úspěšném přihlášení
+        header("Location: Index.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
-        echo $result;
+        echo $result; // Zobrazení chyby
     }
 }
 
-
-
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -57,7 +60,7 @@ $conn->close();
                 <li><a href="Index.php" target="_self">Úvod</a></li>
                 <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
                 <li><a href="Akce.php">Akce</a></li>
-                <li><a href="#">Dovednosti</a></li>
+                <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
                 <li><a href="#">Fotoalbum</a></li>
             </ul>
@@ -68,7 +71,8 @@ $conn->close();
         <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
-        <span><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></span>
+    <?= htmlspecialchars($currentUsername) ?>
+
     </div>
 
     <!-- Dropdown menu for login/logout -->
@@ -105,58 +109,51 @@ $conn->close();
         
     </div>
 
- <!-- Formulář jako modální okno -->
-    <div class="login-form-container" id="loginForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="login">
+ <!-- prihlasovaci formular -->
+ <div class="login-form-container" id="loginForm">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="login" value="true">
 
-            <h2>Přihlášení</h2>
-            
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="password">Heslo</label>
-            <div class="password-container">
+        <h2>Přihlášení</h2>
+        
+        <label for="username">Uživatelské jméno</label>
+        <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="password">Heslo</label>
+        <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
-            </div>
+        </div>
+        
+        <button type="submit">Přihlásit se</button>
+        <button type="button" onclick="closeForm()">Zavřít</button>
+        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+    </form>
+</div>
 
-            
-            <button type="submit">Přihlásit se</button>
-            <button type="button" onclick="closeForm()">Zavřít</button>
-            <p class="register-link">
-               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-            </p>
-        </form>
-    </div>
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="register">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="register" value="true">
 
-            <h2>Registrace</h2>
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
-            
-            <label for="password">Heslo</label>
-            <div class="new-password-container">
-                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
-            </div>
-            
-            <button type="submit">Registrovat se</button>
-            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
-            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+        <h2>Registrace</h2>
+        <label for="new_username">Uživatelské jméno</label>
+        <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Zadejte email" required>
+        
+        <label for="new_password">Heslo</label>
+        <div class="new-password-container">
+            <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+        </div>
+        
+        <button type="submit">Registrovat se</button>
+        <button type="button" onclick="closeRegisterForm()">Zavřít</button>
+        <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+    </form>
+</div>
 
-
-            
-
-        </form>
-    </div>
 
 
 

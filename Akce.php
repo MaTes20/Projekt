@@ -1,7 +1,9 @@
 <?php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 // Načtení souborů
 require 'Database.php';
 require 'Functions.php';
@@ -10,25 +12,27 @@ require 'Functions.php';
 $conn = connectToDatabase();
 
 // Získání aktuálního uživatele
-$currentUsername = getCurrentUsername();
+$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
 // Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
     echo $message;
+    header("Location: Index.php");
+    exit();
 }
 
 // Zpracování přihlášení
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $result = loginUser($conn, $_POST['username'], $_POST['password']);
     if ($result === true) {
-        header("Location: Index.php"); // Přesměrování po úspěšném přihlášení
+        header("Location: Index.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
-        echo $result;
-        echo "not working";
+        echo $result; // Zobrazení chyby
     }
 }
+
 
 // Získání dat z tabulky akce
 $sql = "SELECT nazev FROM akce ORDER BY datum_uzaverky DESC";
@@ -36,6 +40,9 @@ $result = $conn->query($sql);
 
 $conn->close();
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -60,7 +67,7 @@ $conn->close();
                 <li><a href="Index.php" target="_self">Úvod</a></li>
                 <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
                 <li><a href="Akce.php">Akce</a></li>
-                <li><a href="#">Dovednosti</a></li>
+                <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
                 <li><a href="#">Fotoalbum</a></li>
             </ul>
@@ -122,6 +129,29 @@ $conn->close();
         <button  a href="Akce_info.php" type="submit" class="submit-button">Potvrdit</button>
     </form>
 </div>
+
+<div class="container">
+        <h1>Ahoj táborníci</h1>
+        <p>Letošní letní tábor na téma <strong>"AVATAR"</strong> pro vás pořádáme v termínu od <strong>soboty 13.7. do soboty 27.7.2024</strong>.</p>
+        <p><a href="#">VÍCE INFORMACÍ K TÁBORU</a> najdete zde.</p>
+        <p><a href="Prihlaska.php">PŘEDBĚŽNÁ PŘIHLÁŠKA</a> online k vyplnění zde.</p>
+        
+        <p>Letos jsme si pro Vás opět připravili <span class="highlight">SLEVY</span>, které může využít každý táborník. <a href="#">Zde si můžeš požádat o slevu Kamarád</a>.</p>
+        
+        <p>Doprava je zajištěna z Ústí n.L., Prahy a Votic.</p>
+        <p>Další místa lze dohodnout, pokud jste na trase autobusu nebo pokud bude alespoň 5 táborníků z jednoho místa (např. Děčín, Teplice, Most, Litoměřice, Roudnice n.L., Benešov, Sedlčany atd.).</p>
+        
+        <h2>Na tábor si přibalte:</h2>
+        <ul>
+            <li><strong>BÍLÉ tričko</strong> bez potisku na táborový oblek.</li>
+            <li>Kostým AVATARA na párty, nebo <strong>MODRÉ tričko</strong> bez potisku, ze kterého si kostým na táboře vyrobíme.</li>
+        </ul>
+        
+        <p><a href="#">FOTKY Z BAT 2023</a> jsou k nahlédnutí na našem profilu na Facebooku, ale více jich uvidíte na našich stránkách <a href="#">ZDE</a>.</p>
+        <p><a href="#">Facebook Bezva Tábor</a></p>
+        
+        <p>Těšíme se na vás... váš <strong>BAT</strong></p>
+    </div>
 
 
     

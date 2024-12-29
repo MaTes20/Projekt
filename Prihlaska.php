@@ -1,13 +1,147 @@
+<?php
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Načtení souborů
+require 'Database.php';
+require 'Functions.php';
+
+// Připojení k databázi
+$conn = connectToDatabase();
+
+// Získání aktuálního uživatele
+$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+// Zpracování registrace
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
+    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
+    echo $message;
+    header("Location: Index.php");
+    exit();
+}
+
+// Zpracování přihlášení
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
+    $result = loginUser($conn, $_POST['username'], $_POST['password']);
+    if ($result === true) {
+        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        exit();
+    } else {
+        echo $result; // Zobrazení chyby
+    }
+}
+
+// Funkce pro vložení dat do databáze
+function vlozitDataBezBindParam(
+    $conn, 
+    $nazev, $jmeno, $prijmeni, $adresa, $narozeni, $rodic1, $telefonrod1, 
+    $rodic2, $telefonrod2, $email, $plavec, $doprava, $platba, 
+    $vernostni, $sourozenec, $kamarad, $kamaradjmeno, $zdravi, $poznamka
+) {
+    // Ošetření vstupů proti SQL injection
+    $nazev = $conn->real_escape_string($nazev);
+    $jmeno = $conn->real_escape_string($jmeno);
+    $prijmeni = $conn->real_escape_string($prijmeni);
+    $adresa = $conn->real_escape_string($adresa);
+    $narozeni = $conn->real_escape_string($narozeni);
+    $rodic1 = $conn->real_escape_string($rodic1);
+    $telefonrod1 = $conn->real_escape_string($telefonrod1);
+    $rodic2 = $conn->real_escape_string($rodic2);
+    $telefonrod2 = $conn->real_escape_string($telefonrod2);
+    $email = $conn->real_escape_string($email);
+    $plavec = $conn->real_escape_string ($plavec);
+    $doprava = $conn->real_escape_string ($doprava);
+    $platba = $conn->real_escape_string($platba);
+    $vernostni = $conn->real_escape_string ($vernostni);
+    $sourozenec = $conn->real_escape_string ($sourozenec);
+    $kamarad = $conn->real_escape_string ($kamarad);
+    $kamaradjmeno = $conn->real_escape_string($kamaradjmeno);
+    $zdravi = $conn->real_escape_string($zdravi);
+    $poznamka = $conn->real_escape_string($poznamka);
+
+    // SQL dotaz
+    $sql = "INSERT INTO prihlaseni 
+        (nazev, jmeno, prijmeni, adresa, narozeni, rodic1, telefonrod1, rodic2, telefonrod2, 
+         email, plavec, doprava, platba, vernostni, sourozenec, kamarad, kamaradjmeno, zdravi, poznamka)
+        VALUES 
+        ('$nazev', '$jmeno', '$prijmeni', '$adresa', '$narozeni', '$rodic1', '$telefonrod1', '$rodic2', '$telefonrod2',
+         '$email', $plavec, $doprava, $platba, $vernostni, $sourozenec, $kamarad, '$kamaradjmeno', '$zdravi', '$poznamka')";
+
+    // Provedení dotazu
+    if ($conn->query($sql) === TRUE) {
+        return "Data byla úspěšně vložena.";
+    } else {
+        return "Chyba při vkládání dat: " . $conn->error;
+    }
+}
+
+    
+
+
+$conn->close();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="prihlaska.css">
+
     <title>prihlaska</title>
 </head>
 <body>
+    
+   
+    <!-- Hlavička s navigací -->
+    <header>
+        <img src="/images/logoBAT.png">
+        
+        <nav>
+            <ul>
+                <li><a href="Index.php" target="_self">Úvod</a></li>
+                <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
+                <li><a href="Akce.php">Akce</a></li>
+                <li><a href="Dovednosti.php">Dovednosti</a></li>
+                <li><a href="#">Vzkazy</a></li>
+                <li><a href="#">Fotoalbum</a></li>
+            </ul>
+            
+        </nav>
+        <div class="account">
+       
+        <!-- Profile section with hover effect -->
+<div class="profile-dropdown">
+    <div class="profile">
+    <?= htmlspecialchars($currentUsername) ?>
 
-<form name="prihlaska"  id="prihlaska" method="post">
+    </div>
+
+    <!-- Dropdown menu for login/logout -->
+    <div class="dropdown">
+       
+        <div class="dropdown-content">
+            <?php if (isset($_SESSION['username'])): ?>
+                <!-- Show 'Logout' if the user is logged in -->
+                <a href="logout.php">Odhlásit se</a>
+            <?php else: ?>
+                <!-- Show 'Login' if the user is not logged in -->
+                <a href="#" onclick="openForm()">Přihlásit se</a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+
+    </header>
+
+<form name="prihlaska"  id="prihlaska" method="POST" action="Prihlaska.php">
     <p><i>Pole označené <b style="color: red; font-size: 20px;">*</b> jsou povinné. Bez jejich vyplnění nelze přihlášku odeslat.</i></p>
     <hr>
 

@@ -1,12 +1,14 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    session_start(); // Spuštění session
 }
 
-
-// Zjisti, zda je uživatel přihlášen
+// Zjisti aktuální uživatelské jméno
 function getCurrentUsername() {
-    return isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+    if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+        return $_SESSION['username'];
+    }
+    return 'Guest';
 }
 
 // Funkce pro registraci
@@ -20,7 +22,7 @@ function registerUser($conn, $username, $email, $password) {
     if ($conn->query($sql) === TRUE) {
         return "Registrace byla úspěšná!";
     } else {
-        return "Chyba: " . $conn->error;
+        return "Chyba při registraci: " . $conn->error;
     }
 }
 
@@ -37,7 +39,7 @@ function loginUser($conn, $username, $password) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['heslo'])) {
-            $_SESSION['username'] = $username; // Uložíme uživatele do session
+            $_SESSION['username'] = $username; // Uložení do session
             return true;
         } else {
             return "Chybné heslo.";
@@ -46,7 +48,3 @@ function loginUser($conn, $username, $password) {
         return "Uživatel neexistuje.";
     }
 }
-
-
-
-?>

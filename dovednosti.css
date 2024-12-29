@@ -93,72 +93,7 @@ header.scrolled {
     background-color: #222; /* Darker background when scrolled */
 }
 
-/* Centrovaný kontejner */
-.centered-content {
-    max-width: 600px; /* Maximální šířka */
-    margin: 50px auto; /* Zarovnání na střed */
-    text-align: center; /* Zarovnání textu na střed */
-    color: #333; /* Neutrální barva textu */
-    font-family: Arial, sans-serif; /* Jednoduché písmo */
-}
 
-/* Nadpis sekce */
-.section-title {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #444;
-}
-
-/* Popis sekce */
-.section-description {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-/* Podnadpis sekce */
-.section-subtitle {
-    font-size: 20px;
-    font-weight: normal;
-    margin-bottom: 15px;
-    color: #555;
-}
-
-/* Dropdown styling */
-.dropdown-select {
-    padding: 10px 12px;
-    font-size: 16px;
-    color: #333; /* Neutrální text */
-    border: 1px solid #ccc; /* Jemný rámeček */
-    border-radius: 4px; /* Zaoblené rohy */
-    background-color: #fff; /* Bílé pozadí */
-    cursor: pointer;
-    width: 100%; /* Přizpůsobení šířky */
-    max-width: 300px; /* Maximální šířka dropdownu */
-    margin: 0 auto; /* Zarovnání na střed */
-}
-
-.dropdown-select:focus {
-    border-color: #000000; /* Zvýraznění při fokusu */
-    outline: none;
-}
-
-/* Submit button styling */
-.submit-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #fff; /* Bílý text */
-    background-color: #1cab06; /* Modré pozadí */
-    border: none; /* Bez rámečku */
-    border-radius: 4px; /* Zaoblené rohy */
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.submit-button:hover {
-    background-color: #21d115; /* Tmavší modrá při hoveru */
-}
 
 
 
@@ -204,43 +139,41 @@ img {
 }
 
 
-.container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    line-height: 1.6;
+
+.UvodPanel {
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    color: #333; /* Tmavší text */
+    margin: 50px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 12px; /* Lehce zaoblené rohy */
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Jemný přechod */
+    padding: 20px 30px; /* Vnitřní odsazení */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
+    transition: all 0.3s ease; /* Plynulý efekt při interakci */
 }
 
-h1 {
-    color: #0055a5;
-    text-align: center;
+.UvodPanel:hover {
+    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
 }
 
-h2 {
-    color: #333;
-    margin-bottom: 10px;
+/* Nadpis styl */
+.UvodPanel h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #444; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
 }
 
-a {
-    color: #0055a5;
-    text-decoration: none;
+/* Styl odstavce */
+.UvodPanel p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+    text-align: center; /* Zarovnání textu na střed */
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-.highlight {
-    color: #d9534f;
-    font-weight: bold;
-}
-
-ul {
-    padding-left: 20px;
-}
 
 /* Main Profile Section */
 .profile-dropdown {
@@ -335,6 +268,79 @@ ul {
 }
 
 
+
+.skills-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.skill {
+    margin-bottom: 20px;
+    
+}
+
+.skill-title {
+    font-size: 25px;
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+.skill-image,
+.knot-image {
+    max-width: 100%; /* Obrázek se přizpůsobí šířce rodičovského kontejneru */
+    height: auto; /* Zachová poměr stran */
+    display: block;
+    margin: 0 auto 10px; /* Zarovnání na střed s mezerou dole */
+}
+
+.large-image {
+    width: 100%; /* Zajistí, že obrázek zabere celou šířku dostupného kontejneru */
+    max-width: 500px; /* Maximální šířka obrázku */
+    height: auto; /* Zachování poměru stran */
+    margin: 10px auto; /* Vertikální mezera a zarovnání na střed */
+    display: block;
+}
+
+.knot {
+    margin-bottom: 15px;
+}
+
+.knot-title {
+    font-size: 25px;
+    color: #2980b9;
+    margin-bottom: 5px;
+}
+
+.knot-description {
+    font-size: 20px;
+    color: #000000;
+}
+
+.knot-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
 
 
 
