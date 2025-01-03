@@ -1,86 +1,65 @@
 <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require 'Database.php';
+    require 'Functions.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+    $conn = connectToDatabase();
 
-// Načtení souborů
-require 'Database.php';
-require 'Functions.php';
-
-// Připojení k databázi
-$conn = connectToDatabase();
-
-// Získání aktuálního uživatele
-$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-
-// Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
-    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
-    echo $message;
-    header("Location: Index.php");
-    exit();
-}
-
-// Zpracování přihlášení
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
-    $result = loginUser($conn, $_POST['username'], $_POST['password']);
-    if ($result === true) {
-        header("Location: Index.php"); // Přesměrování na aktuální stránku
-        exit();
-    } else {
-        echo $result; // Zobrazení chyby
+    if (!$conn) {
+        die('Chyba připojení k databázi.');
     }
-}
 
-// Funkce pro vložení dat do databáze
-function vlozitDataBezBindParam(
-    $conn, 
-    $nazev, $jmeno, $prijmeni, $adresa, $narozeni, $rodic1, $telefonrod1, 
-    $rodic2, $telefonrod2, $email, $plavec, $doprava, $platba, 
-    $vernostni, $sourozenec, $kamarad, $kamaradjmeno, $zdravi, $poznamka
-) {
-    // Ošetření vstupů proti SQL injection
-    $nazev = $conn->real_escape_string($nazev);
-    $jmeno = $conn->real_escape_string($jmeno);
-    $prijmeni = $conn->real_escape_string($prijmeni);
-    $adresa = $conn->real_escape_string($adresa);
-    $narozeni = $conn->real_escape_string($narozeni);
-    $rodic1 = $conn->real_escape_string($rodic1);
-    $telefonrod1 = $conn->real_escape_string($telefonrod1);
-    $rodic2 = $conn->real_escape_string($rodic2);
-    $telefonrod2 = $conn->real_escape_string($telefonrod2);
-    $email = $conn->real_escape_string($email);
-    $plavec = $conn->real_escape_string ($plavec);
-    $doprava = $conn->real_escape_string ($doprava);
-    $platba = $conn->real_escape_string($platba);
-    $vernostni = $conn->real_escape_string ($vernostni);
-    $sourozenec = $conn->real_escape_string ($sourozenec);
-    $kamarad = $conn->real_escape_string ($kamarad);
-    $kamaradjmeno = $conn->real_escape_string($kamaradjmeno);
-    $zdravi = $conn->real_escape_string($zdravi);
-    $poznamka = $conn->real_escape_string($poznamka);
+    echo "Připojení k databázi bylo úspěšné.<br>";
 
-    // SQL dotaz
-    $sql = "INSERT INTO prihlaseni 
-        (nazev, jmeno, prijmeni, adresa, narozeni, rodic1, telefonrod1, rodic2, telefonrod2, 
-         email, plavec, doprava, platba, vernostni, sourozenec, kamarad, kamaradjmeno, zdravi, poznamka)
-        VALUES 
-        ('$nazev', '$jmeno', '$prijmeni', '$adresa', '$narozeni', '$rodic1', '$telefonrod1', '$rodic2', '$telefonrod2',
-         '$email', $plavec, $doprava, $platba, $vernostni, $sourozenec, $kamarad, '$kamaradjmeno', '$zdravi', '$poznamka')";
+    $data = [
+        $_POST['jmeno'] ?? null,
+        $_POST['prijmeni'] ?? null,
+        $_POST['ulice'] ?? null,
+        $_POST['mesto'] ?? null,
+        $_POST['psc'] ?? null,
+        $_POST['narozeni'] ?? null,
+        $_POST['jmenorod1'] ?? null,
+        $_POST['prijmenirod1'] ?? null,
+        $_POST['telefonrod1'] ?? null,
+        $_POST['jmenorod2'] ?? null,
+        $_POST['prijmenirod2'] ?? null,
+        $_POST['telefonrod2'] ?? null,
+        $_POST['email'] ?? null,
+        $_POST['plavec'] ?? null,
+        $_POST['doprava'] ?? null,
+        $_POST['platba'] ?? null,
+        isset($_POST['vernostni']) ? 'ANO' : 'NE',
+        isset($_POST['sourozenec']) ? 'ANO' : 'NE',
+        isset($_POST['kamarad']) ? 'ANO' : 'NE',
+        $_POST['kamaradjmeno'] ?? null,
+        $_POST['zdravi'] ?? null,
+        $_POST['poznamka'] ?? null
+    ];
 
-    // Provedení dotazu
-    if ($conn->query($sql) === TRUE) {
-        return "Data byla úspěšně vložena.";
-    } else {
-        return "Chyba při vkládání dat: " . $conn->error;
+    $sql = "INSERT INTO deti (jmeno, prijmeni, ulice, mesto, psc, narozeni, jmenorod1, prijmenirod1, telefonrod1, jmenorod2, prijmenirod2, telefonrod2, email, plavec, doprava, platba, vernostni, sourozenec, kamarad, kamaradjmeno, zdravi, poznamka) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die('Chyba při přípravě dotazu: ' . $conn->error);
     }
+
+    // Sestavení typu parametrů
+    $paramTypes = str_repeat('s', count($data)); // vše jsou řetězce
+
+    // Předání parametrů
+    $stmt->bind_param($paramTypes, ...$data);
+
+    try {
+        $stmt->execute();
+        echo 'Přihláška byla úspěšně odeslána.';
+    } catch (Exception $e) {
+        echo 'Chyba při ukládání dat: ' . $e->getMessage();
+    }
+
+    $stmt->close();
+    $conn->close();
 }
-
-    
-
-
-$conn->close();
 ?>
 
 
@@ -141,7 +120,7 @@ $conn->close();
 
     </header>
 
-<form name="prihlaska"  id="prihlaska" method="POST" action="Prihlaska.php">
+<form name="prihlaska"  id="prihlaska" method="POST"  action="Prihlaska.php">
     <p><i>Pole označené <b style="color: red; font-size: 20px;">*</b> jsou povinné. Bez jejich vyplnění nelze přihlášku odeslat.</i></p>
     <hr>
 
