@@ -91,55 +91,73 @@ $conn->close();
 
 
     </header>
-    <section class="skills-section">
+
+    <div id="sidebar">
+    <ul>
+        <li><a href="#morseovka">Morseovka</a></li>
+        <li><a href="#polsky_klic">Velký polský klíč</a></li>
+        <li><a href="#amb_uzel">Ambulanční uzel</a></li>
+        <li><a href="#skotovy_uzel">Škotový uzel</a></li>
+        <li><a href="#rybarsky_uzel">Rybářský uzel</a></li>
+        <li><a href="#draci_smycka">Dračí smyčka</a></li>
+        <li><a href="#lodni_smycka">Lodní smyčka</a></li>
+        <li><a href="#zkracovacka">Zkracovačka</a></li>
+    </ul>
+</div>
+
+
+
+
+
+<section class="skills-section">
     <h2 class="section-title">Dovednosti</h2>
     <p class="section-subtitle">Tyto dovednosti se naučíte na našem táboře.</p>
     
-    <div class="skill">
+    <div id="morseovka" class="skill">
         <h3 class="skill-title">Morseovka</h3>
         <img src="/images/morseovka.gif" alt="Morseovka" class="large-image">
     </div>
     
-    <div class="skill">
+    <div id="polsky_klic" class="skill">
         <h3 class="skill-title">Velký polský klíč</h3>
         <img src="/dovednosti/velpolkl1.gif" alt="Velký polský klíč krok 1" class="large-image">
         <img src="/dovednosti/m1.gif" alt="Velký polský klíč krok 2" class="large-image">
     </div>
 
-    <div class="skill">
+    <div id="uzle" class="skill">
         <h3 class="skill-title">Uzle</h3>
         
-        <div class="knot">
+        <div id="amb_uzel" class="knot">
             <h4 class="knot-title">Ambulanční uzel</h4>
             <img src="/images/ambulantní-spojka1.jpg" alt="Ambulanční uzel" class="large-image">
             <p class="knot-description">Používá se k upevňování obvazů, dlah, atd., protože je plochá (netlačí) a částečně se sama tahem povoluje.</p>
         </div>
 
-        <div class="knot">
+        <div id="skotovy_uzel" class="knot">
             <h4 class="knot-title">Škotový uzel</h4>
             <img src="/images/škotová-spojka1.jpg" alt="Škotový uzel" class="large-image">
             <p class="knot-description">Dříve se používala na lodích k vázání tzv. škotové plachty (odtud název), jeden z nejpevnějších uzlů, lze s ním vázat i nestejně silná lana (lano – šátek,…), v tahu se sama ještě více dotahuje.</p>
         </div>
 
-        <div class="knot">
+        <div id="rybarsky_uzel" class="knot">
             <h4 class="knot-title">Rybářský uzel</h4>
             <img src="/images/rybářská-spojka1.jpg" alt="Rybářský uzel" class="large-image">
             <p class="knot-description">Je časově náročná, ale zato pevná a neprokluzuje. Hodí se k vázání hladkých lan, vlasců, strun, atd. Jen se na ni neptejte žádného rybáře – nezná ji.</p>
         </div>
 
-        <div class="knot">
+        <div id="draci_smycka" class="knot">
             <h4 class="knot-title">Dračí smyčka</h4>
             <img src="/images/dračí-smyčka1.jpg" alt="Dračí smyčka" class="large-image">
             <p class="knot-description">Pevné oko, v podstatě obrácená škotová spojka. Dokáže udržet člověka na skále stejně dobře jako omotat kmen stromu stahovaného z lesa.</p>
         </div>
 
-        <div class="knot">
+        <div id="lodni_smycka" class="knot">
             <h4 class="knot-title">Lodní smyčka</h4>
             <img src="/images/lodní-smyčka1.jpg" alt="Lodní smyčka" class="large-image">
             <p class="knot-description">Používají ji nejenom námořníci, ale i např. horolezci k upevnění lana na slaňování, skautíci pro stavbu lanovek všeho druhu. Zkrátka všude, kde je potřeba pevně přivázat lano ke kolíku, stromu nebo čemukoliv jinému.</p>
         </div>
 
-        <div class="knot">
+        <div id="zkracovacka" class="knot">
             <h4 class="knot-title">Zkracovačka</h4>
             <img src="/images/zkracovačka1.jpg" alt="Zkracovačka" class="large-image">
             <p class="knot-description">Ideální uzel nejenom na zkracování příliš dlouhého lana, ale i na výrobu pout na lotry i jiné zlosyny všeho druhu.</p>
@@ -205,6 +223,26 @@ $conn->close();
 
 
     <script>
+      document.querySelectorAll('#sidebar a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+
+        // Získání pozice cílového prvku
+        const offset = target.getBoundingClientRect().top + window.scrollY;
+
+        // Posun o vlastní odsazení (např. kvůli fixnímu headeru)
+        const headerHeight = document.querySelector('header').offsetHeight || 0;
+
+        // Plynulé scrollování
+        window.scrollTo({
+            top: offset - headerHeight - 10, // Posun o header a malý odstup
+            behavior: 'smooth'
+        });
+    });
+});
+
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
