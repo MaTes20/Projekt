@@ -110,6 +110,27 @@ form span {
 }
 
 
+
+
+.title-section{
+    max-width: 600px; /* Maximální šířka */
+    margin: 20px auto; /* Zarovnání na střed */
+    text-align: center; /* Zarovnání textu na střed */
+    color: #333; /* Neutrální barva textu */
+    font-family: Arial, sans-serif; /* Jednoduché písmo */
+
+}
+
+title{
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+
+
+
 /* Obecný reset stylu */
 
 

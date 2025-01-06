@@ -13,10 +13,150 @@
 body {
     height: 200vh;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #ffffff !important;
    
-   
+
 }
+
+.container-background{
+    position: relative;
+    height: 70%;
+    width: 100%;
+
+}
+.background-container{
+    background:  linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/2023_foto.jpg") no-repeat;
+    filter: blur(2px);
+    width:100%; height:100%;
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+
+}
+
+
+.UvodPanel {
+    position: absolute;
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    background-color: #ffffff36;
+    color: #dadada; 
+    margin: 100px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 8px ;
+    padding: 20px 30px; /* Vnitřní odsazení */
+    z-index: 2;
+    left: 30%;
+}
+
+
+/* Nadpis styl */
+.UvodPanel h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #dadada; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+}
+
+/* Styl odstavce */
+.UvodPanel p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+    text-align: center; /* Zarovnání textu na střed */
+}
+
+
+
+#chat-container {
+    position: absolute; /* Keeps the chat fixed on the screen */
+    top: 100px; /* Adjusts the vertical position */
+    right: 20px; /* Positions it on the right */
+    width: 30%; /* Adjust the width to fit neatly */
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9; /* Light background for visibility */
+    border: 1px solid #ccc; /* Subtle border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow issues */
+    z-index: 10;
+
+}
+
+#chat-messages {
+    height: 400px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc; /* Divider between chat and input */
+}
+
+#chat-messages div {
+    margin-bottom: 10px;
+}
+
+#chat-messages .user {
+    font-weight: bold;
+    color: #007bff;
+}
+
+#chat-input-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f1f1f1; /* Slight contrast with the chat box */
+}
+
+#chat-input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#chat-input-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#chat-input-container button:hover {
+    background-color: #0056b3;
+}
+
+
+#chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#chat-container {
+    position: fixed;
+    right: -600px; /* Hidden initially */
+    top: 100px;
+    width: 30%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+}
+
+#chat-container.open {
+    right: 20px; /* Slide in */
+}
+
+
 
 /* Base styles for header */
 header {
@@ -139,40 +279,6 @@ img {
 }
 
 
-
-.UvodPanel {
-    width: 700px;
-    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    color: #333; /* Tmavší text */
-    margin: 50px auto; /* Zarovnání na střed a odsazení */
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.6; /* Lepší čitelnost */
-    border-radius: 12px; /* Lehce zaoblené rohy */
-    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Jemný přechod */
-    padding: 20px 30px; /* Vnitřní odsazení */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
-    transition: all 0.3s ease; /* Plynulý efekt při interakci */
-}
-
-.UvodPanel:hover {
-    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
-}
-
-/* Nadpis styl */
-.UvodPanel h2 {
-    font-size: 35px; /* Velikost nadpisu */
-    color: #444; /* Tmavší šedá pro nadpis */
-    margin-bottom: 15px; /* Odsazení pod nadpisem */
-    text-align: center; /* Zarovnání nadpisu na střed */
-}
-
-/* Styl odstavce */
-.UvodPanel p {
-    margin: 0; /* Odstranění vnějšího odsazení */
-    text-align: center; /* Zarovnání textu na střed */
-}
 
 
 /* Main Profile Section */

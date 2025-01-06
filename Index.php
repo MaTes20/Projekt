@@ -94,14 +94,25 @@ $conn->close();
 
 
     </header>
-    
-                
-    
-    <div class="UvodPanel">
+
+    <button id="chat-toggle" onclick="toggleChat()">Chat</button>
+    <div id="chat-container">
+    <div id="chat-messages"></div>
+    <div id="chat-input-container">
+        <input type="text" id="message" placeholder="Napište zprávu...">
+        <button onclick="sendMessage()">Odeslat</button>
+    </div>
+</div>
+
+         <div class="container-background">
+<div class="UvodPanel">
     <h2>Vítejte na stránkách bezva tábora!</h2>
     <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
     <p>Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p> 
-</div>
+    </div>
+<div class="background-container"></div>
+            </div>
+   
 
     <br></br>
 
@@ -159,6 +170,11 @@ $conn->close();
 
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    console.log("Fetching messages on page load...");
+    fetchMessages(); // Fetch messages as soon as the page loads
+    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
+});
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -210,6 +226,70 @@ window.addEventListener('scroll', function() {
         header.classList.remove('scrolled'); // Remove 'scrolled' class when at the top
     }
 });
+
+
+
+async function fetchMessages() {
+    console.log("Fetching messages...");
+    try {
+        const response = await fetch('chat_backend.php');
+        if (!response.ok) {
+            console.error('Error fetching messages:', response.statusText);
+            return;
+        }
+
+        const messages = await response.json();
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML = ''; // Clear existing messages
+
+        messages.reverse().forEach(msg => {
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
+            chatMessages.appendChild(messageDiv);
+        });
+    } catch (error) {
+        console.error('Error processing messages:', error);
+    }
+}
+
+
+
+
+
+
+async function sendMessage() {
+    const message = document.getElementById('message').value;
+
+    if (!message) {
+        alert('Zpráva nemůže být prázdná.');
+        return;
+    }
+
+    try {
+        const response = await fetch('chat_backend.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ message: message })
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+            document.getElementById('message').value = ''; // Clear the input field
+            fetchMessages(); // Refresh the chat
+        } else {
+            alert('Chyba: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Chyba při odesílání zprávy:', error);
+        alert('Zprávu se nepodařilo odeslat.');
+    }
+}
+
+
+function toggleChat() {
+    const chatContainer = document.getElementById('chat-container');
+    chatContainer.classList.toggle('open');
+}
 
 
     </script>
