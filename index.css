@@ -38,8 +38,8 @@ body {
     position: absolute;
     width: 700px;
     max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    background-color: #ffffff36;
-    color: #dadada; 
+    background-color: #2e2e2ebd;
+    color: #ffffff; 
     margin: 100px auto; /* Zarovnání na střed a odsazení */
     font-weight: 500;
     font-size: 20px;
@@ -54,7 +54,7 @@ body {
 /* Nadpis styl */
 .UvodPanel h2 {
     font-size: 35px; /* Velikost nadpisu */
-    color: #dadada; /* Tmavší šedá pro nadpis */
+    color: #ffffff; /* Tmavší šedá pro nadpis */
     margin-bottom: 15px; /* Odsazení pod nadpisem */
     text-align: center; /* Zarovnání nadpisu na střed */
 }
