@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require 'Database.php';
 require 'Functions.php';
 require_once 'vendor/autoload.php';
-
+require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
@@ -34,39 +34,52 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         echo $result; // Zobrazení chyby
     }
 }
-
-
-// init configuration
-$clientID = '667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com';
-$clientSecret = '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';
-$redirectUri = 'http://localhost/Projekt/Index.php';
-
-// create Client Request to access Google API
-$client = new Google_Client();
-$client->setClientId($clientID);
-$client->setClientSecret($clientSecret);
-$client->setRedirectUri($redirectUri);
-$client->addScope("email");
-$client->addScope("profile");
-
 // authenticate code from Google OAuth Flow
 if (isset($_GET['code'])) {
-  $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-  $client->setAccessToken($token['access_token']);
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+    $client->setAccessToken($token['access_token']);
 
-  // get profile info
-  $google_oauth = new Google_Service_Oauth2($client);
-  $google_account_info = $google_oauth->userinfo->get();
-  $email =  $google_account_info->email;
-  $name =  $google_account_info->name;
+    // get profile info
+    $google_oauth = new Google_Service_Oauth2($client);
+    $google_account_info = $google_oauth->userinfo->get();
 
-  // now you can use this profile info to create account in your website and make user logged in.
-} else {
-  echo "<a href='".$client->createAuthUrl()."'>Google Login</a>";
+    $google_id = $google_account_info->id;
+    $email = $google_account_info->email;
+    $name = $google_account_info->name;
+    $profile_picture = $google_account_info->picture;
+
+    // Check if user exists in the database
+    $query = "SELECT * FROM google_login WHERE google_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $google_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // User exists, fetch their username
+        $user = $result->fetch_assoc();
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['profile_picture'] = $user['profile_picture']; // Uložení obrázku do session
+
+    } else {
+        // User does not exist, insert new record
+        $insert_query = "INSERT INTO google_login (google_id, email, username, profile_picture) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_query);
+        $stmt->bind_param("ssss", $google_id, $email, $name, $profile_picture);
+        $stmt->execute();
+
+        // Set session username for the new user
+        $_SESSION['username'] = $name;
+        $_SESSION['profile_picture'] = $profile_picture; // Uložení obrázku do session
+
+    }
+    header("Location: Index.php");
+    exit();
 }
 
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
@@ -77,14 +90,15 @@ $conn->close();
     <title>BezvaTábor</title>
     <link rel="stylesheet" href="index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
+   
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
+   
 
 </head>
 <body>
 
-   
+
     <!-- Hlavička s navigací -->
     <header>
         <img src="/images/logoBAT.png">
@@ -102,12 +116,14 @@ $conn->close();
         </nav>
         <div class="account">
        
-        <!-- Profile section with hover effect -->
+  <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
-    <?= htmlspecialchars($currentUsername) ?>
-
+    <img src="<?= htmlspecialchars($_SESSION['profile_picture'] ?? "/images/default-profile.png") ?>" 
+    alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
+
 
     <!-- Dropdown menu for login/logout -->
     <div class="dropdown">
@@ -129,6 +145,15 @@ $conn->close();
 
     </header>
 
+    <div class="container-background">
+<div class="UvodPanel">
+    <h2>Vítejte na stránkách bezva tábora!</h2>
+    <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
+    <p>Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p> 
+    </div>
+<div class="background-container"></div>
+            </div>
+
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
     <div id="chat-messages"></div>
@@ -138,14 +163,7 @@ $conn->close();
     </div>
 </div>
 
-         <div class="container-background">
-<div class="UvodPanel">
-    <h2>Vítejte na stránkách bezva tábora!</h2>
-    <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
-    <p>Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p> 
-    </div>
-<div class="background-container"></div>
-            </div>
+      
    
 
     <br></br>
@@ -172,11 +190,14 @@ $conn->close();
         <button type="submit">Přihlásit se</button>
         <button type="button" onclick="closeForm()">Zavřít</button>
         <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    </form>
+        <p>Nebo se přihlaste pomocí Google:</p>
+        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
+
+        </form>
 </div>
+
 <script>
-    function onSignIn(googleUser) {
+   function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
@@ -184,7 +205,6 @@ $conn->close();
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 </script>
-
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
@@ -300,7 +320,6 @@ async function fetchMessages() {
 
 
 
-
 async function sendMessage() {
     const message = document.getElementById('message').value;
 
@@ -344,5 +363,3 @@ function toggleChat() {
    
 </body>
 </html>
-
-
