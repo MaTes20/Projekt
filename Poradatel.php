@@ -100,7 +100,6 @@ $conn->close();
     
  <!-- Hlavička s navigací -->
  <header>
-        <img src="/images/logoBAT.png">
         <nav>
             <ul>
                 <li><a href="Index.php" target="_self">Úvod</a></li>
@@ -147,6 +146,13 @@ $conn->close();
     </div>
 
     </header>
+
+    
+    <div class="logo-container">
+    <div class="logo-background">
+        <img src="/images/logoBAT.png" alt="Logo BAT">
+    </div>
+</div>
 
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">

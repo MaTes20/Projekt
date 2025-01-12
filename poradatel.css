@@ -36,22 +36,6 @@ body::before {
     pointer-events: none; /* Nevstupuje do interakce */
 }
 
-.container-background{
-    position: relative;
-    height: 100%;
-    width: 100%;
-
-}
-.background-container{
-    background:  linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("/images/2023_foto.jpg") no-repeat center center;
-    background-size: cover; /* Ensure the image covers the entire container */
-    filter: blur(2px);
-    width:100%; height:100%;
-    position: absolute;
-    z-index: 1;
-    margin: auto;
-
-}
 
 
 .UvodPanel {
@@ -181,29 +165,27 @@ body::before {
 
 
 
-/* Base styles for header */
 header {
     position: sticky;
     top: 0;
-    background-color: #ffffff; /* Initial background color */
-    color: #ffffff;
+    background-color: #ffffff; 
+    color: #000000;
     padding: 5px 15px;
     display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: auto; /* Keeps the header height based on content */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    justify-content:right; /* Vyrovnání mezi username a navigací */
+    align-items: center; /* Vertikální zarovnání */
+    width: 100%; 
+    height: auto;
+    transition: background-color 0.3s ease;
     z-index: 1000;
     font-family: 'popins', sans-serif;
-   
 }
 
-/* Navigation styles */
+/* Navigace */
 nav {
-    display: flex;
-    justify-content: center; /* Center navigation links */
-    align-items: center; /* Align links vertically in header */
-    width: 100%; /* Optional: Full width for nav alignment */
+    position: absolute; /* Umožní přesné umístění v rámci headeru */
+    left: 50%; /* Posuneme navigaci horizontálně na střed */
+    transform: translateX(-50%); /* Zarovnání přesně na střed */
 }
 
 nav ul {
@@ -223,11 +205,11 @@ nav ul li a {
     color: #000000;
     font-family: 'popins', sans-serif;
     font-size: 18px;
-   font-weight: bold;
+    font-weight: bold;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover effects */
+/* Hover efekty */
 nav ul li a:hover {
     color: #dadada;
     transform: scale(1.05);
@@ -250,7 +232,6 @@ nav ul li a::after {
 nav ul li a:hover::after {
     transform: translateX(-50%) scaleX(1);
 }
-
 /* Styles for header when scrolled */
 header.scrolled {
     background-color: #222; /* Darker background when scrolled */
@@ -259,13 +240,33 @@ header.scrolled {
 
 
 
-
-img {
-    width: 55px;
-    height: 55px;
-    margin-right: auto;
-    
+/* Kontejner loga */
+.logo-container {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 1000;
 }
+
+/* Pozadí za logem */
+.logo-background {
+    position: relative;
+    width: 105px; /* Nastavení velikosti kruhu */
+    height: 100px;
+    background-color: #ffffff; /* Barva pozadí (bílá, lze upravit) */
+    border-radius: 50%; /* Kruh */
+    display: flex;
+    justify-content: center; /* Horizontální zarovnání loga */
+    align-items: center; /* Vertikální zarovnání loga */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Jemný stín (volitelné) */
+}
+
+/* Styl obrázku */
+.logo-background img {
+    width: 150px; /* Velikost loga uvnitř kruhu */
+    height: auto;
+}
+
 
 .account a {
     text-decoration: none;

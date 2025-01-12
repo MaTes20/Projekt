@@ -103,7 +103,7 @@ $conn->close();
 
     <!-- Hlavička s navigací -->
     <header>
-        <img src="/images/logoBAT.png">
+
         
         <nav>
             <ul>
@@ -149,14 +149,22 @@ $conn->close();
 
     </header>
 
-    <div class="container-background">
-<div class="UvodPanel">
-    <h2>Vítejte na stránkách bezva tábora!</h2>
-    <p>Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
-    <p>Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p> 
+    <div class="logo-container">
+    <div class="logo-background">
+        <img src="/images/logoBAT.png" alt="Logo BAT">
     </div>
-<div class="background-container"></div>
-            </div>
+</div>
+
+
+
+
+    <div class="intro-section">
+    <h2 class="intro-title">Vítejte na stránkách bezva tábora!</h2>
+    <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
+    <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
+</div>
+
+
 
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">

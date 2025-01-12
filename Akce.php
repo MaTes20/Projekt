@@ -147,8 +147,8 @@ $conn->close();
             <li>Kostým AVATARA na párty, nebo <strong>MODRÉ tričko</strong> bez potisku, ze kterého si kostým na táboře vyrobíme.</li>
         </ul>
         
-        <p><a href="#">FOTKY Z BAT 2023</a> jsou k nahlédnutí na našem profilu na Facebooku, ale více jich uvidíte na našich stránkách <a href="#">ZDE</a>.</p>
-        <p><a href="#">Facebook Bezva Tábor</a></p>
+        <p><a href="https://www.facebook.com/profile.php?id=100044762723817" target="_blank">FOTKY Z BAT 2023</a> jsou k nahlédnutí na našem profilu na Facebooku, ale více jich uvidíte na našich stránkách <a href="#">ZDE</a>.</p>
+        <p><a href="https://www.facebook.com/profile.php?id=100044762723817">Facebook Bezva Tábor</a></p>
         
         <p>Těšíme se na vás... váš <strong>BAT</strong></p>
     </div>
