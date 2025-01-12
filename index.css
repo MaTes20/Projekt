@@ -12,7 +12,7 @@
 
 body {
     height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'popins', sans-serif;
    
 
 }
@@ -58,12 +58,15 @@ body {
     color: #ffffff; /* Tmavší šedá pro nadpis */
     margin-bottom: 15px; /* Odsazení pod nadpisem */
     text-align: center; /* Zarovnání nadpisu na střed */
+    font-family: 'popins', sans-serif;
+
 }
 
 /* Styl odstavce */
 .UvodPanel p {
     margin: 0; /* Odstranění vnějšího odsazení */
     text-align: center; /* Zarovnání textu na střed */
+    font-family: 'popins', sans-serif;
 }
 
 
@@ -172,7 +175,7 @@ header {
     height: auto; /* Keeps the header height based on content */
     transition: background-color 0.3s ease; /* Smooth transition for background color */
     z-index: 1000;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: 'popins', sans-serif;
    
 }
 
@@ -199,9 +202,9 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'popins', sans-serif;
     font-size: 18px;
-    font-weight: 600;
+   font-weight: 300;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
