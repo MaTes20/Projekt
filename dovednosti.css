@@ -376,7 +376,6 @@ header.scrolled {
 
 
 
-
 #sidebar {
     position: fixed;
     top: 100px;
@@ -418,9 +417,13 @@ header.scrolled {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
+    text-align: left;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    
+
 }
 
 .section-title {
@@ -441,6 +444,15 @@ header.scrolled {
 .skill {
     margin-bottom: 20px;
     
+}
+.skill-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Mezera mezi obrázky */
+    flex-wrap: wrap; /* Zalomí obrázky na další řádek pro menší obrazovky */
+}
+.skill-grid {
+    margin-bottom: 20px 0;
 }
 
 .skill-title {
@@ -486,9 +498,6 @@ header.scrolled {
     display: block;
     margin-bottom: 10px;
 }
-
-
-
 
 
 

@@ -183,16 +183,24 @@ $conn->close();
     <h2 class="section-title">Dovednosti</h2>
     <p class="section-subtitle">Tyto dovednosti se naučíte na našem táboře.</p>
     
-    <div id="morseovka" class="skill">
+    <!-- Morseovka -->
+    <div id="morseovka" class="skill-grid">
         <h3 class="skill-title">Morseovka</h3>
-        <img src="/images/morseovka.gif" alt="Morseovka" class="large-image">
+        <div class="skill-row">
+            <img src="/images/morseovka1.gif" alt="Morseovka část 1" class="skill-image">
+            <img src="/images/morseovka2.gif" alt="Morseovka část 2" class="skill-image">
+            <img src="/images/morseovka3.gif" alt="Morseovka část 3" class="skill-image">
+        </div>
     </div>
-    
-    <div id="polsky_klic" class="skill">
+
+    <!-- Polský klíč -->
+    <div id="polsky_klic" class="skill-grid">
         <h3 class="skill-title">Velký polský klíč</h3>
-        <img src="/dovednosti/velpolkl1.gif" alt="Velký polský klíč krok 1" class="large-image">
-        <img src="/dovednosti/m1.gif" alt="Velký polský klíč krok 2" class="large-image">
-    </div>
+        <div class="skill-row">
+            <img src="/dovednosti/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
+            <img src="/dovednosti/m1.gif" alt="Velký polský klíč krok 2" class="skill-image">
+        </div>
+    </div> 
 
     <div id="uzle" class="skill">
         <h3 class="skill-title">Uzle</h3>
