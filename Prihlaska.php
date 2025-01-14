@@ -173,7 +173,7 @@ $prihlaska->execute($data);
                 <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
                 <li><a href="Akce.php">Akce</a></li>
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
-                <li><a href="#">Vzkazy</a></li>
+                <li><a href="Vzkaz.php">Vzkazy</a></li>
                 <li><a href="Fotoalbum.php">Fotoalbum</a></li>
             </ul>
             

@@ -88,7 +88,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BezvaTábor</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="vzkaz.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -158,13 +158,6 @@ $conn->close();
 
 
 
-    <div class="intro-section">
-    <h2 class="intro-title">Vítejte na stránkách bezva tábora!</h2>
-    <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
-    <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
-</div>
-
-
 
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
@@ -177,12 +170,6 @@ $conn->close();
 
       
    
-
-    <br></br>
-
-    <div class="Aktualita">
-        
-    </div>
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
