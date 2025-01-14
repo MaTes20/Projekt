@@ -38,6 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
 $sql = "SELECT nazev FROM akce ORDER BY datum_uzaverky DESC";
 $result = $conn->query($sql);
 
+
+
 $conn->close();
 ?>
 
@@ -69,7 +71,7 @@ $conn->close();
                 <li><a href="Akce.php">Akce</a></li>
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
-                <li><a href="#">Fotoalbum</a></li>
+                <li><a href="Fotoalbum.php">Fotoalbum</a></li>
             </ul>
             
         </nav>

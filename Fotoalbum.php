@@ -77,8 +77,15 @@ if (isset($_GET['code'])) {
     exit();
 }
 
+
+
+
 $conn->close();
 ?>
+
+
+
+
 
 
 
@@ -88,7 +95,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BezvaTábor</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="fotoalbum.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -158,13 +165,6 @@ $conn->close();
 
 
 
-    <div class="intro-section">
-    <h2 class="intro-title">Vítejte na stránkách bezva tábora!</h2>
-    <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
-    <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
-</div>
-
-
 
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
@@ -176,13 +176,43 @@ $conn->close();
 </div>
 
       
-   
-
     <br></br>
-
-    <div class="Aktualita">
-        
+    <div class="gallery-container">
+    <div class="gallery-header">
+        <h2>Fotogalerie</h2>
     </div>
+    <div class="gallery-grid">
+        <?php
+        $directory = 'images/foto/';
+        if (is_dir($directory)) {
+            $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
+            if ($images) {
+                foreach ($images as $image) {
+                    echo "<div class='gallery-item'>
+                            <img src='$image' alt='Gallery Image' class='gallery-thumbnail' onclick='openModal(\"$image\")'>
+                          </div>";
+                }
+            } else {
+                echo "<p class='gallery-empty'>Ve složce nejsou žádné obrázky.</p>";
+            }
+        } else {
+            echo "<p class='gallery-empty'>Složka '$directory' neexistuje.</p>";
+        }
+        ?>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="galleryModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modalImage" class="modal-content" alt="Large Image">
+    <div id="caption"></div>
+</div>
+
+    <div class="footer">
+    <p>&copy; 2023 BezvaTábor</p>
+
+   
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
@@ -246,6 +276,26 @@ $conn->close();
 
 
     <script>
+     function openModal(imageSrc) {
+    const modal = document.getElementById('galleryModal');
+    const modalImage = document.getElementById('modalImage');
+    modal.style.display = 'flex';
+    modalImage.src = imageSrc;
+}
+
+function closeModal() {
+    const modal = document.getElementById('galleryModal');
+    modal.style.display = 'none';
+}
+
+
+
+
+
+
+
+
+
         document.addEventListener('DOMContentLoaded', () => {
     console.log("Fetching messages on page load...");
     fetchMessages(); // Fetch messages as soon as the page loads
@@ -366,6 +416,28 @@ function toggleChat() {
     chatContainer.classList.toggle('open');
 }
 
+
+
+
+
+// Modal funkce
+const modal = document.getElementById('photoModal');
+const modalImg = document.getElementById('modalImage');
+const captionText = document.getElementById('caption');
+const images = document.querySelectorAll('.gallery-image');
+const closeModal = document.querySelector('.close');
+
+images.forEach(img => {
+    img.addEventListener('click', function () {
+        modal.style.display = 'block';
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    });
+});
+
+closeModal.addEventListener('click', function () {
+    modal.style.display = 'none';
+});
 
     </script>
 

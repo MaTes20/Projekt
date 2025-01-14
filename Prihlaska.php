@@ -174,7 +174,7 @@ $prihlaska->execute($data);
                 <li><a href="Akce.php">Akce</a></li>
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="#">Vzkazy</a></li>
-                <li><a href="#">Fotoalbum</a></li>
+                <li><a href="Fotoalbum.php">Fotoalbum</a></li>
             </ul>
             
         </nav>
