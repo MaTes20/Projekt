@@ -35,61 +35,6 @@ body::before {
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
 
-/* Sekce obsahu */
-.intro-section {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
-    color: yellow;
-    text-align: justify;
-}
-
-.intro-title {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.intro-text {
-    font-size: 18px;
-    margin-bottom: 15px;
-    color: #eaeaea;
-}
-
-.UvodPanel {
-    position: absolute;
-    width: 700px;
-    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    background-color: #2e2e2ebd;
-    color: #ffffff; 
-    margin: 100px auto; /* Zarovnání na střed a odsazení */
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.6; /* Lepší čitelnost */
-    border-radius: 8px ;
-    padding: 20px 30px; /* Vnitřní odsazení */
-    z-index: 2;
-    left: 30%;
-}
-
-
-/* Nadpis styl */
-.UvodPanel h2 {
-    font-size: 35px; /* Velikost nadpisu */
-    color: #ffffff; /* Tmavší šedá pro nadpis */
-    margin-bottom: 15px; /* Odsazení pod nadpisem */
-    text-align: center; /* Zarovnání nadpisu na střed */
-    font-family: 'popins', sans-serif;
-
-}
-
-/* Styl odstavce */
-.UvodPanel p {
-    margin: 0; /* Odstranění vnějšího odsazení */
-    text-align: center; /* Zarovnání textu na střed */
-    font-family: 'popins', sans-serif;
-}
 
 
 
@@ -374,6 +319,58 @@ header.scrolled {
     display: block;
 }
 
+
+
+/* Základní sekce */
+.section {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px 0;
+    color: #ffffff;
+    font-family: popins, sans-serif;
+}
+
+/* Nadpisy */
+.section h2 {
+    font-size: 32px;
+    color: yellow;
+    margin-bottom: 20px;
+}
+
+.section h3 {
+    font-size: 26px;
+    color: #ffee00;
+    margin-bottom: 10px;
+}
+
+/* Odstavce */
+.section p {
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: justify;
+    margin: 10px 0;
+}
+
+/* Seznamy */
+.section ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.section ul li {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #ffee00;
+}
+
+/* Oddělovač */
+.section hr {
+    border: none;
+    border-top: 1px solid #ffffff;
+    margin: 20px 0;
+}
 
 
 

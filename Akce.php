@@ -138,7 +138,7 @@ $conn->close();
         <p><a href="#">VÍCE INFORMACÍ K TÁBORU</a> najdete zde.</p>
         <p><a href="Prihlaska.php">PŘEDBĚŽNÁ PŘIHLÁŠKA</a> online k vyplnění zde.</p>
         
-        <p>Letos jsme si pro Vás opět připravili <span class="highlight">SLEVY</span>, které může využít každý táborník. <a href="#">Zde si můžeš požádat o slevu Kamarád</a>.</p>
+        <p>Letos jsme si pro Vás opět připravili <span class="highlight">SLEVY</span>, které může využít každý táborník. <a href="Sleva.php">Zde si můžeš požádat o slevu Kamarád</a>.</p>
         
         <p>Doprava je zajištěna z Ústí n.L., Prahy a Votic.</p>
         <p>Další místa lze dohodnout, pokud jste na trase autobusu nebo pokud bude alespoň 5 táborníků z jednoho místa (např. Děčín, Teplice, Most, Litoměřice, Roudnice n.L., Benešov, Sedlčany atd.).</p>

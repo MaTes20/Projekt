@@ -206,6 +206,7 @@ header.scrolled {
 /* Kontejner loga */
 .logo-container {
     position: absolute;
+    position: fixed;
     top: 30px;
     left: 30px;
     z-index: 1000;
@@ -318,6 +319,69 @@ header.scrolled {
 }
 
 
+
+
+.section {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px 0;
+    color: #ffffff;
+}
+
+.section h2 {
+    font-size: 32px;
+    color: yellow;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: justify;
+    margin: 10px 0;
+}
+
+.vzkaz-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vzkaz-form textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+}
+
+.vzkaz-form button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: yellow;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.vzkaz-form button:hover {
+    background-color: #ffc107;
+}
+
+.vzkazy .vzkaz {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ffffff;
+}
+
+.vzkazy .vzkaz p {
+    margin: 5px 0;
+}
 
 
 

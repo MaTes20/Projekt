@@ -77,32 +77,6 @@ if (isset($_GET['code'])) {
     exit();
 }
 
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['text'])) {
-    $text = $conn->real_escape_string($_POST['text']);
-    $prezdivka = $_SESSION['username'] ?? 'Guest';
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $datum = date('Y-m-d H:i:s');
-
-    $query = "INSERT INTO vzkaz (prezdivka, datum, text, ip) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('ssss', $prezdivka, $datum, $text, $ip);
-
-    if ($stmt->execute()) {
-        echo "Váš vzkaz byl odeslán!";
-    } else {
-        echo "Chyba při odesílání vzkazu: " . $conn->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-
-    header('Location: Vzkaz.php');
-    exit();
-}
-
 $conn->close();
 ?>
 
@@ -114,7 +88,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BezvaTábor</title>
-    <link rel="stylesheet" href="vzkaz.css">
+    <link rel="stylesheet" href="sleva.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -182,9 +156,6 @@ $conn->close();
 </div>
 
 
-
-
-
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
     <div id="chat-messages"></div>
@@ -194,53 +165,47 @@ $conn->close();
     </div>
 </div>
 
-      
-
-
 <section class="section">
-    <h2>Vzkazovník</h2>
-    <p>Zde můžete zanechat svůj vzkaz ostatním uživatelům!</p>
+    <h2>Sleva</h2>
     <hr>
-    
-    <!-- Formulář pro odeslání vzkazu -->
-    <form action="Vzkaz.php" method="POST" class="vzkaz-form">
-        <textarea name="text" placeholder="Napište svůj vzkaz..." required></textarea>
-        <button type="submit">Odeslat vzkaz</button>
-    </form>
-    
-    <hr>
+    <h3>Pravidla pro uznání slevy</h3>
+    <p>Poskytované slevy:</p>
+    <ul>
+        <li>Věrnostní ..... <strong>100 Kč</strong></li>
+        <li>Sourozenec ..... <strong>100 Kč</strong></li>
+        <li>Kamarád ..... <strong>200 Kč</strong></li>
+    </ul>
 
-    <!-- Výpis vzkazů -->
-    <div class="vzkazy">
-        <?php
-    
-        $conn = connectToDatabase();
+    <p><strong>Věrnostní</strong> - O tuto slevu může požádat každý táborník, který byl s námi na posledních dvou táborech (2022 a 2023).</p>
+    <p><strong>Sourozenec</strong> - O tuto slevu mohou požádat sourozenci žijící spolu v jedné domácnosti.</p>
+    <p><strong>Kamarád</strong> - O tuto slevu může požádat každý táborník, který přivede na náš tábor nového účastníka (nováčka - který se dosud našeho tábora nezúčastnil).</p>
 
-        $query = "SELECT prezdivka, datum, text FROM vzkaz ORDER BY datum DESC";
-        $result = $conn->query($query);
+    <p>Uznání slevy je podmíněno zaplacením tábora budoucím táborníkem. Vaší úhradu za tábor proto proveďte bez započítání této slevy. Peníze za nově přivedené účastníky vám nejpozději do 60 dnů od ukončení tábora zašleme na váš účet. Tuto slevu nelze uplatnit na sebe a mezi sourozenci.</p>
 
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<div class='vzkaz'>";
-                echo "<p><strong>{$row['prezdivka']}</strong> <em>({$row['datum']})</em></p>";
-                echo "<p>{$row['text']}</p>";
-                echo "</div>";
-            }
-        } else {
-            echo "<p>Žádné vzkazy zatím nejsou k dispozici.</p>";
-        }
+    <p>O slevu lze žádat vícekrát, záleží jenom na vás, kolik nových táborníků přivedete.</p>
 
-        $conn->close();
-        ?>
-    </div>
+    <p><strong>Slevy se sčítají až do výše vaší úhrady za tábor.</strong></p>
+
+    <p>O slevu je potřeba si požádat prostřednictvím přihlášky, emailem nebo elektronickou žádostí, kterou naleznete na našich stránkách.</p>
+
+    <p><em>O uznání slevy rozhoduje Bezva tábor z.s., který tyto slevy zároveň poskytuje.</em></p>
 </section>
 
 
 
 
 
+
+
+
+
+
+      
    
 
+    <br></br>
+
+    
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
     <form action="Index.php" method="POST">
