@@ -257,6 +257,37 @@ header.scrolled {
     background-color: #222; /* Darker background when scrolled */
 }
 
+.aktuality {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.6));
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    text-align: center;
+}
+
+.aktuality .section-title {
+    font-size: 32px;
+    color: yellow;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.aktuality .section-content {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #ffffff;
+    text-align: center;
+}
+
+.aktuality .section-content strong {
+    color: #f5e300; /* Highlighted term color */
+}
 
 
 /* Kontejner loga */

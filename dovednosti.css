@@ -328,7 +328,7 @@ header.scrolled {
     top: 150px;
     left: 20px;
     width: 200px;
-    background-color: #f8f9fa00;
+    background-color: #f8f9fa;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
@@ -348,13 +348,13 @@ header.scrolled {
 
 #sidebar ul li a {
     text-decoration: none;
-    color: #007bff;
+    color: #000000;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 #sidebar ul li a:hover {
-    color: #0056b3;
+    color: #585858;
 }
 
 
@@ -447,13 +447,13 @@ header.scrolled {
 
 .knot-title {
     font-size: 25px;
-    color: #2980b9;
+    color: #fffb00;
     margin-bottom: 5px;
 }
 
 .knot-description {
     font-size: 20px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .knot-image {

@@ -179,10 +179,17 @@ $conn->close();
    
 
     <br></br>
+    <div class="section aktuality">
+    <h2 class="section-title">Aktuality</h2>
+    <p class="section-content">
+        Ahoj táborníci,<br><br>
+        tábor BAT 2025 pro vás připravujeme, v nejbližší době se zde vše dozvíte.<br><br>
+        Termín tábora je od <strong>2.7. do 26.7.2025</strong>.<br><br>
+        Těšíme se na vás, váš BAT.
+    </p>
+</div>
 
-    <div class="Aktualita">
-        
-    </div>
+
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">

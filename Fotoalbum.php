@@ -183,7 +183,7 @@ $conn->close();
     </div>
     <div class="gallery-grid">
         <?php
-        $directory = 'images/foto/';
+        $directory = 'foto1/';
         if (is_dir($directory)) {
             $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
             if ($images) {
@@ -210,7 +210,7 @@ $conn->close();
 </div>
 
     <div class="footer">
-    <p>&copy; 2023 BezvaTábor</p>
+    <p>&copy; 2024 BezvaTábor</p>
 
    
 

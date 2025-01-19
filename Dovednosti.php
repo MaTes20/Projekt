@@ -192,15 +192,16 @@ $conn->close();
             <img src="/images/morseovka3.gif" alt="Morseovka část 3" class="skill-image">
         </div>
     </div>
-
+<br>
     <!-- Polský klíč -->
     <div id="polsky_klic" class="skill-grid">
         <h3 class="skill-title">Velký polský klíč</h3>
         <div class="skill-row">
-            <img src="/dovednosti/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
-            <img src="/dovednosti/m1.gif" alt="Velký polský klíč krok 2" class="skill-image">
+            <img src="/images/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
+            <img src="/images/m1.gif" alt="Velký polský klíč krok 2" class="skill-image">
         </div>
     </div> 
+    <br>
 
     <div id="uzle" class="skill">
         <h3 class="skill-title">Uzle</h3>
