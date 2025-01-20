@@ -1,3 +1,4 @@
+/* Obecný reset stylu */
 
 /* Obecné stylování formuláře */
 form {
@@ -9,6 +10,7 @@ form {
     background-color: #f9f9f9;
     font-family: Arial, sans-serif;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333;
 }
 
 /* Stylování labelů */
@@ -16,6 +18,7 @@ form label {
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
+    color: #333;
 }
 
 /* Stylování vstupních polí */
@@ -60,7 +63,7 @@ form input[type="radio"] {
 form input[type="submit"] {
     display: inline-block;
     background-color: #007bff;
-    color: #fff;
+    color: #000000;
     padding: 12px 20px;
     font-size: 16px;
     font-weight: bold;
@@ -116,22 +119,17 @@ form span {
     max-width: 600px; /* Maximální šířka */
     margin: 20px auto; /* Zarovnání na střed */
     text-align: center; /* Zarovnání textu na střed */
-    color: #333; /* Neutrální barva textu */
+    color: #ffffff; /* Neutrální barva textu */
     font-family: Arial, sans-serif; /* Jednoduché písmo */
 
 }
 
-title{
-    font-size: 50px;
+.title{
+    font-size: 40px;
     font-weight: bold;
-    margin-bottom: 15px;
-    color: #444;
+    margin-bottom: 5px;
+    color: #fefe00;
 }
-
-
-
-
-/* Obecný reset stylu */
 
 
 
@@ -144,36 +142,199 @@ title{
 }
 
 body {
-    height: 200vh;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #ffffff !important;
-   
-   
+    height: 100%;
+    font-family: 'popins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #4e4e4e, #4c4c4c);
+    background-attachment: fixed;
+    background-size: cover;
+    color: #fff;
+    line-height: 1.8;
+
+}
+/* Přidání tmavého pozadí s obrázkem */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/2022_foto.jpg') center center / cover no-repeat;
+    opacity: 0.2;
+    z-index: -1; /* Zajištění, že je pod obsahem */
 }
 
-/* Base styles for header */
+/* Sekce obsahu */
+.intro-section {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    color: yellow;
+    text-align: justify;
+}
+
+.intro-title {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.intro-text {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #eaeaea;
+}
+
+.UvodPanel {
+    position: absolute;
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    background-color: #2e2e2ebd;
+    color: #ffffff; 
+    margin: 100px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 8px ;
+    padding: 20px 30px; /* Vnitřní odsazení */
+    z-index: 2;
+    left: 30%;
+}
+
+
+/* Nadpis styl */
+.UvodPanel h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #ffffff; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+    font-family: 'popins', sans-serif;
+
+}
+
+/* Styl odstavce */
+.UvodPanel p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+    text-align: center; /* Zarovnání textu na střed */
+    font-family: 'popins', sans-serif;
+}
+
+
+
+#chat-container {
+    position: absolute; /* Keeps the chat fixed on the screen */
+    top: 100px; /* Adjusts the vertical position */
+    right: 20px; /* Positions it on the right */
+    width: 30%; /* Adjust the width to fit neatly */
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9; /* Light background for visibility */
+    border: 1px solid #ccc; /* Subtle border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow issues */
+    z-index: 10;
+
+}
+
+#chat-messages {
+    height: 400px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc; /* Divider between chat and input */
+}
+
+#chat-messages div {
+    margin-bottom: 10px;
+}
+
+#chat-messages .user {
+    font-weight: bold;
+    color: #007bff;
+}
+
+#chat-input-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f1f1f1; /* Slight contrast with the chat box */
+}
+
+#chat-input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#chat-input-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#chat-input-container button:hover {
+    background-color: #0056b3;
+}
+
+
+#chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#chat-container {
+    position: fixed;
+    right: -600px; /* Hidden initially */
+    top: 100px;
+    width: 30%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+}
+
+#chat-container.open {
+    right: 20px; /* Slide in */
+}
+
+
 header {
     position: sticky;
     top: 0;
-    background-color: #282828; /* Initial background color */
-    color: #ffffff;
+    background-color: #ffffff; 
+    color: #000000;
     padding: 5px 15px;
     display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: auto; /* Keeps the header height based on content */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    justify-content:right; /* Vyrovnání mezi username a navigací */
+    align-items: center; /* Vertikální zarovnání */
+    width: 100%; 
+    height: auto;
+    transition: background-color 0.3s ease;
     z-index: 1000;
-    font-family:Arial, Helvetica, sans-serif;
-   
+    font-family: 'popins', sans-serif;
 }
 
-/* Navigation styles */
+/* Navigace */
 nav {
-    display: flex;
-    justify-content: center; /* Center navigation links */
-    align-items: center; /* Align links vertically in header */
-    width: 100%; /* Optional: Full width for nav alignment */
+    position: absolute; /* Umožní přesné umístění v rámci headeru */
+    left: 50%; /* Posuneme navigaci horizontálně na střed */
+    transform: translateX(-50%); /* Zarovnání přesně na střed */
 }
 
 nav ul {
@@ -190,14 +351,14 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+    font-family: 'popins', sans-serif;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: bold;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover effects */
+/* Hover efekty */
 nav ul li a:hover {
     color: #dadada;
     transform: scale(1.05);
@@ -221,21 +382,73 @@ nav ul li a:hover::after {
     transform: translateX(-50%) scaleX(1);
 }
 
+
 /* Styles for header when scrolled */
 header.scrolled {
     background-color: #222; /* Darker background when scrolled */
 }
 
-
-
-
-
-img {
-    width: 55px;
-    height: 55px;
-    margin-right: auto;
-    
+.aktuality {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.6));
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    text-align: center;
 }
+
+.aktuality .section-title {
+    font-size: 32px;
+    color: yellow;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.aktuality .section-content {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #ffffff;
+    text-align: center;
+}
+
+.aktuality .section-content strong {
+    color: #f5e300; /* Highlighted term color */
+}
+
+
+/* Kontejner loga */
+.logo-container {
+    position: absolute;
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 1000;
+}
+
+/* Pozadí za logem */
+.logo-background {
+    position: relative;
+    width: 105px; /* Nastavení velikosti kruhu */
+    height: 100px;
+    background-color: #ffffff; /* Barva pozadí (bílá, lze upravit) */
+    border-radius: 50%; /* Kruh */
+    display: flex;
+    justify-content: center; /* Horizontální zarovnání loga */
+    align-items: center; /* Vertikální zarovnání loga */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Jemný stín (volitelné) */
+}
+
+/* Styl obrázku */
+.logo-background img {
+    width: 150px; /* Velikost loga uvnitř kruhu */
+    height: auto;
+}
+
 
 .account a {
     text-decoration: none;
@@ -273,133 +486,55 @@ img {
 
 
 
-.UvodPanel {
-    width: 700px;
-    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    color: #333; /* Tmavší text */
-    margin: 50px auto; /* Zarovnání na střed a odsazení */
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.6; /* Lepší čitelnost */
-    border-radius: 12px; /* Lehce zaoblené rohy */
-    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Jemný přechod */
-    padding: 20px 30px; /* Vnitřní odsazení */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Jemný stín */
-    transition: all 0.3s ease; /* Plynulý efekt při interakci */
-}
-
-.UvodPanel:hover {
-    transform: translateY(-5px); /* Jemný efekt nadzvednutí při najetí myší */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(246, 255, 0, 0.2);
-}
-
-/* Nadpis styl */
-.UvodPanel h2 {
-    font-size: 35px; /* Velikost nadpisu */
-    color: #444; /* Tmavší šedá pro nadpis */
-    margin-bottom: 15px; /* Odsazení pod nadpisem */
-    text-align: center; /* Zarovnání nadpisu na střed */
-}
-
-/* Styl odstavce */
-.UvodPanel p {
-    margin: 0; /* Odstranění vnějšího odsazení */
-    text-align: center; /* Zarovnání textu na střed */
-}
-
-
-/* Main Profile Section */
 .profile-dropdown {
     position: relative;
     display: inline-block;
-    margin-right: 20px; /* Add some margin to ensure it doesn't touch the edge */
-    margin-left: 20px; /* Add margin on the left side to push it away from the edge */
 }
 
-/* Profile text styling */
 .profile {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
     cursor: pointer;
     padding: 10px;
-    margin-right: 20px;
-   
+    background-color: #e1e1e1;
+    color: #000000;
+    border-radius: 5px;
+    
+    
 }
 
-/* Hover effect for profile text */
 .profile:hover {
-    color: #dadada;
+    background-color: #e0e0e0;
 }
 
-/* Dropdown Menu Styling */
-.profile-dropdown .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
-    top: 100%; /* Position dropdown right under the profile */
-    left: 0;
-    min-width: 160px;
-    background-color: #333; /* Dark background for contrast */
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    opacity: 0;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    top: 100%;
+    right: 0;
+    background-color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 150px;
 }
 
-/* Show dropdown on hover */
-.profile-dropdown:hover .dropdown-content {
+.dropdown-content a {
     display: block;
-    opacity: 1;
-    transform: scaleY(1);
-}
-
-/* Dropdown links */
-.profile-dropdown .dropdown-content a {
-    color: #eee;
-    padding: 12px 16px;
+    padding: 10px;
     text-decoration: none;
-    display: block;
-    font-weight: normal;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    border-bottom: 1px solid #444;
+    color: #ffffff;
+    transition: background-color 0.3s;
 }
 
-/* Hover effect for links */
-.profile-dropdown .dropdown-content a:hover {
-    background-color: #444;
-    color: #fff;
+.dropdown-content a:hover {
+    background-color: #aaaaaa;
 }
 
-/* Optional focus effect for accessibility */
-.profile-dropdown .dropdown-content a:focus {
-    background-color: #555;
-    color: #fff;
-}
-
-/* Hide the last border */
-.profile-dropdown .dropdown-content a:last-child {
-    border-bottom: none;
-}
-
-/* Ensure the dropdown doesn't go out of view */
 .profile-dropdown:hover .dropdown-content {
-    max-height: 400px; /* Limit the height of the dropdown */
-    overflow-y: auto;  /* Scroll if the content is too large */
+    display: block;
 }
-
-/* Adjust for mobile screens */
-@media (max-width: 600px) {
-    .profile-dropdown .dropdown-content {
-        width: 100%;
-        left: 0;
-        border-radius: 0;
-    }
-}
-
 
 
 
@@ -636,4 +771,117 @@ img {
 
 .register-form-container button[type="button"]:hover {
     background-color: #d32f2f;
+}
+
+
+
+
+/* Obecné stylování formuláře */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Stylování labelů */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Stylování vstupních polí */
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form input[type="date"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="number"]:focus,
+form input[type="date"]:focus,
+form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Stylování textarea */
+form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Stylování checkboxů a rádiových tlačítek */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Stylování tlačítka */
+form input[type="submit"] {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Stylování odkazů */
+form a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+/* Nadpisy a sekce */
+form p,
+form hr,
+form small {
+    margin-bottom: 20px;
+}
+
+form hr {
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* Červené upozornění */
+form span[style*="color: red"] {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Sekce SPAM ochrany */
+form span {
+    display: inline-block;
+    margin-top: 10px;
 }

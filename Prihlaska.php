@@ -6,40 +6,14 @@ if (session_status() === PHP_SESSION_NONE) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require 'Database.php';
     require 'Functions.php';
+    require_once 'vendor/autoload.php';
+    require_once 'config.php';
     
     
-    $conn = connectToDatabase();
+    // Připojení k databázi
+$conn = connectToDatabase();
 
-    if (!$conn) {
-        die('Chyba připojení k databázi.');
-    }
 
-    //echo "Připojení k databázi bylo úspěšné.<br>";
-    
-    
-    
-    
-    // Získání aktuálního uživatele
-$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-
-// Zpracování registrace
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
-    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
-    echo $message;
-    header("Location: Index.php");
-    exit();
-}
-
-// Zpracování přihlášení
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
-    $result = loginUser($conn, $_POST['username'], $_POST['password']);
-    if ($result === true) {
-        header("Location: Index.php"); // Přesměrování na aktuální stránku
-        exit();
-    } else {
-        echo $result; // Zobrazení chyby
-    }
-}
     
     
     
@@ -147,6 +121,70 @@ $prihlaska->execute($data);
     
     $conn->close();
 }
+
+// Získání aktuálního uživatele
+$currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+// Zpracování registrace
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
+    $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
+    echo $message;
+    header("Location: Index.php");
+    exit();
+}
+
+// Zpracování přihlášení
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
+    $result = loginUser($conn, $_POST['username'], $_POST['password']);
+    if ($result === true) {
+        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        exit();
+    } else {
+        echo $result; // Zobrazení chyby
+    }
+}
+// authenticate code from Google OAuth Flow
+if (isset($_GET['code'])) {
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+    $client->setAccessToken($token['access_token']);
+
+    // get profile info
+    $google_oauth = new Google_Service_Oauth2($client);
+    $google_account_info = $google_oauth->userinfo->get();
+
+    $google_id = $google_account_info->id;
+    $email = $google_account_info->email;
+    $name = $google_account_info->name;
+    $profile_picture = $google_account_info->picture;
+
+    // Check if user exists in the database
+    $query = "SELECT * FROM google_login WHERE google_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $google_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // User exists, fetch their username
+        $user = $result->fetch_assoc();
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['profile_picture'] = $user['profile_picture']; // Uložení obrázku do session
+
+    } else {
+        // User does not exist, insert new record
+        $insert_query = "INSERT INTO google_login (google_id, email, username, profile_picture) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_query);
+        $stmt->bind_param("ssss", $google_id, $email, $name, $profile_picture);
+        $stmt->execute();
+
+        // Set session username for the new user
+        $_SESSION['username'] = $name;
+        $_SESSION['profile_picture'] = $profile_picture; // Uložení obrázku do session
+
+    }
+    header("Location: Index.php");
+    exit();
+}
 ?>
 
 
@@ -165,7 +203,6 @@ $prihlaska->execute($data);
    
     <!-- Hlavička s navigací -->
     <header>
-        <img src="/images/logoBAT.png">
         
         <nav>
             <ul>
@@ -180,10 +217,15 @@ $prihlaska->execute($data);
         </nav>
         <div class="account">
        
-        <!-- Profile section with hover effect -->
+           
+ <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
-        <span><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></span>
+        <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
+                      ? htmlspecialchars($_SESSION['profile_picture']) 
+                      : 'images/default-profile.png' ?>" 
+             alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
 
     <!-- Dropdown menu for login/logout -->
@@ -205,7 +247,12 @@ $prihlaska->execute($data);
 
 
     </header>
-    
+    <div class="logo-container">
+    <div class="logo-background">
+        <img src="/images/logoBAT.png" alt="Logo BAT">
+    </div>
+</div>
+
        
     
     
@@ -373,10 +420,49 @@ $prihlaska->execute($data);
         </form>
     </div>
 
+    
+ <!-- prihlasovaci formular -->
+ <div class="login-form-container" id="loginForm">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="login" value="true">
 
+        <h2>Přihlášení</h2>
+        
+        <label for="username">Uživatelské jméno</label>
+        <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="password">Heslo</label>
+        <div class="password-container">
+            <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+        </div>
+        
+        <button type="submit">Přihlásit se</button>
+        <button type="button" onclick="closeForm()">Zavřít</button>
+        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+        <p>Nebo se přihlaste pomocí Google:</p>
+        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
+
+        </form>
+</div>
 
 
     <script>
+   function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+</script>
+
+
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+    console.log("Fetching messages on page load...");
+    fetchMessages(); // Fetch messages as soon as the page loads
+    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
+});
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");

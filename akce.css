@@ -349,7 +349,7 @@ header.scrolled {
     max-width: 600px; /* Maximální šířka */
     margin: 50px auto; /* Zarovnání na střed */
     text-align: center; /* Zarovnání textu na střed */
-    color: #333; /* Neutrální barva textu */
+    color: #ffffff; /* Neutrální barva textu */
     font-family: Arial, sans-serif; /* Jednoduché písmo */
 }
 
@@ -358,7 +358,7 @@ header.scrolled {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 15px;
-    color: #444;
+    color: #ffee00;
 }
 
 /* Popis sekce */
@@ -373,7 +373,7 @@ header.scrolled {
     font-size: 20px;
     font-weight: normal;
     margin-bottom: 15px;
-    color: #555;
+    color: #ffffff;
 }
 
 /* Dropdown styling */

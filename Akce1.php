@@ -7,18 +7,11 @@ if (session_status() === PHP_SESSION_NONE) {
 // Načtení souborů
 require 'Database.php';
 require 'Functions.php';
+require_once 'vendor/autoload.php';
+require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
-$conn->set_charset("utf8mb4");
-
-if (!$conn) {
-        die('Chyba připojení k databázi.');
-    }
-
- 
-
-
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -41,7 +34,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         echo $result; // Zobrazení chyby
     }
 }
+// authenticate code from Google OAuth Flow
+if (isset($_GET['code'])) {
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+    $client->setAccessToken($token['access_token']);
 
+    // get profile info
+    $google_oauth = new Google_Service_Oauth2($client);
+    $google_account_info = $google_oauth->userinfo->get();
+
+    $google_id = $google_account_info->id;
+    $email = $google_account_info->email;
+    $name = $google_account_info->name;
+    $profile_picture = $google_account_info->picture;
+
+    // Check if user exists in the database
+    $query = "SELECT * FROM google_login WHERE google_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $google_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // User exists, fetch their username
+        $user = $result->fetch_assoc();
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['profile_picture'] = $user['profile_picture']; // Uložení obrázku do session
+
+    } else {
+        // User does not exist, insert new record
+        $insert_query = "INSERT INTO google_login (google_id, email, username, profile_picture) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_query);
+        $stmt->bind_param("ssss", $google_id, $email, $name, $profile_picture);
+        $stmt->execute();
+
+        // Set session username for the new user
+        $_SESSION['username'] = $name;
+        $_SESSION['profile_picture'] = $profile_picture; // Uložení obrázku do session
+
+    }
+    header("Location: Index.php");
+    exit();
+}
 
 // Získání dat z tabulky akce
 $sql = "SELECT nazev FROM akce ORDER BY datum_uzaverky DESC";
@@ -49,7 +83,7 @@ $result = $conn->query($sql);
 
 
 
-//$conn->close();
+$conn->close();
 ?>
 
 
@@ -84,8 +118,7 @@ $result = $conn->query($sql);
             
         </nav>
         <div class="account">
-       
-              
+           
  <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
@@ -95,6 +128,8 @@ $result = $conn->query($sql);
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
+
+
     <!-- Dropdown menu for login/logout -->
     <div class="dropdown">
        
@@ -113,15 +148,25 @@ $result = $conn->query($sql);
     </div>
 
 
-    </header>
-
-
+    
     <div class="logo-container">
     <div class="logo-background">
         <img src="/images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
+
+<button id="chat-toggle" onclick="toggleChat()">Chat</button>
+    <div id="chat-container">
+    <div id="chat-messages"></div>
+    <div id="chat-input-container">
+        <input type="text" id="message" placeholder="Napište zprávu...">
+        <button onclick="sendMessage()">Odeslat</button>
+    </div>
+</div>
+
+
+    </header>
     <div class="centered-content">
     <h6 class="section-title">Již pořádané akce</h6>
     <p class="section-description">
@@ -152,64 +197,32 @@ $result = $conn->query($sql);
     </form>
 </div>
 
-
-
-<div class="centered-content">
-    <h6 class="section-title">Plánované akce</h6>
-</div>
-
-
-
-<!-- Výpis připravované akce -->
-
-     
-  <?php
-    
-    
-        $db = $conn->query("SELECT * FROM akce WHERE datum_uzaverky > NOW()");
-        $pocet_akci = $db->num_rows;
+<div class="container">
+        <h1>Ahoj táborníci</h1>
+        <p>Letošní letní tábor na téma <strong>"AVATAR"</strong> pro vás pořádáme v termínu od <strong>soboty 13.7. do soboty 27.7.2024</strong>.</p>
+        <p><a href="#">VÍCE INFORMACÍ K TÁBORU</a> najdete zde.</p>
+        <p><a href="Prihlaska.php">PŘEDBĚŽNÁ PŘIHLÁŠKA</a> online k vyplnění zde.</p>
         
+        <p>Letos jsme si pro Vás opět připravili <span class="highlight">SLEVY</span>, které může využít každý táborník. <a href="Sleva.php">Zde si můžeš požádat o slevu Kamarád</a>.</p>
+        
+        <p>Doprava je zajištěna z Ústí n.L., Prahy a Votic.</p>
+        <p>Další místa lze dohodnout, pokud jste na trase autobusu nebo pokud bude alespoň 5 táborníků z jednoho místa (např. Děčín, Teplice, Most, Litoměřice, Roudnice n.L., Benešov, Sedlčany atd.).</p>
+        
+        <h2>Na tábor si přibalte:</h2>
+        <ul>
+            <li><strong>BÍLÉ tričko</strong> bez potisku na táborový oblek.</li>
+            <li>Kostým AVATARA na párty, nebo <strong>MODRÉ tričko</strong> bez potisku, ze kterého si kostým na táboře vyrobíme.</li>
+        </ul>
+        
+        <p><a href="https://www.facebook.com/profile.php?id=100044762723817" target="_blank">FOTKY Z BAT 2023</a> jsou k nahlédnutí na našem profilu na Facebooku, ale více jich uvidíte na našich stránkách <a href="#">ZDE</a>.</p>
+        <p><a href="https://www.facebook.com/profile.php?id=100044762723817">Facebook Bezva Tábor</a></p>
+        
+        <p>Těšíme se na vás... váš <strong>BAT</strong></p>
+    </div>
+
+
     
-    if (mysqli_num_rows($db) == 0) {
-    
-        //echo '<div class="container">';
-        echo '<div class="centered-content">';
-        echo '<h6 class="section-subtitle"> V současné době není vypsaná žádná akce. </h6>'; 
-        echo "</div>";
-    }
-    else {
-        
-        while($data = mysqli_fetch_array($db)) {
-        
-            $akce_id = $data ["akce_id"];
-            $popis = substr($data ["popis"], 0, strpos($data ["popis"], "<p>")+3);
-            
-            echo '<div class="container">';
-            //echo "<h1>Informace " . $nazev . "</h1> <br>";
-            
-            echo "<h1>" . $data ["nazev"] ."</h1>";
-            echo "<h1> Téma:    " . $data ["tema"] . "</h1> <br>";
-            
-            echo "<h4><b> Termín:   </b>" . date('j.n.Y',strtotime($data ["datum_od"])) . " - " . date('d.m.Y',strtotime($data ["datum_do"])) . "</h4>";
-            echo "<h4><b> Místo:   </b>" .  $data ["misto"] . "</h4><br>";
-            echo "<h5><b> Odjezdová místa:   </b>" .  $data ["odjezd"] . "</h5><br>";
-            echo "<h5>" . $popis . "</h5><br>";
-            echo "<h5><a href=Akce_info.php?akce_id=" . $data ["akce_id"] . ">PODROBNOSTI K AKCI</a> najdete zde.</h5><br>";
-            echo "<h5><a href=Prihlaska.php?akce_id=" . $data ["akce_id"] . ">PŘEDBĚŽNÁ PŘIHLÁŠKA</a> online k vyplnění zde.</h5>";
-            echo "</div> <br>";
-        }
-        }
-        
-    $conn->close();
-     ?>
-                  
- 
-
-
-
-
-
-               
+                
     
    
  <!-- Formulář jako modální okno -->
@@ -267,6 +280,15 @@ $result = $conn->query($sql);
 
 
 
+    <script>
+   function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+</script>
 
     <script>
         function openForm() {
