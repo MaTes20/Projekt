@@ -1,17 +1,42 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Načtení souborů
 require 'Database.php';
 require 'Functions.php';
-require_once 'vendor/autoload.php';
-require_once 'config.php';
 
-// Připojení k databázi
 $conn = connectToDatabase();
+
+// Kontrola, zda byl odeslán název akce
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
+    $nazevAkce = $conn->real_escape_string($_POST['akce']);
+
+    // Načtení detailů vybrané akce
+    $sql = "SELECT * FROM akce WHERE nazev = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $nazevAkce);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Zpracování výsledků
+    if ($result->num_rows > 0) {
+        $akce = $result->fetch_assoc();
+    } else {
+        echo "Akce nenalezena.";
+        exit;
+    }
+    $stmt->close();
+}else {
+    echo "Žádná akce nebyla vybrána.";
+    exit;
+     
+} 
+
+
+
+
+
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -34,81 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         echo $result; // Zobrazení chyby
     }
 }
-// authenticate code from Google OAuth Flow
-if (isset($_GET['code'])) {
-    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-    $client->setAccessToken($token['access_token']);
-
-    // get profile info
-    $google_oauth = new Google_Service_Oauth2($client);
-    $google_account_info = $google_oauth->userinfo->get();
-
-    $google_id = $google_account_info->id;
-    $email = $google_account_info->email;
-    $name = $google_account_info->name;
-    $profile_picture = $google_account_info->picture;
-
-    // Check if user exists in the database
-    $query = "SELECT * FROM google_login WHERE google_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $google_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        // User exists, fetch their username
-        $user = $result->fetch_assoc();
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['profile_picture'] = $user['profile_picture']; // Uložení obrázku do session
-
-    } else {
-        // User does not exist, insert new record
-        $insert_query = "INSERT INTO google_login (google_id, email, username, profile_picture) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param("ssss", $google_id, $email, $name, $profile_picture);
-        $stmt->execute();
-
-        // Set session username for the new user
-        $_SESSION['username'] = $name;
-        $_SESSION['profile_picture'] = $profile_picture; // Uložení obrázku do session
-
-    }
-    header("Location: Index.php");
-    exit();
-}
-$conn->set_charset("utf8mb4");
-
-// Kontrola, zda byl odeslán název akce
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
-    $nazevAkce = $conn->real_escape_string($_POST['akce']);
-
-    // Načtení detailů vybrané akce
-    $sql = "SELECT * FROM akce WHERE nazev = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $nazevAkce);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Zpracování výsledků
-    if ($result->num_rows > 0) {
-        $akce = $result->fetch_assoc();
-    } else {
-        echo "Akce nenalezena.";
-        exit;
-    }
-    $stmt->close();
-}else {
-    //echo "Žádná akce nebyla vybrána.";
-    //exit;
-    $akce_id = htmlspecialchars($_GET["akce_id"]);
-    $akce = mysqli_fetch_array($conn->query("SELECT * FROM akce WHERE akce_id = $akce_id"));
-     
-} 
-
-
-
-
-
 
 $conn->close();
 
@@ -127,6 +77,7 @@ $conn->close();
 <body>
       <!-- Hlavička s navigací -->
       <header>
+        <img src="/images/logoBAT.png">
         
         <nav>
             <ul>
@@ -141,16 +92,12 @@ $conn->close();
         </nav>
         <div class="account">
        
-        
- <!-- Profile section with hover effect -->
+        <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
-        <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
-                      ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default-profile.png' ?>" 
-             alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-        <span><?= htmlspecialchars($currentUsername) ?></span>
+        <span><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></span>
     </div>
+
     <!-- Dropdown menu for login/logout -->
     <div class="dropdown">
        
@@ -170,14 +117,6 @@ $conn->close();
 
 
     </header>
-
-
-    <div class="logo-container">
-    <div class="logo-background">
-        <img src="/images/logoBAT.png" alt="Logo BAT">
-    </div>
-</div>
-
 
     <div class="container">
     <!-- Zobrazení informací o vybrané akci -->
@@ -263,22 +202,8 @@ $conn->close();
 
 
 
-    <script>
-   function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
-</script>
 
     <script>
-         document.addEventListener('DOMContentLoaded', () => {
-    console.log("Fetching messages on page load...");
-    fetchMessages(); // Fetch messages as soon as the page loads
-    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
-});
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -333,66 +258,23 @@ window.addEventListener('scroll', function() {
 
 
 
-async function fetchMessages() {
-    console.log("Fetching messages...");
-    try {
-        const response = await fetch('chat_backend.php');
-        if (!response.ok) {
-            console.error('Error fetching messages:', response.statusText);
-            return;
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdownAkce = document.querySelector(".dropdown_akce");
+    const buttonAkce = document.querySelector(".dropdown_akce .dropdown-button");
+
+    // Toggle the dropdown menu on button click
+    buttonAkce.addEventListener("click", function () {
+        dropdownAkce.classList.toggle("active");
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener("click", function (e) {
+        if (!dropdownAkce.contains(e.target)) {
+            dropdownAkce.classList.remove("active");
         }
+    });
+});
 
-        const messages = await response.json();
-        const chatMessages = document.getElementById('chat-messages');
-        chatMessages.innerHTML = ''; // Clear existing messages
-
-        messages.reverse().forEach(msg => {
-            const messageDiv = document.createElement('div');
-            messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
-            chatMessages.appendChild(messageDiv);
-        });
-    } catch (error) {
-        console.error('Error processing messages:', error);
-    }
-}
-
-
-
-
-
-async function sendMessage() {
-    const message = document.getElementById('message').value;
-
-    if (!message) {
-        alert('Zpráva nemůže být prázdná.');
-        return;
-    }
-
-    try {
-        const response = await fetch('chat_backend.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ message: message })
-        });
-
-        const result = await response.json();
-        if (result.status === 'success') {
-            document.getElementById('message').value = ''; // Clear the input field
-            fetchMessages(); // Refresh the chat
-        } else {
-            alert('Chyba: ' + result.message);
-        }
-    } catch (error) {
-        console.error('Chyba při odesílání zprávy:', error);
-        alert('Zprávu se nepodařilo odeslat.');
-    }
-}
-
-
-function toggleChat() {
-    const chatContainer = document.getElementById('chat-container');
-    chatContainer.classList.toggle('open');
-}
 
 
     </script>

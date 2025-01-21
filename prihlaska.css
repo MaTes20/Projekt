@@ -57,6 +57,7 @@ form textarea {
 form input[type="checkbox"],
 form input[type="radio"] {
     margin-right: 10px;
+    margin-left: 15px;
 }
 
 /* Stylování tlačítka */
