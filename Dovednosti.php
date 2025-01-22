@@ -10,11 +10,19 @@ require 'Functions.php';
 require_once 'vendor/autoload.php';
 require_once 'config.php';
 
+
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
+
+if (!$conn) {
+        die('Chyba připojení k databázi.');
+    }
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+
 
 // Zpracování registrace
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
@@ -78,23 +86,44 @@ if (isset($_GET['code'])) {
 }
 
 
-$conn->close();
+
+
+
+
+//$conn->close();
+
+
+
+
+
+
 ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BezvaTábor - Dovednosti</title>
     <link rel="stylesheet" href="dovednosti.css">
 
-    <title>Document</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-      
+
+
     <!-- Hlavička s navigací -->
     <header>
+
         
         <nav>
             <ul>
@@ -108,20 +137,17 @@ $conn->close();
             
         </nav>
         <div class="account">
-           
+       
  <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
         <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
                       ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default-profile.png' ?>" 
+                      : 'images/default_profile.png' ?>" 
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
 
-
-
-    </div>
 
     <!-- Dropdown menu for login/logout -->
     <div class="dropdown">
@@ -139,6 +165,9 @@ $conn->close();
 </div>
 
     </div>
+    
+
+
 
 
     </header>
@@ -146,7 +175,7 @@ $conn->close();
 
     <div class="logo-container">
     <div class="logo-background">
-        <img src="/images/logoBAT.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -245,101 +274,74 @@ $conn->close();
 </section>
 
 
- <!-- Formulář jako modální okno -->
-    <div class="login-form-container" id="loginForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="login">
+ 
+ <!-- prihlasovaci formular -->
+ <div class="login-form-container" id="loginForm">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="login" value="true">
 
-            <h2>Přihlášení</h2>
-            
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="password">Heslo</label>
-            <div class="password-container">
+        <h2>Přihlášení</h2>
+        
+        <label for="username">Uživatelské jméno</label>
+        <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="password">Heslo</label>
+        <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
-            </div>
-
-            
-            <button type="submit">Přihlásit se</button>
-            <button type="button" onclick="closeForm()">Zavřít</button>
-            <p class="register-link">
-               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-               <p>Nebo se přihlaste pomocí Google:</p>
-               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-            </p>
-        </form>
-    </div>
-
-    <!-- Registrační formulář -->
-    <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="register">
-
-            <h2>Registrace</h2>
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
-            
-            <label for="password">Heslo</label>
-            <div class="new-password-container">
-                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
-            </div>
-            
-            <button type="submit">Registrovat se</button>
-            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
-            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
-
-
-            
+        </div>
+        
+        <button type="submit">Přihlásit se</button>
+        <button type="button" onclick="closeForm()">Zavřít</button>
+        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+        <p>Nebo se přihlaste pomocí Google:</p>
+        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
 
         </form>
-    </div>
+</div>
 
-
-
-    
-
-
-    <script>
-          document.addEventListener('DOMContentLoaded', () => {
-    console.log("Fetching messages on page load...");
-    fetchMessages(); // Fetch messages as soon as the page loads
-    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
-});
-      document.querySelectorAll('#sidebar a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const target = document.querySelector(this.getAttribute('href'));
-
-        // Získání pozice cílového prvku
-        const offset = target.getBoundingClientRect().top + window.scrollY;
-
-        // Posun o vlastní odsazení (např. kvůli fixnímu headeru)
-        const headerHeight = document.querySelector('header').offsetHeight || 0;
-
-        // Plynulé scrollování
-        window.scrollTo({
-            top: offset - headerHeight - 10, // Posun o header a malý odstup
-            behavior: 'smooth'
-        });
-    });
-});
-
-
-
-function onSignIn(googleUser) {
+<script>
+   function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+</script>
+
+    <!-- Registrační formulář -->
+    <div class="register-form-container" id="registerForm">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="register" value="true">
+
+        <h2>Registrace</h2>
+        <label for="new_username">Uživatelské jméno</label>
+        <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Zadejte email" required>
+        
+        <label for="new_password">Heslo</label>
+        <div class="new-password-container">
+            <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+        </div>
+        
+        <button type="submit">Registrovat se</button>
+        <button type="button" onclick="closeRegisterForm()">Zavřít</button>
+        <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+    </form>
+</div>
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    console.log("Fetching messages on page load...");
+    fetchMessages(); // Fetch messages as soon as the page loads
+    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
+});
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -390,7 +392,6 @@ window.addEventListener('scroll', function() {
         header.classList.remove('scrolled'); // Remove 'scrolled' class when at the top
     }
 });
-
 
 
 
@@ -465,5 +466,8 @@ function scrollToBottom() {
     </script>
 
 
+ 
+ 
+ 
 </body>
 </html>

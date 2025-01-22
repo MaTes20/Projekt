@@ -107,7 +107,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akce</title>
+    <title>BezvaTábor - Info o akcích</title>
     <link rel="stylesheet" href="akce.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
@@ -138,7 +138,7 @@ $result = $conn->query($sql);
     <div class="profile">
         <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
                       ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default-profile.png' ?>" 
+                      : 'images/default_profile.png' ?>" 
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
@@ -165,7 +165,7 @@ $result = $conn->query($sql);
 
     <div class="logo-container">
     <div class="logo-background">
-        <img src="/images/logoBAT.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 

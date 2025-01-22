@@ -12,9 +12,13 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
+
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+
 
 // Zpracování registrace
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
@@ -80,6 +84,9 @@ if (isset($_GET['code'])) {
 
 
 
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['text'])) {
     $text = $conn->real_escape_string($_POST['text']);
     $prezdivka = $_SESSION['username'] ?? 'Guest';
@@ -113,8 +120,10 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BezvaTábor</title>
+    <title>BezvaTábor - Vzkazovník</title>
     <link rel="stylesheet" href="vzkaz.css">
+    
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -149,7 +158,7 @@ $conn->close();
     <div class="profile">
         <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
                       ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default-profile.png' ?>" 
+                      : 'images/default_profile.png' ?>" 
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
@@ -171,13 +180,15 @@ $conn->close();
 </div>
 
     </div>
+   
+   
 
 
     </header>
 
     <div class="logo-container">
     <div class="logo-background">
-        <img src="/images/logoBAT.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -215,6 +226,7 @@ $conn->close();
         <?php
     
         $conn = connectToDatabase();
+        $conn->set_charset("utf8mb4");
 
         $query = "SELECT prezdivka, datum, text FROM vzkaz ORDER BY datum DESC";
         $result = $conn->query($query);
@@ -235,11 +247,6 @@ $conn->close();
     </div>
 </section>
 
-
-
-
-
-   
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
@@ -265,6 +272,15 @@ $conn->close();
         </form>
 </div>
 
+<script>
+   function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+</script>
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
@@ -299,14 +315,6 @@ $conn->close();
     fetchMessages(); // Fetch messages as soon as the page loads
     setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
 });
-
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -327,7 +335,6 @@ function onSignIn(googleUser) {
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -378,7 +385,7 @@ async function fetchMessages() {
             const messageDiv = document.createElement('div');
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
-        });¨
+        });
         chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
@@ -424,18 +431,14 @@ function toggleChat() {
 }
 
 
-
 function scrollToBottom() {
     const chatMessages = document.getElementById('chat-messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-
     </script>
 
 
 
-   
-   
 </body>
 </html>

@@ -12,9 +12,16 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
+
+if (!$conn) {
+        die('Chyba připojení k databázi.');
+    }
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+
 
 // Zpracování registrace
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
@@ -77,8 +84,12 @@ if (isset($_GET['code'])) {
     exit();
 }
 
+
+
 $conn->close();
 ?>
+
+
 
 
 
@@ -89,6 +100,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BezvaTábor</title>
     <link rel="stylesheet" href="index.css">
+    
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -123,7 +136,7 @@ $conn->close();
     <div class="profile">
         <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
                       ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default-profile.png' ?>" 
+                      : 'images/default_profile.png' ?>" 
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
@@ -158,15 +171,16 @@ $conn->close();
 
 
 
-    <div class="intro-section">
-    <h2 class="intro-title">Vítejte na stránkách bezva tábora!</h2>
-    <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
-    <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
-</div>
 
 
 
-    <button id="chat-toggle" onclick="toggleChat()">Chat</button>
+
+
+
+
+
+
+<button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
     <div id="chat-messages"></div>
     <div id="chat-input-container">
@@ -175,19 +189,15 @@ $conn->close();
     </div>
 </div>
 
-      
-   
 
-    <br></br>
-    <div class="section aktuality">
-    <h2 class="section-title">Aktuality</h2>
-    <p class="section-content">
-        Ahoj táborníci,<br><br>
-        tábor BAT 2025 pro vás připravujeme, v nejbližší době se zde vše dozvíte.<br><br>
-        Termín tábora je od <strong>2.7. do 26.7.2025</strong>.<br><br>
-        Těšíme se na vás, váš BAT.
-    </p>
-</div>
+
+
+
+
+
+
+
+
 
 
 
@@ -278,7 +288,6 @@ $conn->close();
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -330,6 +339,7 @@ async function fetchMessages() {
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
         });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -374,6 +384,11 @@ function toggleChat() {
 }
 
 
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
     </script>
 
 
@@ -382,3 +397,9 @@ function toggleChat() {
    
 </body>
 </html>
+
+
+
+
+
+

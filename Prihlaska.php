@@ -189,7 +189,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="prihlaska.css">
 
-    <title>prihlaska</title>
+    <title>BezvaTábor - Přihláška</title>
 </head>
 <body>
     
@@ -216,7 +216,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <div class="profile">
         <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
                       ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default-profile.png' ?>" 
+                      : 'images/default_profile.png' ?>" 
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
@@ -244,7 +244,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     
     <div class="logo-container">
     <div class="logo-background">
-        <img src="/images/logoBAT.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
