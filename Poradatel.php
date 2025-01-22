@@ -259,6 +259,14 @@ $conn->close();
 
 
      <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log("Fetching messages on page load...");
+    fetchMessages(); // Fetch messages as soon as the page loads
+    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
+});
+
+
+
    function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -327,6 +335,8 @@ document.getElementById('toggleNewPassword').addEventListener('click', function 
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
         });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -369,6 +379,14 @@ function toggleChat() {
     const chatContainer = document.getElementById('chat-container');
     chatContainer.classList.toggle('open');
 }
+
+
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+
 
     </script>
 </body>

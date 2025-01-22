@@ -12,9 +12,16 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
+
+if (!$conn) {
+        die('Chyba připojení k databázi.');
+    }
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+
 
 // Zpracování registrace
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
@@ -77,7 +84,12 @@ if (isset($_GET['code'])) {
     exit();
 }
 
-$conn->close();
+
+
+
+
+
+//$conn->close();
 ?>
 
 
@@ -178,16 +190,49 @@ $conn->close();
       
    
 
-    <br></br>
-    <div class="section aktuality">
-    <h2 class="section-title">Aktuality</h2>
-    <p class="section-content">
-        Ahoj táborníci,<br><br>
-        tábor BAT 2025 pro vás připravujeme, v nejbližší době se zde vše dozvíte.<br><br>
-        Termín tábora je od <strong>2.7. do 26.7.2025</strong>.<br><br>
-        Těšíme se na vás, váš BAT.
-    </p>
-</div>
+  
+
+
+
+<!-- Výpis aktualit -->
+
+     
+  <?php
+    
+    
+        $db = $conn->query("SELECT * FROM aktualita WHERE datum >= DATE_SUB(NOW(), INTERVAL 100 DAY);");
+        $pocet_akci = $db->num_rows;
+        
+    
+    if (mysqli_num_rows($db) == 0) {
+    
+        //echo '<div class="container">';
+        echo '<div class="section aktuality">';
+        echo '<h6 class="section-content"> V současné době není vypsaná žádná aktualita. </h6>'; 
+        echo "</div>";
+    }
+    else {
+        
+        while($data = mysqli_fetch_array($db)) {
+        
+            
+            echo '<div class="container">';
+            echo '<div class="section aktuality">';
+            echo "<h2 class='section-title'>" . $data ["nadpis"] ."</h2>";
+            echo "<p class='section-content'> " . $data ["text"] . "</p> <br>";
+            
+            echo "</div> ";
+            echo "</div> ";
+            
+        }
+        }
+        
+    $conn->close();
+     ?>
+             
+
+
+
 
 
 
@@ -278,7 +323,6 @@ $conn->close();
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -330,6 +374,7 @@ async function fetchMessages() {
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
         });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -373,6 +418,11 @@ function toggleChat() {
     chatContainer.classList.toggle('open');
 }
 
+
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
     </script>
 

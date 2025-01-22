@@ -209,10 +209,10 @@ $conn->close();
     <div id="caption"></div>
 </div>
 
-    <div class="footer">
+    <footer>
     <p>&copy; 2024 BezvaTábor</p>
 
-   
+    </footer>
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
@@ -321,7 +321,6 @@ function closeModal() {
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -373,6 +372,7 @@ async function fetchMessages() {
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
         });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -416,6 +416,11 @@ function toggleChat() {
     chatContainer.classList.toggle('open');
 }
 
+
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
 
 

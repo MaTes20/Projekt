@@ -299,7 +299,6 @@ $conn->close();
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {

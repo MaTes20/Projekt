@@ -3,28 +3,124 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require 'Database.php';
     require 'Functions.php';
     require_once 'vendor/autoload.php';
     require_once 'config.php';
     
-
-
-// vyčtení čísla akce z řádku
-$akce_fk = htmlspecialchars($_GET["akce_id"]);
-//echo $akce_fk . ";";
     
     // Připojení k databázi
 $conn = connectToDatabase();
-$conn->set_charset("utf8mb4");
-
-    if (!$conn) {
-        die('Chyba připojení k databázi.');
-    }
 
 
+    
+    
+    
+    
+    
 
+    
+    function vrat_pocet_deti_akce($akce_fk) {
+        
+        
+        //$akce = vrat_akci($_GET["akce_id"]);    
+        //$vysledek = $conn->getRow("SELECT COUNT(*) AS pocetdetiakce FROM deti WHERE akce_id = $akce->akce_id ", array(),
+        //  DB_FETCHMODE_OBJECT);
+        //return $vysledek->pocetdetiakce;
+        //$akce_id = 1;
+        global $conn; 
+        $pocet = $conn->query("SELECT akce_fk FROM deti WHERE akce_fk = $akce_fk");
+        $pocet_deti = $pocet->num_rows;
+        //echo $pocet_deti;
+        //echo "</br>";
+        return $pocet_deti;
+        
+      }
+
+    function vrat_pocet_deti() {
+        global $conn; 
+        $pocet = $conn->query("SELECT dite_id FROM deti");
+        $pocet_deti = $pocet->num_rows;
+        //echo $pocet_deti;
+        //echo "</br>";
+        return $pocet_deti;
+      }
+      
+      
+    //function vrat_akci($id) {
+        
+      //  global $conn;
+        //$vysledek = $conn->getRow("SELECT UNIX_TIMESTAMP(datum_uzaverky) AS datum_uzaverky, DATE_FORMAT(datum_od,'%e.%c.%Y %k:%i') AS datum_od,DATE_FORMAT(datum_do,'%e.%c.%Y %k:%i') AS datum_do, UNIX_TIMESTAMP(datum_od) AS datum_od_unix, UNIX_TIMESTAMP(datum_do) AS datum_do_unix, akce_id,popis,nazev,misto,tema,odjezd,prijezd,cosebou,dalsi_info FROM akce WHERE akce_id=$id", array(), DB_FETCHMODE_OBJECT);
+        
+       // echo $vysledek;
+       // echo "</br>";
+        //return $vysledek;
+      //}
+    
+
+     // $akce = vrat_akci($_GET["akce_id"]);
+     // $nazev = $akce->nazev;
+     // $akce_fk = $akce->akce_fk;
+
+    
+    //$result = $conn->query("SELECT dite_id FROM deti");
+    //$pocetdeti = $result->num_rows;
+ 
+    $akce_fk = 2;
+      
+    $pocetdeti = vrat_pocet_deti();
+    $dite_id = $pocetdeti + 1;
+
+    $pocetdetiakce = vrat_pocet_deti_akce($akce_fk);
+    $diteakce_id = $pocetdetiakce + 1;
+
+    //$akce_fk = 2;
+    $nazev = "BAT";
+    //$diteakce_id = 1;
+
+
+    $prihlaska = $conn->prepare("INSERT INTO deti (dite_id, akce_fk, nazev, diteakce_id, jmeno, prijmeni, adresa, narozeni, rodic1, telefonrod1, rodic2, telefonrod2, email, plavec, doprava, platba, vernostni, sourozenec, kamarad, kamaradjmeno, zdravi, poznamka) 
+    VALUES ('$dite_id', '$akce_fk', '$nazev', '$diteakce_id', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+
+
+
+
+
+    $data = [
+      $jmeno =  $_POST['jmeno'],
+      $prijmeni= $_POST['prijmeni'],
+      $adresa = $_POST["ulice"].", ".$_POST["mesto"].", ".$_POST["psc"],
+      $narozeni = $_POST['narozeni'],
+      $rodic1 = $_POST["jmenorod1"]." ".$_POST["prijmenirod1"],
+      $telefonrod1 = $_POST['telefonrod1'],
+      $rodic2 = $_POST["jmenorod2"]." ".$_POST["prijmenirod2"],
+      $telefonrod2 = $_POST['telefonrod2'],
+      $email = $_POST['email'],
+      $plavec = $_POST['plavec'],
+      $doprava = $_POST['doprava'],
+      $platba = $_POST['platba'],
+      $vernostni = isset($_POST['vernostni']) ? 'ANO' : 'NE',
+      $sourozenec = isset($_POST['sourozenec']) ? 'ANO' : 'NE',
+      $kamarad = isset($_POST['kamarad']) ? 'ANO' : 'NE',
+      $kamaradjmeno = $_POST['kamaradjmeno'],
+      $zdravi = $_POST['zdravi'],
+      $poznamka = $_POST['poznamka']
+    ];
+   // $stmt->bind_param("iisissssssssssssssssss", $dite_id, $akce_fk, $nazev, $diteakce_id, $jmeno, $prijmeni, $adresa, $narozeni, $rodic1, $telefonrod1, $rodic2, $telefonrod2, $email, $plavec, $doprava, $platba, $vernostni, $sourozenec, $kamarad, $kamaradjmeno, $zdravi, $poznamka);
+    
+    //echo $dite_id, $akce_fk, $nazev, $diteakce_id, $jmeno, $prijmeni, $adresa, $narozeni, $rodic1, $telefonrod1, $rodic2, $telefonrod2, $email, $plavec, $doprava, $platba, $vernostni, $sourozenec, $kamarad, $kamaradjmeno, $zdravi, $poznamka;
+
+$prihlaska->execute($data);
+
+   
+
+
+
+    
+    $conn->close();
+}
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -89,95 +185,6 @@ if (isset($_GET['code'])) {
     header("Location: Index.php");
     exit();
 }
-
-
-
-
-    
-    
-function vrat_pocet_deti_akce($akce_fk) {
-        global $conn; 
-        $pocet = $conn->query("SELECT akce_fk FROM deti WHERE akce_fk = $akce_fk");
-        $pocet_deti = $pocet->num_rows;
-        //echo $pocet_deti . ";";
-        return $pocet_deti;
-        
-      }
-
-    function vrat_pocet_deti() {
-        global $conn; 
-        $pocet = $conn->query("SELECT dite_id FROM deti");
-        $pocet_deti = $pocet->num_rows;
-        //echo $pocet_deti . ";";
-        return $pocet_deti;
-      }    
-    
-    
-    $akce = mysqli_fetch_array($conn->query("SELECT akce_id, nazev, tema FROM akce WHERE akce_id = $akce_fk"));
-    $nazev = $akce['nazev'];
-    $tema = $akce['tema'];
-    //echo $nazev . ";";
-    //echo $tema . ";";   
-   
-          
-    $pocetdeti = vrat_pocet_deti();
-    $dite_id = $pocetdeti + 1;
-
-    $pocetdetiakce = vrat_pocet_deti_akce($akce_fk);
-    $diteakce_id = $pocetdetiakce + 1;
-
-     
-      
-   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
-    $prihlaska = $conn->prepare("INSERT INTO deti (dite_id, akce_fk, nazev, diteakce_id, jmeno, prijmeni, adresa, narozeni, rodic1, telefonrod1, rodic2, telefonrod2, email, plavec, doprava, platba, vernostni, sourozenec, kamarad, kamaradjmeno, zdravi, poznamka) 
-    VALUES ('$dite_id', '$akce_fk', '$nazev', '$diteakce_id', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-
-    if(empty($_POST['platba'])) 
-        { $_POST['platba']="";}
-
-
-
-    $data = [
-      $jmeno =  $_POST['jmeno'],
-      $prijmeni= $_POST['prijmeni'],
-      $adresa = $_POST["ulice"].", ".$_POST["mesto"].", ".$_POST["psc"],
-      $narozeni = $_POST['narozeni'],
-      $rodic1 = $_POST["jmenorod1"]." ".$_POST["prijmenirod1"],
-      $telefonrod1 = $_POST['telefonrod1'],
-      $rodic2 = $_POST["jmenorod2"]." ".$_POST["prijmenirod2"],
-      $telefonrod2 = $_POST['telefonrod2'],
-      $email = $_POST['email'],
-      $plavec = $_POST['plavec'],
-      $doprava = $_POST['doprava'],
-      $platba = $_POST['platba'],
-      $vernostni = isset($_POST['vernostni']) ? 'ANO' : 'NE',
-      $sourozenec = isset($_POST['sourozenec']) ? 'ANO' : 'NE',
-      $kamarad = isset($_POST['kamarad']) ? 'ANO' : 'NE',
-      $kamaradjmeno = $_POST['kamaradjmeno'],
-      $zdravi = $_POST['zdravi'],
-      $poznamka = $_POST['poznamka']
-    ];
-   
-
-    if ($_POST['pirat'] == "želva" )
-    {
-        $prihlaska->execute($data);
-    }
-    
-    
-
-    header("Location: Prihlaska_poslana.php"); // Přesměrování na aktuální stránku
-    exit();
-
-    
-    $conn->close();
-}
-
-
-
 ?>
 
 
@@ -240,8 +247,6 @@ function vrat_pocet_deti_akce($akce_fk) {
 
 
     </header>
-    
-    
     <div class="logo-container">
     <div class="logo-background">
         <img src="/images/logoBAT.png" alt="Logo BAT">
@@ -266,14 +271,10 @@ function vrat_pocet_deti_akce($akce_fk) {
   </style>
   
   
-  
-  
-  
 
 
   <div class="title-section">
-  <h1 class="title">Přihláška na <?php echo $nazev; ?></h1><br>
-  <h2> " <?php echo $tema; ?> "</h2><br><br>
+  <h1 class="title">Přihláška</h1><br>
   <div class="vycentrovany-obsah">
     <p><b>
 	  Zde se můžeš na chystanou akci přihlásit.
@@ -284,7 +285,10 @@ function vrat_pocet_deti_akce($akce_fk) {
 </div>
 
 
-<form name="prihlaska" id="prihlaska" method="POST" onsubmit="handleFormSubmit(event)" action="Prihlaska.php?akce_id=<?php echo $akce_fk; ?>" >
+<form name="prihlaska"  id="prihlaska" method="POST"  action="Prihlaska.php">
+  
+ 
+
 
     <p><i>Pole označené <b style="color: red; font-size: 20px;">*</b> jsou povinné. Bez jejich vyplnění nelze přihlášku odeslat.</i></p>
     <hr>
@@ -309,21 +313,18 @@ function vrat_pocet_deti_akce($akce_fk) {
     <br><br>
 
     <hr>
-    <br>
+
     <!-- Sekce rodiče -->
     <p><b style="color: red;">Další část přihlášky nech vyplnit rodiče.</b></p>
-    <br>
-   
+
     <!-- Spojení na rodiče -->
-    <label><b>Spojení na rodiče / zákonné zástupce:</b></label><br>
+    <label><b>Spojení na rodiče / zákonného zástupce:</b></label><br>
     <label>Jméno a kontaktní telefon: <b style="color: red; font-size: 20px;">*</b></label><br>
     <input type="text" id="jmenorod1" name="jmenorod1" placeholder="Jméno" maxlength="20" required>
     <input type="text" id="prijmenirod1" name="prijmenirod1" placeholder="Příjmení" maxlength="25" required>
     <input type="text" inputmode="numeric" id="telefonrod1" name="telefonrod1" placeholder="Telefon" pattern="\d*" maxlength="9" min="100000000" max="999999999" required>
     <br><small>Telefon vyplňujte bez předvolby (+420) a bez mezer.</small>
-    <br><br><br>
-    <p><a style="color: grey;">Doporučujeme vyplnit i druhý kontakt, z důvodu případné nedostupnosti prvního kontaktu.</a></p>
-    
+    <br><br>
     <label>Jméno a kontaktní telefon:</label><br>
     <input type="text" id="jmenorod2" name="jmenorod2" placeholder="Jméno" maxlength="20">
     <input type="text" id="prijmenirod2" name="prijmenirod2" placeholder="Příjmení" maxlength="25">
@@ -341,14 +342,14 @@ function vrat_pocet_deti_akce($akce_fk) {
     <label><b>Můj syn / Má dcera je:</b> <b style="color: red; font-size: 20px;">*</b></label><br>
     <input type="radio" id="plavec" name="plavec" value="PLAVEC" required> Plavec
     <input type="radio" id="neplavec" name="plavec" value="NEPLAVEC" required> Neplavec
-    <br><br><br>
+    <br><br>
 
     <!-- Místo odjezdu -->
     <label><b>Pojede z odjezdového místa:</b> <b style="color: red; font-size: 20px;">*</b></label><br>
     <input type="radio" name="doprava" value="Ústí n.L." required> Ústí nad Labem
     <input type="radio" name="doprava" value="Praha" required> Praha
     <input type="radio" name="doprava" value="Votice" required> Votice
-    <br><br><br>
+    <br><br>
 
     <!-- Platba -->
     <label><b>Platit budeme:</b></label><br>
@@ -356,10 +357,6 @@ function vrat_pocet_deti_akce($akce_fk) {
     <input type="radio" name="platba" value="Fakturou"> Fakturou
     <small>(Pro zaměstnavatele k využití příspěvku FKSP.)</small>
     <br><br>
-
-    <small><i>   - Po dohodě s námi lze platbu za tábor rozdělit i na více plateb.</small><br>
-    <small>   - Podrobnosti k vytvoření faktury si domluvíme emailem.</small></i>
-    <br><br><br>
 
     <!-- Zdravotní potíže -->
     <label for="zdravi"><b>Zdravotní potíže / omezení:</b></label><br>
@@ -375,16 +372,15 @@ function vrat_pocet_deti_akce($akce_fk) {
     <label><b>Žádám o slevu:</b></label><br>
     <input type="checkbox" name="vernostni" value="ANO"> Věrnostní
     <input type="checkbox" name="sourozenec" value="ANO"> Sourozenec
-    <input type="checkbox" name="kamarad" value="ANO"> Kamarád <br><br>
-    <input type="text" name="kamaradjmeno" placeholder="Při slevě Kamarád vyplňte jméno kamaráda/ky" maxlength="30">
-    <br><a href="sleva.php" target="_blank">Informace ke slevám</a>
-    <br><br><br>
+    <input type="checkbox" name="kamarad" value="ANO"> Kamarád
+    <input type="text" name="kamaradjmeno" placeholder="Jméno kamaráda/ky" maxlength="30">
+    <br><small><a href="sleva.php" target="_blank">Informace ke slevám</a></small>
+    <br><br>
 
     <!-- Souhlas -->
-    <label><b>Potvrzení údajů:</b><b style="color: red; font-size: 20px;">*</b></label><br>
-    <input type="checkbox" name="podminky" value="ANO" required> Prohlašuji, že jsem řádně a pravdivě vyplnil(a) veškeré údaje.<br><br>
-    <input type="checkbox" name="souhlas" value="ANO" required> Seznámil(a) jsem se s <a href="Podminky.php" target="_self">informacemi pro rodiče</a>.
-    <br><br><br>
+    <input type="checkbox" name="podminky" value="ANO" required>
+    <b style="color: red; font-size: 20px;">*</b> <span style="color: red;">Prohlašuji, že jsem vyplnil(a) veškeré údaje pravdivě a seznámil(a) se s <a href="podminky.php" target="_blank">informacemi pro rodiče</a>.</span>
+    <br><br>
 
     <!-- Antispam -->
     <label for="pirat"><b>Ochrana proti SPAM robotům:</b></label><br>
@@ -394,19 +390,6 @@ function vrat_pocet_deti_akce($akce_fk) {
     <!-- Odeslat -->
     <input type="submit" name="poslat" value="Odeslat přihlášku">
 </form>
- 
-
-
-<!-- Loading screen -->
-<div id="loadingScreen" class="loading-screen">
-    <div class="loading-content">
-        <div class="spinner"></div>
-        <p>Odesílání přihlášky...</p>
-    </div>
-</div>
- 
- 
- 
  
  
  <!-- Registrační formulář -->
@@ -426,7 +409,7 @@ function vrat_pocet_deti_akce($akce_fk) {
                 <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
                 <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
             </div>
-  
+            
             <button type="submit">Registrovat se</button>
             <button type="button" onclick="closeRegisterForm()">Zavřít</button>
             <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
@@ -463,55 +446,23 @@ function vrat_pocet_deti_akce($akce_fk) {
 </div>
 
 
-
     <script>
-
-         document.addEventListener('DOMContentLoaded', () => {
-    console.log("Fetching messages on page load...");
-    fetchMessages(); // Fetch messages as soon as the page loads
-    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
-});
-
-
-
-function handleFormSubmit(event) {
-    event.preventDefault(); // Prevent immediate form submission
-    const isValid = kontrola(); // Validate the form using kontrola()
-    
-    if (!isValid) return; // Stop if validation fails
-    
-    // Show loading screen
-    showLoadingScreen();
-
-    // Submit the form after the delay
-    setTimeout(() => {
-        document.getElementById('prihlaska').submit();
-    }, 2000);
-}
-
-
-
-function onSignIn(googleUser) {
+   function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+</script>
 
-function showLoadingScreen() {
-    document.getElementById('loadingScreen').style.display = 'flex'; // Show the loading screen
-}
-    function kontrola() {
-	           
-               if (document.prihlaska.pirat.value != 'želva')  {
-                 alert('Špatné Heslo!');
-                 return false;
-               }
-               return true;
-               
-             }
 
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+    console.log("Fetching messages on page load...");
+    fetchMessages(); // Fetch messages as soon as the page loads
+    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
+});
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -532,7 +483,7 @@ function showLoadingScreen() {
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            
+            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {

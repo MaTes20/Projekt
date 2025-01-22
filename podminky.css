@@ -30,13 +30,10 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('/images/chaticky.jpg') center center / cover no-repeat;
+    background: url('/images/2022_foto.jpg') center center / cover no-repeat;
     opacity: 0.2;
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
-
-
-
 
 
 #chat-container {
@@ -59,7 +56,6 @@ body::before {
     height: 400px;
     overflow-y: auto; /* Enables vertical scrolling */
     padding: 10px;
-    color: #333;
     background-color: #fff;
     border-bottom: 1px solid #ccc; /* Divider between chat and input */
 }
@@ -205,7 +201,6 @@ header.scrolled {
 }
 
 
-
 /* Kontejner loga */
 .logo-container {
     position: absolute;
@@ -289,7 +284,7 @@ header.scrolled {
 }
 
 .profile:hover {
-    background-color: #6b6b6b;
+    background-color: #e0e0e0;
 }
 
 .dropdown-content {
@@ -324,150 +319,38 @@ header.scrolled {
 
 
 
-#sidebar {
-    position: fixed;
-    top: 150px;
-    left: 20px;
-    width: 200px;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+
+.container-info {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #333333d8;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    line-height: 1.8;
 }
 
-#sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-#sidebar ul li {
-    margin-bottom: 10px;
-}
-
-#sidebar ul li a {
-    text-decoration: none;
-    color: #000000;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-#sidebar ul li a:hover {
-    color: #585858;
-}
-
-
-/* Section styling */
-.skills-section {
-    max-width: 1000px;
-    margin: 60px auto;
-    padding: 20px;
-    font-family: 'Poppins', sans-serif;
+.main-title {
+    font-size: 40px;
+    color: #fbff00; /* Bright yellow */
     text-align: center;
-    color: #ffffff;
+    margin-bottom: 30px;
 }
 
-/* Section title and subtitle */
-.section-title {
-    font-size: 36px;
-    margin-bottom: 10px;
-    color: #f5f5f5;
-    text-transform: uppercase;
-}
-
-.section-subtitle {
+.info-section p {
     font-size: 18px;
-    margin-bottom: 40px;
-    color: #dddddd;
-    font-style: italic;
-}
-
-/* Skill container */
-.skill-container {
-    margin-bottom: 50px;
-}
-
-/* Skill title */
-.skill-title {
-    font-size: 28px;
     margin-bottom: 20px;
     color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-align: justify;
 }
 
-/* Skill row for images */
-.skill-row {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Obrázky se zalomí na další řádek při malé šířce obrazovky */
+.info-section p:first-child {
+    margin-top: 0;
 }
 
-/* Image styling */
-.skill-image {
-    width: 100%;
-    max-width: 300px; /* Maximální šířka obrázku */
-    height: auto; /* Zachování poměru stran */
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Jemný stín pro moderní vzhled */
-    transition: transform 0.2s ease; /* Jemná animace zvětšení při kliknutí */
+.info-section p:last-child {
+    margin-bottom: 0;
 }
-
-.skill-image:active {
-    transform: scale(1.05); /* Zvýraznění při kliknutí */
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .skill-title {
-        font-size: 24px;
-    }
-    .section-title {
-        font-size: 28px;
-    }
-    .skill-image {
-        max-width: 200px; /* Menší obrázky na mobilu */
-    }
-}
-
-
-.large-image {
-    width: 100%; /* Zajistí, že obrázek zabere celou šířku dostupného kontejneru */
-    max-width: 500px; /* Maximální šířka obrázku */
-    height: auto; /* Zachování poměru stran */
-    margin: 10px auto; /* Vertikální mezera a zarovnání na střed */
-    display: block;
-    border-radius: 12px;
-
-}
-
-.knot {
-    margin-bottom: 15px;
-}
-
-.knot-title {
-    font-size: 25px;
-    color: #fffb00;
-    margin-bottom: 5px;
-}
-
-.knot-description {
-    font-size: 20px;
-    color: #ffffff;
-}
-
-.knot-image {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 10px;
-    border-radius: 12px;
-}
-
-
 
 
 

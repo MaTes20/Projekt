@@ -265,15 +265,6 @@ $conn->close();
         </form>
 </div>
 
-<script>
-   function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
-</script>
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
@@ -308,6 +299,14 @@ $conn->close();
     fetchMessages(); // Fetch messages as soon as the page loads
     setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
 });
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -379,7 +378,8 @@ async function fetchMessages() {
             const messageDiv = document.createElement('div');
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
-        });
+        });¨
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -421,6 +421,13 @@ async function sendMessage() {
 function toggleChat() {
     const chatContainer = document.getElementById('chat-container');
     chatContainer.classList.toggle('open');
+}
+
+
+
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 

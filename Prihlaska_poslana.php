@@ -12,15 +12,6 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
-$conn->set_charset("utf8mb4");
-
-if (!$conn) {
-        die('Chyba připojení k databázi.');
-    }
-
- 
-
-
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -43,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         echo $result; // Zobrazení chyby
     }
 }
-
 // authenticate code from Google OAuth Flow
 if (isset($_GET['code'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -87,18 +77,8 @@ if (isset($_GET['code'])) {
     exit();
 }
 
-
-
-
-// Získání dat z tabulky akce
-$sql = "SELECT nazev FROM akce ORDER BY datum_uzaverky DESC";
-$result = $conn->query($sql);
-
-
-
-//$conn->close();
+$conn->close();
 ?>
-
 
 
 
@@ -107,17 +87,23 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akce</title>
-    <link rel="stylesheet" href="akce.css">
+    <title>BezvaTábor</title>
+    <link rel="stylesheet" href="prihlaska_poslana.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
-    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-   
+
     <!-- Hlavička s navigací -->
     <header>
+
         
         <nav>
             <ul>
@@ -132,7 +118,6 @@ $result = $conn->query($sql);
         </nav>
         <div class="account">
        
-              
  <!-- Profile section with hover effect -->
 <div class="profile-dropdown">
     <div class="profile">
@@ -142,6 +127,8 @@ $result = $conn->query($sql);
              alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
+
+
     <!-- Dropdown menu for login/logout -->
     <div class="dropdown">
        
@@ -162,100 +149,29 @@ $result = $conn->query($sql);
 
     </header>
 
-
     <div class="logo-container">
     <div class="logo-background">
         <img src="/images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
-    <div class="centered-content">
-    <h6 class="section-title">Již pořádané akce</h6>
-    <p class="section-description">
-        Hledáš fotografie z letního tábora? Nebo si jen chceš připomenout, jaké celotáborové hry se minulý, 
-        nebo předminulý rok hrály? Právě tady najdeš všechny informace, včetně fotografií. Stačí si jen 
-        vybrat, který tábor tě zajímá.
-    </p>
 
-    <h6 class="section-subtitle">Vyber si akci ze seznamu, o které chceš vědět více.</h6>
-
-    <form action="Akce_info.php" method="POST" class="dropdown_akce_form">
-        <div class="dropdown_akce">
-            <select name="akce" class="dropdown-select" required>
-                <option value="" disabled selected>Vyber akci</option>
-                <?php
-                // Vykreslení možností dropdownu z databáze
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . htmlspecialchars($row['nazev']) . "'>" . htmlspecialchars($row['nazev']) . "</option>";
-                    }
-                } else {
-                    echo "<option value='' disabled>Není dostupná žádná akce</option>";
-                }
-                ?>
-            </select>
-        </div>
-        <button  a href="Akce_info.php" type="submit" class="submit-button">Potvrdit</button>
-    </form>
-</div>
-
-
-
-<div class="centered-content">
-    <h6 class="section-title">Plánované akce</h6>
-</div>
-
-
-
-<!-- Výpis připravované akce -->
-
-     
-  <?php
-    
-    
-        $db = $conn->query("SELECT * FROM akce WHERE datum_uzaverky > NOW()");
-        $pocet_akci = $db->num_rows;
-        
-    
-    if (mysqli_num_rows($db) == 0) {
-    
-        //echo '<div class="container">';
-        echo '<div class="centered-content">';
-        echo '<h6 class="section-subtitle"> V současné době není vypsaná žádná akce. </h6>'; 
-        echo "</div>";
-    }
-    else {
-        
-        while($data = mysqli_fetch_array($db)) {
-        
-            $akce_id = $data ["akce_id"];
-            $popis = substr($data ["popis"], 0, strpos($data ["popis"], "<p>")+3);
-            
-            echo '<div class="container">';
-            //echo "<h1>Informace " . $nazev . "</h1> <br>";
-            
-            echo "<h1>" . $data ["nazev"] ."</h1>";
-            echo "<h1> Téma:    " . $data ["tema"] . "</h1> <br>";
-            
-            echo "<h4><b> Termín:   </b>" . date('j.n.Y',strtotime($data ["datum_od"])) . " - " . date('d.m.Y',strtotime($data ["datum_do"])) . "</h4>";
-            echo "<h4><b> Místo:   </b>" .  $data ["misto"] . "</h4><br>";
-            echo "<h5><b> Odjezdová místa:   </b>" .  $data ["odjezd"] . "</h5><br>";
-            echo "<h5>" . $popis . "</h5><br>";
-            echo "<h5><a href=Akce_info.php?akce_id=" . $data ["akce_id"] . ">PODROBNOSTI K AKCI</a> najdete zde.</h5><br>";
-            echo "<h5><a href=Prihlaska.php?akce_id=" . $data ["akce_id"] . ">PŘEDBĚŽNÁ PŘIHLÁŠKA</a> online k vyplnění zde.</h5>";
-            echo "</div> <br>";
-        }
-        }
-        
-    $conn->close();
-     ?>
-                  
- 
+<section class="confirmation-section">
+    <div class="confirmation-container">
+        <h2 class="confirmation-title">Přihláška odeslána</h2>
+        <p class="confirmation-text">
+            Tvoje přihláška byla odeslána a po jejím zpracování tě budeme informovat emailem, jak máš dále postupovat.
+        </p>
+        <p class="confirmation-text">
+            Na tebou uvedený email byla zaslána kopie přihlášky.
+        </p>
+    </div>
+</section>
 
 
 
 
-                  <button id="chat-toggle" onclick="toggleChat()">Chat</button>
+    <button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
     <div id="chat-messages"></div>
     <div id="chat-input-container">
@@ -264,83 +180,78 @@ $result = $conn->query($sql);
     </div>
 </div>
 
-
-               
-    
+      
    
- <!-- Formulář jako modální okno -->
-    <div class="login-form-container" id="loginForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="login">
 
-            <h2>Přihlášení</h2>
-            
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="password">Heslo</label>
-            <div class="password-container">
+
+
+ <!-- prihlasovaci formular -->
+ <div class="login-form-container" id="loginForm">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="login" value="true">
+
+        <h2>Přihlášení</h2>
+        
+        <label for="username">Uživatelské jméno</label>
+        <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="password">Heslo</label>
+        <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
-            </div>
-
-            
-            <button type="submit">Přihlásit se</button>
-            <button type="button" onclick="closeForm()">Zavřít</button>
-            <p class="register-link">
-               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-               <p>Nebo se přihlaste pomocí Google:</p>
-               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-            </p>
-        </form>
-    </div>
-
-    <!-- Registrační formulář -->
-    <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="register">
-
-            <h2>Registrace</h2>
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
-            
-            <label for="password">Heslo</label>
-            <div class="new-password-container">
-                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
-            </div>
-            
-            <button type="submit">Registrovat se</button>
-            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
-            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
-
-
-            
+        </div>
+        
+        <button type="submit">Přihlásit se</button>
+        <button type="button" onclick="closeForm()">Zavřít</button>
+        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+        <p>Nebo se přihlaste pomocí Google:</p>
+        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
 
         </form>
-    </div>
+</div>
 
-
-
-
-    <script>
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("Fetching messages on page load...");
-    fetchMessages(); // Fetch messages as soon as the page loads
-    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
-});
- function onSignIn(googleUser) {
+<script>
+   function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+</script>
 
+    <!-- Registrační formulář -->
+    <div class="register-form-container" id="registerForm">
+    <form action="Index.php" method="POST">
+        <input type="hidden" name="register" value="true">
+
+        <h2>Registrace</h2>
+        <label for="new_username">Uživatelské jméno</label>
+        <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Zadejte email" required>
+        
+        <label for="new_password">Heslo</label>
+        <div class="new-password-container">
+            <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+        </div>
+        
+        <button type="submit">Registrovat se</button>
+        <button type="button" onclick="closeRegisterForm()">Zavřít</button>
+        <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+    </form>
+</div>
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    console.log("Fetching messages on page load...");
+    fetchMessages(); // Fetch messages as soon as the page loads
+    setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
+});
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -361,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
+            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -394,25 +306,6 @@ window.addEventListener('scroll', function() {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const dropdownAkce = document.querySelector(".dropdown_akce");
-    const buttonAkce = document.querySelector(".dropdown_akce .dropdown-button");
-
-    // Toggle the dropdown menu on button click
-    buttonAkce.addEventListener("click", function () {
-        dropdownAkce.classList.toggle("active");
-    });
-
-    // Close dropdown if clicked outside
-    document.addEventListener("click", function (e) {
-        if (!dropdownAkce.contains(e.target)) {
-            dropdownAkce.classList.remove("active");
-        }
-    });
-});
-
-
-
 async function fetchMessages() {
     console.log("Fetching messages...");
     try {
@@ -431,7 +324,6 @@ async function fetchMessages() {
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
         });
-        chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -476,12 +368,6 @@ function toggleChat() {
 }
 
 
-function scrollToBottom() {
-    const chatMessages = document.getElementById('chat-messages');
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-
     </script>
 
 
@@ -490,5 +376,3 @@ function scrollToBottom() {
    
 </body>
 </html>
-
-

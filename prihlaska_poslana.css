@@ -30,7 +30,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('/images/chaticky.jpg') center center / cover no-repeat;
+    background: url('/images/les.jpg') center center / cover no-repeat;
     opacity: 0.2;
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
@@ -59,7 +59,6 @@ body::before {
     height: 400px;
     overflow-y: auto; /* Enables vertical scrolling */
     padding: 10px;
-    color: #333;
     background-color: #fff;
     border-bottom: 1px solid #ccc; /* Divider between chat and input */
 }
@@ -289,7 +288,7 @@ header.scrolled {
 }
 
 .profile:hover {
-    background-color: #6b6b6b;
+    background-color: #e0e0e0;
 }
 
 .dropdown-content {
@@ -323,148 +322,37 @@ header.scrolled {
 
 
 
-
-#sidebar {
-    position: fixed;
-    top: 150px;
-    left: 20px;
-    width: 200px;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-#sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-#sidebar ul li {
-    margin-bottom: 10px;
-}
-
-#sidebar ul li a {
-    text-decoration: none;
-    color: #000000;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-#sidebar ul li a:hover {
-    color: #585858;
-}
-
-
-/* Section styling */
-.skills-section {
-    max-width: 1000px;
-    margin: 60px auto;
-    padding: 20px;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    color: #ffffff;
-}
-
-/* Section title and subtitle */
-.section-title {
-    font-size: 36px;
-    margin-bottom: 10px;
-    color: #f5f5f5;
-    text-transform: uppercase;
-}
-
-.section-subtitle {
-    font-size: 18px;
-    margin-bottom: 40px;
-    color: #dddddd;
-    font-style: italic;
-}
-
-/* Skill container */
-.skill-container {
-    margin-bottom: 50px;
-}
-
-/* Skill title */
-.skill-title {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Skill row for images */
-.skill-row {
+.confirmation-section {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Obrázky se zalomí na další řádek při malé šířce obrazovky */
+    align-items: center;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-/* Image styling */
-.skill-image {
-    width: 100%;
-    max-width: 300px; /* Maximální šířka obrázku */
-    height: auto; /* Zachování poměru stran */
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Jemný stín pro moderní vzhled */
-    transition: transform 0.2s ease; /* Jemná animace zvětšení při kliknutí */
+.confirmation-container {
+    max-width: 700px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.skill-image:active {
-    transform: scale(1.05); /* Zvýraznění při kliknutí */
+.confirmation-title {
+    font-size: 36px;
+    color: #333333;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .skill-title {
-        font-size: 24px;
-    }
-    .section-title {
-        font-size: 28px;
-    }
-    .skill-image {
-        max-width: 200px; /* Menší obrázky na mobilu */
-    }
-}
-
-
-.large-image {
-    width: 100%; /* Zajistí, že obrázek zabere celou šířku dostupného kontejneru */
-    max-width: 500px; /* Maximální šířka obrázku */
-    height: auto; /* Zachování poměru stran */
-    margin: 10px auto; /* Vertikální mezera a zarovnání na střed */
-    display: block;
-    border-radius: 12px;
-
-}
-
-.knot {
-    margin-bottom: 15px;
-}
-
-.knot-title {
-    font-size: 25px;
-    color: #fffb00;
-    margin-bottom: 5px;
-}
-
-.knot-description {
+.confirmation-text {
     font-size: 20px;
-    color: #ffffff;
-}
-
-.knot-image {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 10px;
-    border-radius: 12px;
+    color: #555555;
+    line-height: 1.8;
+    margin-bottom: 20px;
 }
 
 

@@ -266,6 +266,8 @@ $conn->close();
             <button type="button" onclick="closeForm()">Zavřít</button>
             <p class="register-link">
                <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+               <p>Nebo se přihlaste pomocí Google:</p>
+               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
             </p>
         </form>
     </div>
@@ -300,15 +302,7 @@ $conn->close();
 
 
 
-    <script>
-   function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
-</script>
+    
 
 
     <script>
@@ -337,6 +331,15 @@ $conn->close();
     });
 });
 
+
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             console.log("kookt");
@@ -357,7 +360,6 @@ $conn->close();
          window.onload = function() {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "none";
-            document.getElementById("prihlaska").style.display = "none";
         };
 
         document.getElementById('togglePassword').addEventListener('click', function () {
@@ -410,6 +412,7 @@ async function fetchMessages() {
             messageDiv.innerHTML = `<span class="user">${msg.user_name || 'Anonym'}:</span> ${msg.message}`;
             chatMessages.appendChild(messageDiv);
         });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     } catch (error) {
         console.error('Error processing messages:', error);
     }
@@ -451,6 +454,12 @@ async function sendMessage() {
 function toggleChat() {
     const chatContainer = document.getElementById('chat-container');
     chatContainer.classList.toggle('open');
+}
+
+
+function scrollToBottom() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
     </script>
