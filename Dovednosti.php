@@ -216,9 +216,9 @@ if (isset($_GET['code'])) {
     <div id="morseovka" class="skill-grid">
         <h3 class="skill-title">Morseovka</h3>
         <div class="skill-row">
-            <img src="/images/morseovka1.gif" alt="Morseovka část 1" class="skill-image">
-            <img src="/images/morseovka2.gif" alt="Morseovka část 2" class="skill-image">
-            <img src="/images/morseovka3.gif" alt="Morseovka část 3" class="skill-image">
+            <img src="images/morseovka1.gif" alt="Morseovka část 1" class="skill-image">
+            <img src="images/morseovka2.gif" alt="Morseovka část 2" class="skill-image">
+            <img src="images/morseovka3.gif" alt="Morseovka část 3" class="skill-image">
         </div>
     </div>
 <br>
@@ -226,8 +226,8 @@ if (isset($_GET['code'])) {
     <div id="polsky_klic" class="skill-grid">
         <h3 class="skill-title">Velký polský klíč</h3>
         <div class="skill-row">
-            <img src="/images/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
-            <img src="/images/m1.gif" alt="Velký polský klíč krok 2" class="skill-image">
+            <img src="images/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
+            <img src="images/m1.gif" alt="Velký polský klíč krok 2" class="skill-image">
         </div>
     </div> 
     <br>
@@ -237,37 +237,37 @@ if (isset($_GET['code'])) {
         
         <div id="amb_uzel" class="knot">
             <h4 class="knot-title">Ambulanční uzel</h4>
-            <img src="/images/ambulantní-spojka1.jpg" alt="Ambulanční uzel" class="large-image">
+            <img src="images/ambulantní-spojka1.jpg" alt="Ambulanční uzel" class="large-image">
             <p class="knot-description">Používá se k upevňování obvazů, dlah, atd., protože je plochá (netlačí) a částečně se sama tahem povoluje.</p>
         </div>
 
         <div id="skotovy_uzel" class="knot">
             <h4 class="knot-title">Škotový uzel</h4>
-            <img src="/images/škotová-spojka1.jpg" alt="Škotový uzel" class="large-image">
+            <img src="images/škotová-spojka1.jpg" alt="Škotový uzel" class="large-image">
             <p class="knot-description">Dříve se používala na lodích k vázání tzv. škotové plachty (odtud název), jeden z nejpevnějších uzlů, lze s ním vázat i nestejně silná lana (lano – šátek,…), v tahu se sama ještě více dotahuje.</p>
         </div>
 
         <div id="rybarsky_uzel" class="knot">
             <h4 class="knot-title">Rybářský uzel</h4>
-            <img src="/images/rybářská-spojka1.jpg" alt="Rybářský uzel" class="large-image">
+            <img src="images/rybářská-spojka1.jpg" alt="Rybářský uzel" class="large-image">
             <p class="knot-description">Je časově náročná, ale zato pevná a neprokluzuje. Hodí se k vázání hladkých lan, vlasců, strun, atd. Jen se na ni neptejte žádného rybáře – nezná ji.</p>
         </div>
 
         <div id="draci_smycka" class="knot">
             <h4 class="knot-title">Dračí smyčka</h4>
-            <img src="/images/dračí-smyčka1.jpg" alt="Dračí smyčka" class="large-image">
+            <img src="images/dračí-smyčka1.jpg" alt="Dračí smyčka" class="large-image">
             <p class="knot-description">Pevné oko, v podstatě obrácená škotová spojka. Dokáže udržet člověka na skále stejně dobře jako omotat kmen stromu stahovaného z lesa.</p>
         </div>
 
         <div id="lodni_smycka" class="knot">
             <h4 class="knot-title">Lodní smyčka</h4>
-            <img src="/images/lodní-smyčka1.jpg" alt="Lodní smyčka" class="large-image">
+            <img src="images/lodní-smyčka1.jpg" alt="Lodní smyčka" class="large-image">
             <p class="knot-description">Používají ji nejenom námořníci, ale i např. horolezci k upevnění lana na slaňování, skautíci pro stavbu lanovek všeho druhu. Zkrátka všude, kde je potřeba pevně přivázat lano ke kolíku, stromu nebo čemukoliv jinému.</p>
         </div>
 
         <div id="zkracovacka" class="knot">
             <h4 class="knot-title">Zkracovačka</h4>
-            <img src="/images/zkracovačka1.jpg" alt="Zkracovačka" class="large-image">
+            <img src="images/zkracovačka1.jpg" alt="Zkracovačka" class="large-image">
             <p class="knot-description">Ideální uzel nejenom na zkracování příliš dlouhého lana, ale i na výrobu pout na lotry i jiné zlosyny všeho druhu.</p>
         </div>
     </div>
