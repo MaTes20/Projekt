@@ -182,16 +182,17 @@ $conn->close();
         <h2>Fotogalerie</h2>
     </div>
     <div class="gallery-grid">
-        <?php
+    <?php
         $directory = 'foto1/';
         if (is_dir($directory)) {
             $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
             if ($images) {
-                foreach ($images as $image) {
+                foreach ($images as $index => $image) {
                     echo "<div class='gallery-item'>
-                            <img src='$image' alt='Gallery Image' class='gallery-thumbnail' onclick='openModal(\"$image\")'>
+                            <img src='$image' alt='Gallery Image' class='gallery-thumbnail' onclick='openModal($index)'>
                           </div>";
                 }
+                echo "<script>const images = " . json_encode($images) . ";</script>";
             } else {
                 echo "<p class='gallery-empty'>Ve složce nejsou žádné obrázky.</p>";
             }
@@ -206,9 +207,9 @@ $conn->close();
 <div id="galleryModal" class="modal">
     <span class="close" onclick="closeModal()">&times;</span>
     <img id="modalImage" class="modal-content" alt="Large Image">
-    <div id="caption"></div>
+    <span class="arrow left" onclick="changeImage(-1)">&#10094;</span>
+    <span class="arrow right" onclick="changeImage(1)">&#10095;</span>
 </div>
-
     <footer>
     <p>&copy; 2024 BezvaTábor</p>
 
@@ -276,16 +277,33 @@ $conn->close();
 
 
     <script>
-     function openModal(imageSrc) {
+     
+     let currentIndex = 0;
+
+function openModal(index) {
+    currentIndex = index;
     const modal = document.getElementById('galleryModal');
-    const modalImage = document.getElementById('modalImage');
     modal.style.display = 'flex';
-    modalImage.src = imageSrc;
+    updateModalImage();
 }
 
 function closeModal() {
     const modal = document.getElementById('galleryModal');
     modal.style.display = 'none';
+}
+
+function changeImage(direction) {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = images.length - 1;
+    if (currentIndex >= images.length) currentIndex = 0;
+    updateModalImage();
+}
+
+function updateModalImage() {
+    const modalImage = document.getElementById('modalImage');
+    const caption = document.getElementById('caption');
+    modalImage.src = images[currentIndex]; // Ověřte správnou cestu
+    caption.textContent = `Obrázek ${currentIndex + 1} z ${images.length}`;
 }
 
 
