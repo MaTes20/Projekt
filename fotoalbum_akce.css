@@ -282,6 +282,7 @@ header.scrolled {
     border-radius: 5px;
     
     
+    
 }
 
 .profile:hover {
@@ -319,85 +320,6 @@ header.scrolled {
 
 
 
-/* Centrovaný kontejner */
-.centered-content {
-    max-width: 600px; /* Maximální šířka */
-    margin: 50px auto; /* Zarovnání na střed */
-    text-align: center; /* Zarovnání textu na střed */
-    color: #ffffff; /* Neutrální barva textu */
-    font-family: Arial, sans-serif; /* Jednoduché písmo */
-}
-
-/* Nadpis sekce */
-.section-title {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #ffee00;
-}
-
-/* Popis sekce */
-.section-description {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-/* Podnadpis sekce */
-.section-subtitle {
-    font-size: 20px;
-    font-weight: normal;
-    margin-bottom: 15px;
-    color: #ffffff;
-}
-
-
-
-/* Dropdown container */
-.dropdown_akce_form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-/* Dropdown styling */
-.dropdown-select {
-    padding: 10px 12px;
-    font-size: 16px;
-    color: #333;
-    border: 1px solid #ccc; /* Žlutý rámeček */
-    border-radius: 6px;
-    background-color: #fff;
-    cursor: pointer;
-    width: 100%;
-    max-width: 300px;
-    transition: border-color 0.3s ease;
-}
-
-.dropdown-select:focus {
-    border-color: #000000;
-    outline: none;
-}
-
-/* Submit button styling */
-.submit-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #299218; /* Žlutá */
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.submit-button:hover {
-    background-color: #13750c; /* Tmavší žlutá */
-}
-
 
 
 
@@ -409,35 +331,36 @@ header.scrolled {
     margin: 0 auto;
 }
 
-.gallery-header h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #ffffff;
+.gallery-title {
+    font-size: 28px;
+    color: #f5e300;
+    margin-bottom: 15px;
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    padding: 10px;
 }
 
 .gallery-item {
+    position: relative;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: auto;
-    cursor: pointer;
-    display: block;
+    transition: transform 0.3s ease-in-out;
 }
 
 .gallery-item:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.03);
+}
+
+.gallery-thumbnail {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 8px;
 }
 .modal {
     display: none;

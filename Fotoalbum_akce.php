@@ -12,9 +12,16 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
+
+if (!$conn) {
+        die('Chyba připojení k databázi.');
+    }
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+
 
 // Zpracování registrace
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
@@ -77,14 +84,19 @@ if (isset($_GET['code'])) {
     exit();
 }
 
+if (isset($_GET['akce_id']) && is_numeric($_GET['akce_id'])) {
+    $akce_id = intval($_GET['akce_id']);
+    $directory = "images/fotoalbum/$akce_id/";
+    $nazev = $conn->query("SELECT nazev FROM akce WHERE akce_id = $akce_id");
+    $nazev_akce = $nazev->fetch_assoc()['nazev'];
+} else {
+    echo "<p class='gallery-empty'>Nebyla vybrána žádná akce.</p>";
+}
 
 
 
+//$conn->close();
 ?>
-
-
-
-
 
 
 
@@ -93,8 +105,8 @@ if (isset($_GET['code'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BezvaTábor - Fotogalerie</title>
-    <link rel="stylesheet" href="fotoalbum.css">
+    <title>BezvaTábor - Fotoalbum <?php echo $nazev_akce;?></title>
+    <link rel="stylesheet" href="fotoalbum_akce.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -125,12 +137,13 @@ if (isset($_GET['code'])) {
         <div class="account">
        
  <!-- Profile section with hover effect -->
-<div class="profile-dropdown">
+ <div class="profile-dropdown">
     <div class="profile">
-        <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
-                      ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default_profile.png' ?>" 
-             alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <img src="<?= isset($_SESSION['profile_picture']) && $_SESSION['username'] !== 'Guest' 
+            ? htmlspecialchars($_SESSION['profile_picture']) 
+            : 'images/default_profile.png' ?>" 
+            alt="Profile Picture"  style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;" 
+            class="profile-pic">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
 
@@ -174,68 +187,33 @@ if (isset($_GET['code'])) {
     </div>
 </div>
 
-<div class="centered-content">
-    <h6 class="section-title">Fotoalbum</h6>
-    <p class="section-description">
-        Hledáš fotografie z letního tábora? Podívej se na naše fotky z minulých ročníků a zjisti, co se na táboře dělo.
-    </p>
-
-    <h6 class="section-subtitle">Vyber si akci ze seznamu, o které chceš vědět více.</h6>
-
-
-<form action="Fotoalbum_akce.php" method="GET" class="dropdown_akce_form">
-    <div class="dropdown_akce">
-        <select name="akce_id" class="dropdown-select" required>
-            <option value="" disabled selected>Vyber akci</option>
-            <?php
-            $sql = "SELECT akce_id, nazev FROM akce ORDER BY datum_uzaverky DESC";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<option value='" . htmlspecialchars($row['akce_id']) . "'>" . htmlspecialchars($row['nazev']) . "</option>";
-                }
-            } else {
-                echo "<option value='' disabled>Není dostupná žádná akce</option>";
-            }
-            ?>
-        </select>
-    </div>
-    <button type="submit" class="submit-button">Zobrazit fotky</button>
-</form>
-
-
-
-<!--
       
-    <br></br>
-    <div class="gallery-container">
-    <div class="gallery-header">
-        <h2>Fotogalerie</h2>
-    </div>
+   
+
+<div class="gallery-container">
+    <h2 class="gallery-title">Fotoalbum <?php echo $nazev_akce;?> </h2>
     <div class="gallery-grid">
-    <?php
-        $directory = 'foto1/';
-        if (is_dir($directory)) {
-            $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
-            if ($images) {
-                foreach ($images as $index => $image) {
-                    echo "<div class='gallery-item'>
-                            <img src='$image' alt='Gallery Image' class='gallery-thumbnail' onclick='openModal($index)'>
-                          </div>";
+        <?php        
+            if (is_dir($directory)) {
+                $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
+                if ($images) {
+                    foreach ($images as $index => $image) {
+                        echo "<div class='gallery-item'>
+                                <img src='$image' alt='Gallery Image' class='gallery-thumbnail'  onclick='openModal($index)'>
+                              </div>";
+                    }
+                    echo "<script>const images = " . json_encode($images) . ";</script>";
+
+                } else {
+                    echo "<p class='gallery-empty'>V této akci zatím nejsou žádné fotografie.</p>";
                 }
-                echo "<script>const images = " . json_encode($images) . ";</script>";
             } else {
-                echo "<p class='gallery-empty'>Ve složce nejsou žádné obrázky.</p>";
+                echo "<p class='gallery-empty'>Galerie pro tuto akci neexistuje.</p>";
             }
-        } else {
-            echo "<p class='gallery-empty'>Složka '$directory' neexistuje.</p>";
-        }
+        
         ?>
     </div>
 </div>
-
-    -->
 
 <!-- Modal -->
 <div id="galleryModal" class="modal">
@@ -244,10 +222,10 @@ if (isset($_GET['code'])) {
     <span class="arrow left" onclick="changeImage(-1)">&#10094;</span>
     <span class="arrow right" onclick="changeImage(1)">&#10095;</span>
 </div>
-    <footer>
-    <p>&copy; 2024 BezvaTábor</p>
 
-    </footer>
+
+
+
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
@@ -311,8 +289,7 @@ if (isset($_GET['code'])) {
 
 
     <script>
-     
-     let currentIndex = 0;
+          let currentIndex = 0;
 
 function openModal(index) {
     currentIndex = index;
@@ -339,6 +316,8 @@ function updateModalImage() {
     modalImage.src = images[currentIndex]; // Ověřte správnou cestu
     caption.textContent = `Obrázek ${currentIndex + 1} z ${images.length}`;
 }
+
+
 
 
 
@@ -472,8 +451,8 @@ function toggleChat() {
 function scrollToBottom() {
     const chatMessages = document.getElementById('chat-messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
-}
 
+}
 
 
 
