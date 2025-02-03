@@ -175,6 +175,31 @@ $conn->close();
     </div>
 </div>
 
+
+<form action="fotoalbum_akce.php" method="GET" class="dropdown_akce_form">
+    <div class="dropdown_akce">
+        <select name="akce_id" class="dropdown-select" required>
+            <option value="" disabled selected>Vyber akci</option>
+            <?php
+            $sql = "SELECT akce_id, nazev FROM akce";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='" . htmlspecialchars($row['akce_id']) . "'>" . htmlspecialchars($row['nazev']) . "</option>";
+                }
+            } else {
+                echo "<option value='' disabled>Není dostupná žádná akce</option>";
+            }
+            ?>
+        </select>
+    </div>
+    <button type="submit" class="submit-button">Zobrazit fotky</button>
+</form>
+
+
+
+<!--
       
     <br></br>
     <div class="gallery-container">
@@ -202,6 +227,8 @@ $conn->close();
         ?>
     </div>
 </div>
+
+    -->
 
 <!-- Modal -->
 <div id="galleryModal" class="modal">
