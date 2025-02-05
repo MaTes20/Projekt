@@ -213,12 +213,15 @@ $conn->close();
     <p>Zde můžete zanechat svůj vzkaz ostatním uživatelům!</p>
     <hr>
     
-    <!-- Formulář pro odeslání vzkazu -->
-    <form action="Vzkaz.php" method="POST" class="vzkaz-form">
+   <!-- Formulář pro odeslání vzkazu -->
+   <form action="Vzkaz.php" method="POST" class="vzkaz-form" onsubmit="return validateAntiSpam()">
         <textarea name="text" placeholder="Napište svůj vzkaz..." required></textarea>
+        <label for="antispam">Ochrana proti spamu: Napište slovo 'tábor'</label>
+        <input type="text" id="antispam" name="antispam" required>
         <button type="submit">Odeslat vzkaz</button>
     </form>
-    
+
+
     <hr>
 
     <!-- Výpis vzkazů -->
@@ -435,6 +438,15 @@ function scrollToBottom() {
     const chatMessages = document.getElementById('chat-messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
+
+function validateAntiSpam() {
+        const input = document.getElementById('antispam').value.trim().toLowerCase();
+        if (input !== 'tábor') {
+            alert('Nesprávné ověření. Zadejte správné slovo: tábor');
+            return false;
+        }
+        return true;
+    }
 
     </script>
 

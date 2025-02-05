@@ -189,7 +189,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="prihlaska.css">
 
-    <title>BezvaTábor - Přihláška</title>
+    <title>BezvaTábor - Přihláška na <?php echo $nazev; ?></title>
 </head>
 <body>
     

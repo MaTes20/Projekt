@@ -106,6 +106,8 @@ if (isset($_GET['code'])) {
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
 
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -288,6 +290,7 @@ if (isset($_GET['code'])) {
             <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
         </div>
         
+
         <button type="submit">Registrovat se</button>
         <button type="button" onclick="closeRegisterForm()">Zavřít</button>
         <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>

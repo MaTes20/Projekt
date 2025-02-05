@@ -102,6 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
     //exit;
     $akce_id = htmlspecialchars($_GET["akce_id"]);
     $akce = mysqli_fetch_array($conn->query("SELECT * FROM akce WHERE akce_id = $akce_id"));
+    $nazevAkce = $akce['nazev'];
+
      
 } 
 
@@ -122,7 +124,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="akce_info.css">
 
-    <title>BezvaTábor - Akce</title>
+    <title>BezvaTábor - <?php echo $nazevAkce; ?></title>
 </head>
 <body>
       <!-- Hlavička s navigací -->
