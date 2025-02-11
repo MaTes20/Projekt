@@ -12,6 +12,11 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
+
+if (!$conn) {
+        die('Chyba připojení k databázi.');
+    }
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -80,6 +85,49 @@ if (isset($_GET['code'])) {
 
 
 
+// Načtení poslední akce do fotoalba
+$db = mysqli_fetch_array($conn->query("SELECT akce_id, nazev FROM akce WHERE datum_od < NOW() ORDER BY datum_od DESC LIMIT 1 ;"));
+$akce_id = $db['akce_id'];
+$nazev_akce = $db['nazev'];
+
+
+$cyklus = 1;
+$stav = 0;
+        
+        
+do {
+        
+        $directory = "images/fotoalbum/$akce_id/";
+       
+        if (is_dir($directory)) {
+            $stav++;
+            $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
+            
+           if (!$images) {
+            $stav--;
+            $db = mysqli_fetch_array($conn->query("SELECT akce_id, nazev FROM akce WHERE datum_od < NOW() ORDER BY datum_od DESC LIMIT $cyklus,1 ;"));
+            $akce_id = $db['akce_id'];
+            $nazev_akce = $db['nazev'];
+            $cyklus++;
+            
+           }
+            
+        } else {
+            //echo "<p class='gallery-empty'>Složka '$directory' neexistuje.</p>";
+            $db = mysqli_fetch_array($conn->query("SELECT akce_id, nazev FROM akce WHERE datum_od < NOW() ORDER BY datum_od DESC LIMIT $cyklus,1 ;"));
+            $akce_id = $db['akce_id'];
+            $nazev_akce = $db['nazev'];
+            $cyklus++;
+        }
+        
+  } while ($stav < 1);
+
+
+
+
+
+
+
 ?>
 
 
@@ -119,11 +167,12 @@ if (isset($_GET['code'])) {
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="Vzkaz.php">Vzkazy</a></li>
                 <li><a href="Fotoalbum.php">Fotoalbum</a></li>
+                
             </ul>
             
         </nav>
         <div class="account">
-       
+         
  <!-- Profile section with hover effect -->
  <div class="profile-dropdown">
     <div class="profile">
@@ -134,6 +183,7 @@ if (isset($_GET['code'])) {
             class="profile-pic">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
+
 
 
     <!-- Dropdown menu for login/logout -->
@@ -207,18 +257,18 @@ if (isset($_GET['code'])) {
 
 
 
-<!--
-      
-    <br></br>
+
+ <!-- Fotoalbum z poslední akce -->     
+    <br><br>
     <div class="gallery-container">
     <div class="gallery-header">
-        <h2>Fotogalerie</h2>
+        <h2>Fotoalbum z poslední akce</h2><br>
+        <?php echo $nazev_akce;?>
     </div>
     <div class="gallery-grid">
     <?php
-        $directory = 'foto1/';
-        if (is_dir($directory)) {
-            $images = glob($directory . '*.{jpg,JPG,jpeg,png,gif}', GLOB_BRACE);
+        
+               
             if ($images) {
                 foreach ($images as $index => $image) {
                     echo "<div class='gallery-item'>
@@ -229,14 +279,14 @@ if (isset($_GET['code'])) {
             } else {
                 echo "<p class='gallery-empty'>Ve složce nejsou žádné obrázky.</p>";
             }
-        } else {
-            echo "<p class='gallery-empty'>Složka '$directory' neexistuje.</p>";
-        }
+        
+        
         ?>
-    </div>
+     
+     </div>
 </div>
 
-    -->
+
 
 <!-- Modal -->
 <div id="galleryModal" class="modal">
