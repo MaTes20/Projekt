@@ -143,16 +143,17 @@ $conn->close();
         </nav>
         <div class="account">
        
-        
- <!-- Profile section with hover effect -->
-<div class="profile-dropdown">
+    <!-- Profile section with hover effect -->
+ <div class="profile-dropdown">
     <div class="profile">
-        <img src="<?= isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest' 
-                      ? htmlspecialchars($_SESSION['profile_picture']) 
-                      : 'images/default_profile.png' ?>" 
-             alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <img src="<?= isset($_SESSION['profile_picture']) && $_SESSION['username'] !== 'Guest' 
+            ? htmlspecialchars($_SESSION['profile_picture']) 
+            : 'images/default_profile.png' ?>" 
+            alt="Profile Picture" 
+            class="profile-pic">
         <span><?= htmlspecialchars($currentUsername) ?></span>
     </div>
+
     <!-- Dropdown menu for login/logout -->
     <div class="dropdown">
        

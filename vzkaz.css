@@ -267,6 +267,13 @@ header.scrolled {
 }
 
 
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
 
 .profile-dropdown {
     position: relative;
@@ -347,6 +354,7 @@ header.scrolled {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    color: #333;
 }
 
 .vzkaz-form textarea {
