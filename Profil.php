@@ -85,12 +85,69 @@ if (isset($_GET['code'])) {
 }
 
 
+// Získání aktuálního uživatele
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$username = $_SESSION['username'];
 
 
+// Získání aktuálních dat uživatele
+$stmt = $conn->prepare("SELECT email FROM ucet WHERE uzivatelske_jmeno = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST['update_profile'])) {
+        $new_username = trim($_POST['new_username']);
+        $new_email = trim($_POST['new_email']);
+
+        // Aktualizace uživatelského jména a emailu
+        $stmt = $conn->prepare("UPDATE ucet SET uzivatelske_jmeno = ?, email = ? WHERE uzivatelske_jmeno = ?");
+        $stmt->bind_param("sss", $new_username, $new_email, $username);
+
+        if ($stmt->execute()) {
+            $_SESSION['username'] = $new_username; // Aktualizace session
+            echo "<p class='success'>Profil úspěšně aktualizován!</p>";
+        } else {
+            echo "<p class='error'>Chyba při aktualizaci.</p>";
+        }
+    }
+
+    if (isset($_POST['update_password'])) {
+        $current_password = $_POST['current_password'];
+        $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+
+        // Ověření starého hesla
+        $stmt = $conn->prepare("SELECT heslo FROM ucet WHERE uzivatelske_jmeno = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if (password_verify($current_password, $user['password'])) {
+            $stmt = $conn->prepare("UPDATE ucet SET heslo = ? WHERE uzivatelske_jmeno = ?");
+            $stmt->bind_param("ss", $new_password, $username);
+            if ($stmt->execute()) {
+                echo "<p class='success'>Heslo bylo změněno!</p>";
+            } else {
+                echo "<p class='error'>Chyba při změně hesla.</p>";
+            }
+        } else {
+            echo "<p class='error'>Nesprávné aktuální heslo.</p>";
+        }
+    }
+}
 
 
-//$conn->close();
+$conn->close();
 ?>
+
+
 
 
 
@@ -100,13 +157,13 @@ if (isset($_GET['code'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BezvaTábor</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="profil.css">
+    
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
-
-
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,13 +184,11 @@ if (isset($_GET['code'])) {
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="Vzkaz.php">Vzkazy</a></li>
                 <li><a href="Fotoalbum.php">Fotoalbum</a></li>
-                <li><a href="#"><?php if ($currentUsername == 'admin')  { echo ' Administrace ';} ?> </a></li>
-
             </ul>
             
         </nav>
         <div class="account">
-       
+         
  <!-- Profile section with hover effect -->
  <div class="profile-dropdown">
     <div class="profile">
@@ -161,7 +216,6 @@ if (isset($_GET['code'])) {
         </div>
     </div>
 </div>
-
     </div>
 
 
@@ -175,16 +229,37 @@ if (isset($_GET['code'])) {
 
 
 
+<div class="profile-container">
+        <h2>Editace profilu</h2>
+        <form method="POST">
+            <label for="new_username">Nové uživatelské jméno:</label>
+            <input type="text" id="new_username" name="new_username" value="<?= htmlspecialchars($_SESSION['username']) ?>" required>
 
-    <div class="intro-section">
-    <h2 class="intro-title">Vítejte na stránkách bezva tábora!</h2>
-    <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
-    <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
-</div>
+            <label for="new_email">Nový email:</label>
+            <input type="email" id="new_email" name="new_email" value="<?= htmlspecialchars($user['email']) ?>" required>
+
+            <button type="submit" name="update_profile">Uložit změny</button>
+        </form>
+
+        <h2>Změna hesla</h2>
+        <form method="POST">
+            <label for="current_password">Aktuální heslo:</label>
+            <input type="password" id="current_password" name="current_password" required>
+
+            <label for="new_password">Nové heslo:</label>
+            <input type="password" id="new_password" name="new_password" required>
+            
+
+            <button type="submit" name="update_password">Změnit heslo</button>
+        </form>
+    </div>
 
 
 
-    <button id="chat-toggle" onclick="toggleChat()">Chat</button>
+
+
+
+<button id="chat-toggle" onclick="toggleChat()">Chat</button>
     <div id="chat-container">
     <div id="chat-messages"></div>
     <div id="chat-input-container">
@@ -193,49 +268,12 @@ if (isset($_GET['code'])) {
     </div>
 </div>
 
-      
-   
-
-  
 
 
 
-<!-- Výpis aktualit -->
 
-     
-  <?php
-    
-    
-        $db = $conn->query("SELECT * FROM aktualita WHERE datum >= DATE_SUB(NOW(), INTERVAL 100 DAY);");
-        $pocet_akci = $db->num_rows;
-        
-    
-    if (mysqli_num_rows($db) == 0) {
-    
-        //echo '<div class="container">';
-        echo '<div class="section aktuality">';
-        echo '<h6 class="section-content"> V současné době není vypsaná žádná aktualita. </h6>'; 
-        echo "</div>";
-    }
-    else {
-        
-        while($data = mysqli_fetch_array($db)) {
-        
-            
-            echo '<div class="container">';
-            echo '<div class="section aktuality">';
-            echo "<h2 class='section-title'>" . $data ["nadpis"] ."</h2>";
-            echo "<p class='section-content'> " . $data ["text"] . "</p> <br>";
-            
-            echo "</div> ";
-            echo "</div> ";
-            
-        }
-        }
-        
-    $conn->close();
-     ?>
-             
+
+
 
 
 
@@ -293,7 +331,6 @@ if (isset($_GET['code'])) {
             <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
         </div>
         
-
         <button type="submit">Registrovat se</button>
         <button type="button" onclick="closeRegisterForm()">Zavřít</button>
         <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
@@ -439,3 +476,9 @@ function scrollToBottom() {
    
 </body>
 </html>
+
+
+
+
+
+

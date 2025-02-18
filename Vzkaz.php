@@ -457,15 +457,6 @@ function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-function validateAntiSpam() {
-        const input = document.getElementById('antispam').value.trim().toLowerCase();
-        if (input !== 'tábor') {
-            alert('Nesprávné ověření. Zadejte správné slovo: tábor');
-            return false;
-        }
-        return true;
-    }
-
 
     function validateAntiSpam() {
         const input = document.getElementById('antispam').value.trim().toLowerCase();
