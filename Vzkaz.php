@@ -84,6 +84,24 @@ if (isset($_GET['code'])) {
 
 
 
+// Generování slova pro zápis do DB
+$gencislo = rand(1,8);
+
+
+
+switch ($gencislo) {
+  case 1: $zapis = "želva"; break;
+  case 2: $zapis = "čmelák"; break;
+  case 3: $zapis = "včela"; break;
+  case 4: $zapis = "hruška"; break;
+  case 5: $zapis = "švestka"; break;
+  case 6: $zapis = "řeřicha"; break;
+  case 7: $zapis = "žralok"; break;
+  case 8: $zapis = "čutora"; break;
+}
+
+
+
 
 
 
@@ -212,12 +230,12 @@ $conn->close();
     <h2>Vzkazovník</h2>
     <p>Zde můžete zanechat svůj vzkaz ostatním uživatelům!</p>
     <hr>
-    
+  
    <!-- Formulář pro odeslání vzkazu -->
    <form action="Vzkaz.php" method="POST" class="vzkaz-form" onsubmit="return validateAntiSpam()">
         <textarea name="text" placeholder="Napište svůj vzkaz..." required></textarea>
-        <label for="antispam">Ochrana proti spamu: Napište slovo 'tábor'</label>
-        <input type="text" id="antispam" name="antispam" required>
+        <label for="antispam">Ochrana proti spamu: </label>
+        <input type="text" id="antispam" name="antispam" placeholder="Napište slovo <?php echo $zapis; ?>" required>
         <button type="submit">Odeslat vzkaz</button>
     </form>
 
@@ -443,6 +461,16 @@ function validateAntiSpam() {
         const input = document.getElementById('antispam').value.trim().toLowerCase();
         if (input !== 'tábor') {
             alert('Nesprávné ověření. Zadejte správné slovo: tábor');
+            return false;
+        }
+        return true;
+    }
+
+
+    function validateAntiSpam() {
+        const input = document.getElementById('antispam').value.trim().toLowerCase();
+        if (input !== '<?php echo($zapis); ?>') {
+            alert('Nesprávné ověření. Zadejte správné slovo: <?php echo($zapis); ?>');
             return false;
         }
         return true;

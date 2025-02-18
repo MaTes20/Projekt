@@ -190,7 +190,7 @@ $conn->close();
         <div class="event-details">
             <p><strong>Místo:</strong> <?php echo htmlspecialchars($akce['misto']); ?></p>
             <p><strong>Téma:</strong> <?php echo html_entity_decode($akce['tema']); ?></p>
-            <p><strong>Datum konání:</strong> od <?php echo html_entity_decode($akce['datum_od']); ?> do <?php echo html_entity_decode($akce['datum_do']); ?></p>
+            <p><strong>Datum konání:</strong> od <?php echo date('j.n.Y',strtotime($akce['datum_od'])); ?> do <?php echo date('j.n.Y',strtotime($akce['datum_do'])); ?></p>
             <p><strong>Popis:</strong> <?php echo html_entity_decode($akce['popis']); ?></p>
 
         </div>

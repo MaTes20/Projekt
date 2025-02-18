@@ -127,6 +127,8 @@ if (isset($_GET['code'])) {
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="Vzkaz.php">Vzkazy</a></li>
                 <li><a href="Fotoalbum.php">Fotoalbum</a></li>
+                <li><a href="#"><?php if ($currentUsername == 'admin')  { echo ' Administrace ';} ?> </a></li>
+
             </ul>
             
         </nav>
