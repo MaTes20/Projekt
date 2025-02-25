@@ -105,6 +105,7 @@ if (isset($_GET['code'])) {
    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="667754488994-72mh4kcvnfqkh24bs7p4b472mi03d9pf.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 
@@ -118,7 +119,8 @@ if (isset($_GET['code'])) {
     <!-- Hlavička s navigací -->
     <header>
 
-        
+    <div class="menu-toggle">&#9776;</div>
+
         <nav>
             <ul>
                 <li><a href="Index.php" target="_self">Úvod</a></li>
@@ -132,6 +134,10 @@ if (isset($_GET['code'])) {
             </ul>
             
         </nav>
+    
+
+   
+
         <div class="account">
        
  <!-- Profile section with hover effect -->
@@ -166,6 +172,17 @@ if (isset($_GET['code'])) {
 
 
     </header>
+    <div class="sidebar">
+        <ul>
+        <li><a href="Index.php" target="_self">Úvod</a></li>
+                <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
+                <li><a href="Akce.php">Akce</a></li>
+                <li><a href="Dovednosti.php">Dovednosti</a></li>
+                <li><a href="Vzkaz.php">Vzkazy</a></li>
+                <li><a href="Fotoalbum.php">Fotoalbum</a></li>
+                <li><a href="#"><?php if ($currentUsername == 'admin')  { echo ' Administrace ';} ?> </a></li>
+        </ul>
+    </div>
 
     <div class="logo-container">
     <div class="logo-background">
@@ -430,6 +447,14 @@ function scrollToBottom() {
     const chatMessages = document.getElementById('chat-messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.menu-toggle').addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('active');
+            });
+        });
+
 
     </script>
 
