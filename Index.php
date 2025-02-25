@@ -184,13 +184,14 @@ if (isset($_GET['code'])) {
         </ul>
     </div>
 
+ <!--
     <div class="logo-container">
     <div class="logo-background">
         <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
-
+-->
 
 
     <div class="intro-section">
@@ -448,14 +449,19 @@ function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.menu-toggle').addEventListener('click', function() {
-                document.querySelector('.sidebar').classList.toggle('active');
-            });
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    console.log('Menu toggle clicked');
+                    sidebar.classList.toggle('active');
+                });
+            } else {
+                console.error('Menu toggle button not found');
+            }
         });
-
-
     </script>
 
 
