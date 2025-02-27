@@ -30,7 +30,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('images/2022_foto.jpg') center center / cover no-repeat;
+    background: url('images/web_foto/foto_index.jpg') center center / cover no-repeat;
     opacity: 0.2;
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
@@ -267,6 +267,19 @@ nav ul li a:hover::after {
 .sidebar {
     display: none;
 }
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
 @media (max-width: 768px) {
     nav {
         display: none;
@@ -374,6 +387,23 @@ header.scrolled {
 .logo-background img {
     width: 150px; /* Velikost loga uvnitř kruhu */
     height: auto;
+}
+@media screen and (max-width: 768px) {
+    .logo-container {
+        top: 75px; /* Posunutí loga pod header */
+        left: 10px; /* Umístění k levému okraji */
+        width: 60px; /* Menší velikost loga */
+        height: 60px;
+    }
+
+    .logo-background {
+        width: 60px; /* Zmenšení kruhového pozadí */
+        height: 60px;
+    }
+
+    .logo-background img {
+        width: 80px; /* Zmenšení samotného loga */
+    }
 }
 
 

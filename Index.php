@@ -173,6 +173,7 @@ if (isset($_GET['code'])) {
 
     </header>
     <div class="sidebar">
+
         <ul>
         <li><a href="Index.php" target="_self">Úvod</a></li>
                 <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
@@ -184,14 +185,46 @@ if (isset($_GET['code'])) {
         </ul>
     </div>
 
- <!--
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    console.log('JavaScript načten');
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (!menuToggle || !sidebar) {
+        console.error('Chyba: Některé prvky nenalezeny');
+        return;
+    }
+
+    menuToggle.addEventListener('click', function() {
+        console.log('Kliknuto na menu');
+        sidebar.classList.toggle('active');
+    });
+
+   
+    // Kliknutí mimo sidebar zavře menu
+    document.addEventListener('click', function(event) {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('active');
+        }
+    });
+});
+
+</script>
+
+
+
+
+
+ 
     <div class="logo-container">
     <div class="logo-background">
         <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
--->
+
 
 
     <div class="intro-section">
@@ -449,19 +482,6 @@ function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
-                    console.log('Menu toggle clicked');
-                    sidebar.classList.toggle('active');
-                });
-            } else {
-                console.error('Menu toggle button not found');
-            }
-        });
     </script>
 
 
