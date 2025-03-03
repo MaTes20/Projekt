@@ -163,7 +163,16 @@ body::before {
     right: 20px; /* Slide in */
 }
 
-
+@media screen and (max-width: 768px) {
+    #chat-container {
+        width: 80%;
+        right: -90%; /* Hidden initially */
+    }
+    #chat-container.open {
+        right: 0; /* Slide in */
+    }
+    
+}
 
 header {
     position: sticky;
@@ -236,8 +245,100 @@ nav ul li a:hover::after {
 header.scrolled {
     background-color: #222; /* Darker background when scrolled */
 }
+.menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2000;
+    display: none;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.sidebar {
+    display: none;
+}
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+}
 
+.close-btn:hover {
+    color: red;
+}
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .sidebar {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background: #ffffff;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease;
+        padding-top: 10px;
+        z-index: 1500;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+    .sidebar ul li {
+        padding: 15px;
+        text-align: center;
+    }
+    .sidebar ul li a {
+        text-decoration: none;
+        color: #000;
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+    }
+    .sidebar ul li a:hover {
+        background: #f5e300;
+    }
 
+    .sidebar-logo {
+        text-align: center;
+        padding: 5px 0;
+        margin-bottom: 5px; /* Mezera mezi logem a seznamem */
+
+    }
+    
+    .sidebar-logo img {
+        width: 150px; /* Přizpůsob velikost */
+        height: auto;
+        border-radius: 50%; /* Pokud chceš kruhové logo */
+        padding: 8px; /* Mezera mezi logem a okrajem */
+    }
+    .sidebar-logo-background {
+        width: 20px; /* Zmenšení kruhového pozadí */
+        height: 20px;
+        
+    }
+
+   
+    
+    
+}
 
 
 /* Kontejner loga */
@@ -267,7 +368,25 @@ header.scrolled {
     width: 150px; /* Velikost loga uvnitř kruhu */
     height: auto;
 }
+@media screen and (max-width: 768px) {
+    .logo-container {
+        top: 75px; /* Posunutí loga pod header */
+        left: 10px; /* Umístění k levému okraji */
+        width: 60px; /* Menší velikost loga */
+        height: 60px;
+        display: none;
+    }
 
+    .logo-background {
+        width: 60px; /* Zmenšení kruhového pozadí */
+        height: 60px;
+        display: none;
+    }
+
+    .logo-background img {
+        width: 80px; /* Zmenšení samotného loga */
+    }
+}
 
 .account a {
     text-decoration: none;
@@ -418,7 +537,27 @@ header.scrolled {
     color: #ffffff;
 }
 
+/* Responzivita */
+@media (max-width: 768px) {
+    .section {
+        width: 95%;
+        padding: 15px;
+    }
 
+    .section h2 {
+        font-size: 28px;
+        text-align: left;
+    }
+
+    .section p {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .kontakt-info p {
+        font-size: 14px;
+    }
+}
 
 
 

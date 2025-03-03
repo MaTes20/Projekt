@@ -123,6 +123,8 @@ if (isset($_GET['code'])) {
 
     <!-- Hlavička s navigací -->
     <header>
+    <div class="menu-toggle">&#9776;</div>
+
 
         
         <nav>
@@ -172,6 +174,50 @@ if (isset($_GET['code'])) {
 
     </header>
 
+    
+    <div class="sidebar">
+    <div class="sidebar-logo">
+        <img src="images/logoBAT.png" alt="Logo Bezvatábor">
+    </div>
+        <ul>
+                <li><a href="Index.php" target="_self">Úvod</a></li>
+                <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
+                <li><a href="Akce.php">Akce</a></li>
+                <li><a href="Dovednosti.php">Dovednosti</a></li>
+                <li><a href="Vzkaz.php">Vzkazy</a></li>
+                <li><a href="Fotoalbum.php">Fotoalbum</a></li>
+                <li><a href="#"><?php if ($currentUsername == 'admin')  { echo ' Administrace ';} ?> </a></li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    console.log('JavaScript načten');
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (!menuToggle || !sidebar) {
+        console.error('Chyba: Některé prvky nenalezeny');
+        return;
+    }
+
+    menuToggle.addEventListener('click', function() {
+        console.log('Kliknuto na menu');
+        sidebar.classList.toggle('active');
+    });
+
+   
+    // Kliknutí mimo sidebar zavře menu
+    document.addEventListener('click', function(event) {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('active');
+        }
+    });
+});
+
+</script>
+
 
     <div class="logo-container">
     <div class="logo-background">
@@ -191,7 +237,7 @@ if (isset($_GET['code'])) {
 </div>
 
 
-    <div id="sidebar">
+    <div id="dovednosti_sidebar">
     <ul>
         <li><a href="#morseovka">Morseovka</a></li>
         <li><a href="#polsky_klic">Velký polský klíč</a></li>

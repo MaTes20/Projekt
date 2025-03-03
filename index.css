@@ -181,7 +181,16 @@ body::before {
 #chat-container.open {
     right: 20px; /* Slide in */
 }
-
+@media screen and (max-width: 768px) {
+    #chat-container {
+        width: 80%;
+        right: -90%; /* Hidden initially */
+    }
+    #chat-container.open {
+        right: 0; /* Slide in */
+    }
+    
+}
 
 header {
     position: sticky;
@@ -294,10 +303,10 @@ nav ul li a:hover::after {
         left: -250px;
         width: 250px;
         height: 100%;
-        background: white;
+        background: #ffffff;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
         transition: left 0.3s ease;
-        padding-top: 60px;
+        padding-top: 10px;
         z-index: 1500;
     }
     .sidebar.active {
@@ -321,6 +330,29 @@ nav ul li a:hover::after {
     .sidebar ul li a:hover {
         background: #f5e300;
     }
+
+    .sidebar-logo {
+        text-align: center;
+        padding: 5px 0;
+        margin-bottom: 5px; /* Mezera mezi logem a seznamem */
+
+    }
+    
+    .sidebar-logo img {
+        width: 150px; /* Přizpůsob velikost */
+        height: auto;
+        border-radius: 50%; /* Pokud chceš kruhové logo */
+        padding: 8px; /* Mezera mezi logem a okrajem */
+    }
+    .sidebar-logo-background {
+        width: 20px; /* Zmenšení kruhového pozadí */
+        height: 20px;
+        
+    }
+
+   
+    
+    
 }
 
 /* Styles for header when scrolled */
@@ -394,11 +426,13 @@ header.scrolled {
         left: 10px; /* Umístění k levému okraji */
         width: 60px; /* Menší velikost loga */
         height: 60px;
+        display: none;
     }
 
     .logo-background {
         width: 60px; /* Zmenšení kruhového pozadí */
         height: 60px;
+        display: none;
     }
 
     .logo-background img {

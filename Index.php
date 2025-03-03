@@ -172,10 +172,13 @@ if (isset($_GET['code'])) {
 
 
     </header>
-    <div class="sidebar">
 
+    <div class="sidebar">
+    <div class="sidebar-logo">
+        <img src="images/logoBAT.png" alt="Logo Bezvatábor">
+    </div>
         <ul>
-        <li><a href="Index.php" target="_self">Úvod</a></li>
+                <li><a href="Index.php" target="_self">Úvod</a></li>
                 <li><a href="Poradatel.php" target="_self">Pořadatel</a></li>
                 <li><a href="Akce.php">Akce</a></li>
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
