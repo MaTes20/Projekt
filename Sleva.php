@@ -202,7 +202,9 @@ $conn->close();
 </div>
 
 
+<?php if (isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest'): ?>
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
+<?php endif; ?>
     <div id="chat-container">
     <div id="chat-messages"></div>
     <div id="chat-input-container">
@@ -368,6 +370,13 @@ window.addEventListener('scroll', function() {
         header.classList.add('scrolled'); // Add 'scrolled' class when user scrolls down
     } else {
         header.classList.remove('scrolled'); // Remove 'scrolled' class when at the top
+    }
+});
+document.addEventListener("DOMContentLoaded", function() {
+    let username = "<?php echo $_SESSION['username'] ?? 'Guest'; ?>";
+    
+    if (username === "Guest") {
+        document.getElementById("chat-container").style.display = "none";
     }
 });
 

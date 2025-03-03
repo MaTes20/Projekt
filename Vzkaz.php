@@ -260,7 +260,9 @@ $conn->close();
 
 
 
+<?php if (isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest'): ?>
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
+<?php endif; ?>
     <div id="chat-container">
     <div id="chat-messages"></div>
     <div id="chat-input-container">
@@ -459,6 +461,13 @@ async function fetchMessages() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    let username = "<?php echo $_SESSION['username'] ?? 'Guest'; ?>";
+    
+    if (username === "Guest") {
+        document.getElementById("chat-container").style.display = "none";
+    }
+});
 
 
 
