@@ -488,6 +488,9 @@ header.scrolled {
 #dovednosti_sidebar ul li a:hover {
     color: #585858;
 }
+[id] {
+    scroll-margin-top: 120px;
+}
 
 @media screen and (max-width: 768px) {
     #dovednosti_sidebar {
