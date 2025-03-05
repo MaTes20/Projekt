@@ -144,6 +144,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 
+
+
 $conn->close();
 ?>
 
@@ -298,6 +300,11 @@ $conn->close();
 
             <button type="submit" name="update_password">Změnit heslo</button>
         </form>
+
+        <h2>Odstranit účet</h2>
+    <form method="POST" onsubmit="return confirm('Opravdu chcete smazat svůj účet? Tato akce je nevratná.');">
+        <button type="submit" name="delete_account" class="delete-button">Smazat účet</button>
+    </form>
     </div>
 
 
