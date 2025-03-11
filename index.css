@@ -238,8 +238,8 @@ nav ul li a {
 
 /* Hover efekty */
 nav ul li a:hover {
-    color: #dadada;
-    transform: scale(1.05);
+    color: #000000;
+    transform: scale(1.02);
 }
 
 nav ul li a::after {
@@ -355,10 +355,34 @@ nav ul li a:hover::after {
     
 }
 
-/* Styles for header when scrolled */
-header.scrolled {
-    background-color: #222; /* Darker background when scrolled */
+
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.dropdown-menu li {
+    width: 80%;
+}
+
+.dropdown-menu li a {
+    padding: 10px;
+    display: flex;
+    color: #000000;
+}
+
+/* Zobrazení dropdownu při hoveru */
+.dropdown:hover .dropdown-menu {
+    display:grid;
+}
+
+
 
 .aktuality {
     width: 90%;

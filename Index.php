@@ -129,7 +129,16 @@ if (isset($_GET['code'])) {
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="Vzkaz.php">Vzkazy</a></li>
                 <li><a href="Fotoalbum.php">Fotoalbum</a></li>
-                <li><a href="#"><?php if ($currentUsername == 'admin')  { echo ' Administrace ';} ?> </a></li>
+                
+                <?php if ($currentUsername == 'admin'): ?>
+        <li class="dropdown">
+            <a href="#">Administrace</a>
+            <ul class="dropdown-menu">
+                <li><a href="Vytvorit_aktualitu.php">Vytvořit aktualitu</a></li>
+                <li><a href="Vytvorit_akci.php">Vytvořit akci</a></li>
+            </ul>
+        </li>
+        <?php endif; ?>
 
             </ul>
             
