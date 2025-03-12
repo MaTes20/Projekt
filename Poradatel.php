@@ -132,6 +132,7 @@ $conn->close();
        
         <div class="dropdown-content">
             <?php if (isset($_SESSION['username'])): ?>
+                <a href="Profil.php">Profil</a>
                 <!-- Show 'Logout' if the user is logged in -->
                 <a href="logout.php">Odhlásit se</a>
             <?php else: ?>
