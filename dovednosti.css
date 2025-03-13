@@ -521,7 +521,9 @@ header.scrolled {
     font-size: 18px;
     margin-bottom: 40px;
     color: #dddddd;
-    font-style: italic;
+
+    font-family: 'popins', sans-serif;
+    font-weight: 500;
 }
 
 /* Skill container */

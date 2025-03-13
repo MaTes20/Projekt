@@ -272,7 +272,7 @@ if (isset($_GET['code'])) {
   <?php
     
     
-        $db = $conn->query("SELECT * FROM aktualita WHERE datum >= DATE_SUB(NOW(), INTERVAL 100 DAY);");
+        $db = $conn->query("SELECT * FROM aktualita WHERE datum >= DATE_SUB(NOW(), INTERVAL 100 DAY)order by datum DESC;");
         $pocet_akci = $db->num_rows;
         
     

@@ -235,40 +235,6 @@ body::before {
     color: #eaeaea;
 }
 
-.UvodPanel {
-    position: absolute;
-    width: 700px;
-    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
-    background-color: #2e2e2ebd;
-    color: #ffffff; 
-    margin: 100px auto; /* Zarovnání na střed a odsazení */
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.6; /* Lepší čitelnost */
-    border-radius: 8px ;
-    padding: 20px 30px; /* Vnitřní odsazení */
-    z-index: 2;
-    left: 30%;
-}
-
-
-/* Nadpis styl */
-.UvodPanel h2 {
-    font-size: 35px; /* Velikost nadpisu */
-    color: #ffffff; /* Tmavší šedá pro nadpis */
-    margin-bottom: 15px; /* Odsazení pod nadpisem */
-    text-align: center; /* Zarovnání nadpisu na střed */
-    font-family: 'popins', sans-serif;
-
-}
-
-/* Styl odstavce */
-.UvodPanel p {
-    margin: 0; /* Odstranění vnějšího odsazení */
-    text-align: center; /* Zarovnání textu na střed */
-    font-family: 'popins', sans-serif;
-}
-
 
 
 #chat-container {

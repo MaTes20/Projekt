@@ -251,7 +251,7 @@ $conn->close();
             <p><?php echo html_entity_decode($akce['dalsi_info']); ?></p>
         </div>
 
-        <a href="akce.php" class="btn-back">Zpět na seznam akcí</a>
+        <a href="Akce.php" class="btn-back">Zpět na seznam akcí</a>
     <?php endif; ?>
 </div>
 

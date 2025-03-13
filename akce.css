@@ -20,6 +20,8 @@ body {
     background-size: cover;
     color: #fff;
     line-height: 1.8;
+    font-family: 'popins', sans-serif;
+    font-weight: 500;
 
 }
 /* Přidání tmavého pozadí s obrázkem */
@@ -479,7 +481,8 @@ header.scrolled {
     margin: 50px auto; /* Zarovnání na střed */
     text-align: center; /* Zarovnání textu na střed */
     color: #ffffff; /* Neutrální barva textu */
-    font-family: Arial, sans-serif; /* Jednoduché písmo */
+    font-family: 'popins', sans-serif;
+
 }
 
 /* Nadpis sekce */
@@ -495,6 +498,9 @@ header.scrolled {
     font-size: 18px;
     line-height: 1.6;
     margin-bottom: 20px;
+    font-family: 'popins', sans-serif;
+    font-weight: 500;
+
 }
 
 /* Podnadpis sekce */
