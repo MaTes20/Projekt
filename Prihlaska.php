@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
     require 'Database.php';
     require 'Functions.php';
     require_once 'vendor/autoload.php';
@@ -168,6 +167,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     }
     
     
+    $_SESSION['submitted_email'] = $_POST['email']; // Uložení emailu do session
 
     header("Location: Prihlaska_poslana.php"); // Přesměrování na aktuální stránku
     exit();

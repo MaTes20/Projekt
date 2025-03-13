@@ -276,9 +276,9 @@ $conn->close();
             
             <button type="submit">Přihlásit se</button>
             <button type="button" onclick="closeForm()">Zavřít</button>
-            <p class="register-link">
-               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-            </p>
+            <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+        <p>Nebo se přihlaste pomocí Google:</p>
+        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
         </form>
     </div>
 

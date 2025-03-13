@@ -134,7 +134,7 @@ if (isset($_GET['code'])) {
         <li class="dropdown">
             <a href="#">Administrace</a>
             <ul class="dropdown-menu">
-                <li><a href="Vytvorit_aktualitu.php">Vytvořit aktualitu</a></li>
+                <li><a href="Nova_aktualita.php">Vytvořit aktualitu</a></li>
                 <li><a href="Vytvorit_akci.php">Vytvořit akci</a></li>
             </ul>
         </li>
@@ -240,7 +240,7 @@ if (isset($_GET['code'])) {
 
 
     <div class="intro-section">
-    <h2 class="intro-title">Vítejte na stránkách bezva tábora!</h2>
+    <h2 class="intro-title">Vítejte na stránkách Bezva tábora!</h2>
     <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
     <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
 </div>

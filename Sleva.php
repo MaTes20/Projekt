@@ -105,7 +105,7 @@ $conn->close();
     <header>
     <div class="menu-toggle">&#9776;</div>
 
-        
+            
         <nav>
             <ul>
                 <li><a href="Index.php" target="_self">Úvod</a></li>

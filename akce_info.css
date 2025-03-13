@@ -30,7 +30,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('images/2022_foto.jpg') center center / cover no-repeat;
+    background: url('images/pozadi/foto_akce_info.jpg') center center / cover no-repeat;
     opacity: 0.2;
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
@@ -674,6 +674,7 @@ margin-left: 10px;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+    color: #000;
 }
 
 .login-form-container form {
@@ -807,6 +808,7 @@ margin-left: 10px;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+    color: #000;
 }
 
 .register-form-container form {

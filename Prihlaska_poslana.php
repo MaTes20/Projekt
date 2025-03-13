@@ -77,6 +77,9 @@ if (isset($_GET['code'])) {
     exit();
 }
 
+$submittedEmail = isset($_SESSION['submitted_email']) ? htmlspecialchars($_SESSION['submitted_email']) : "Email nebyl nalezen.";
+
+
 $conn->close();
 ?>
 
@@ -210,7 +213,8 @@ $conn->close();
             Tvoje přihláška byla odeslána a po jejím zpracování tě budeme informovat emailem, jak máš dále postupovat.
         </p>
         <p class="confirmation-text">
-            Na tebou uvedený email byla zaslána kopie přihlášky.
+            Na tebou uvedený email <strong><?php echo $submittedEmail; ?></strong> byla zaslána kopie přihlášky. <br><br>
+            Těšíme se na tebe &#128512;
         </p>
     </div>
 </section>

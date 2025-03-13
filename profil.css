@@ -30,7 +30,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('images/2022_foto.jpg') center center / cover no-repeat;
+    background: url('images/pozadi/foto_profil.JPG') center center / cover no-repeat;
     opacity: 0.2;
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
@@ -51,7 +51,6 @@ body::before {
 h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    
 }
 
 label {
