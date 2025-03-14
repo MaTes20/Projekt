@@ -359,6 +359,14 @@ nav ul li a:hover::after {
     
 }
 
+.title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 60px;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
 
 /* Dropdown menu */
 .dropdown-menu {

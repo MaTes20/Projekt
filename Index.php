@@ -118,6 +118,9 @@ if (isset($_GET['code'])) {
 
     <!-- Hlavička s navigací -->
     <header>
+    <h1 class="title">Bezva Tábor</h1>
+
+
 
     <div class="menu-toggle">&#9776;</div>
 
