@@ -187,6 +187,12 @@ function vrat_pocet_deti_akce($akce_fk) {
     <!-- Hlavička s navigací -->
     <header>
         
+    <div class="title">
+    <img src="images/Nadpis/nadpis.png" alt="">
+</div>
+
+
+        
         <nav>
             <ul>
                 <li><a href="Index.php" target="_self">Úvod</a></li>
@@ -233,9 +239,10 @@ function vrat_pocet_deti_akce($akce_fk) {
     </header>
     
     
+ 
     <div class="logo-container">
     <div class="logo-background">
-        <img src="images/logoBAT.png" alt="Logo BAT">
+        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
     </div>
 </div>
 

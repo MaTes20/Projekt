@@ -158,6 +158,12 @@ $conn->close();
 
     <!-- Hlavička s navigací -->
     <header>
+        
+    <div class="title">
+    <img src="images/Nadpis/nadpis.png" alt="">
+</div>
+
+
     <div class="menu-toggle">&#9776;</div>
 
         
@@ -253,9 +259,11 @@ $conn->close();
 
 
 
-    <div class="logo-container">
+    
+ 
+<div class="logo-container">
     <div class="logo-background">
-        <img src="images/logoBAT.png" alt="Logo BAT">
+        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
     </div>
 </div>
 

@@ -120,10 +120,10 @@ if (isset($_GET['code'])) {
     <!-- Hlavička s navigací -->
     <header>
 
-
     <div class="title">
-        <img src="images/Nadpis/Přidat nadpis(8).png" alt="">
-    </div>
+    <img src="images/Nadpis/nadpis.png" alt="">
+</div>
+
 
     <div class="menu-toggle">&#9776;</div>
 
@@ -260,6 +260,9 @@ if (isset($_GET['code'])) {
     <h2 class="intro-title">Vítejte na stránkách Bezva tábora!</h2>
     <p class="intro-text">Ahoj holky a kluci! Vítáme vás na internetových stránkách vašeho oblíbeného bezva tábora. Najdete tu nejen zajímavé informace pro vás, ale i pro vaše rodiče.</p>
     <p class="intro-text">Doufáme, že se vám budou hodit a těšíme se, že se s vámi na některé z námi pořádaných akcí brzy uvidíme!</p>
+    <br><br>
+    <h2 class="intro-title">Aktuality</h2>
+
 </div>
 
 

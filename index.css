@@ -463,6 +463,18 @@ nav ul li a:hover::after {
 }
 
 
+@media screen and (max-width: 768px) {
+    .title img {
+        width: 250px;
+        height: 35px;
+        left: 40%;
+        top: 15px;
+        transform: translateX(-50%);
+    }
+}
+
+
+
 /* Kontejner loga */
 .logo-container {
     position: absolute;

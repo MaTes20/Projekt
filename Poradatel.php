@@ -101,6 +101,12 @@ if (isset($_GET['code'])) {
     
  <!-- Hlavička s navigací -->
  <header>
+    
+ <div class="title">
+    <img src="images/Nadpis/nadpis.png" alt="">
+</div>
+
+
  <div class="menu-toggle">&#9776;</div>
 
         <nav>
@@ -196,11 +202,14 @@ if (isset($_GET['code'])) {
 </script>
 
     
-    <div class="logo-container">
+    
+ 
+<div class="logo-container">
     <div class="logo-background">
-        <img src="images/logoBAT.png" alt="Logo BAT">
+        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
     </div>
 </div>
+
 
 <?php if (isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest'): ?>
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
