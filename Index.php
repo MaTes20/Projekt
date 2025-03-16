@@ -122,7 +122,7 @@ if (isset($_GET['code'])) {
 
 
     <div class="title">
-        <img src="images/web_foto/Napis_logo3.png" alt="">
+        <img src="images/Nadpis/Přidat nadpis(8).png" alt="">
     </div>
 
     <div class="menu-toggle">&#9776;</div>

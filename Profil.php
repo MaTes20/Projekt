@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         header("Location: Index.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
-        echo $result; // Zobrazení chyby
+       // echo $result; // Zobrazení chyby
     }
 }
 // authenticate code from Google OAuth Flow
@@ -143,6 +143,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+if (isset($_POST['delete_account']) && isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    // Smazání účtu z databáze
+    $stmt = $conn->prepare("DELETE FROM ucet WHERE uzivatelske_jmeno = ?");
+    $stmt->bind_param("s", $username);
+
+    if ($stmt->execute()) {
+        // Odhlášení uživatele a přesměrování na úvodní stránku
+        session_destroy();
+        header("Location: Index.php");
+        exit();
+    } else {
+        echo "<p class='error'>Chyba při odstraňování účtu.</p>";
+    }
+
+    $stmt->close();
+}
 
 
 

@@ -431,7 +431,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <!-- Souhlas -->
     <label><b>Potvrzení údajů:</b><b style="color: red; font-size: 20px;">*</b></label><br>
     <input type="checkbox" name="podminky" value="ANO" required> Prohlašuji, že jsem řádně a pravdivě vyplnil(a) veškeré údaje.<br><br>
-    <input type="checkbox" name="souhlas" value="ANO" required> Seznámil(a) jsem se s <a href="Podminky.php" target="_self">informacemi pro rodiče</a>.
+    <input type="checkbox" name="souhlas" value="ANO" required> Seznámil(a) jsem se s <a href="Podminky.php" target="_blank">informacemi pro rodiče</a>.
     <br><br><br>
 
     <!-- Antispam -->

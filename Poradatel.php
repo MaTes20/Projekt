@@ -77,7 +77,6 @@ if (isset($_GET['code'])) {
     exit();
 }
 
-$conn->close();
 ?>
 
 <!DOCTYPE html>
