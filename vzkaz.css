@@ -36,7 +36,47 @@ body::before {
 }
 
 
+/* Footer styling */
+.footer {
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
 
+/* Ikony sociálních sítí */
+.social-icons {
+    margin-bottom: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 24px;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffee00; /* Žlutá barva při najetí */
+}
+
+/* Text ve footeru */
+.footer-text {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.title img {
+    width: 350px;
+    height: 50px;
+    left: 200px;
+    top: 10px;
+    position: absolute;
+}
 #chat-container {
     position: absolute; /* Keeps the chat fixed on the screen */
     top: 100px; /* Adjusts the vertical position */
@@ -499,6 +539,7 @@ header.scrolled {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    color: #000000;
 }
 
 .vzkaz-form button:hover {

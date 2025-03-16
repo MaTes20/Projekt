@@ -112,15 +112,18 @@ if (isset($_GET['code'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/ca23847823.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
 
     <!-- Hlavička s navigací -->
     <header>
-    <h1 class="title">Bezva Tábor</h1>
 
 
+    <div class="title">
+        <img src="images/web_foto/Napis_logo3.png" alt="">
+    </div>
 
     <div class="menu-toggle">&#9776;</div>
 
@@ -200,6 +203,17 @@ if (isset($_GET['code'])) {
         </ul>
     </div>
 
+
+
+   
+
+
+
+
+
+
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
     console.log('JavaScript načten');
@@ -235,7 +249,7 @@ if (isset($_GET['code'])) {
  
     <div class="logo-container">
     <div class="logo-background">
-        <img src="images/logoBAT.png" alt="Logo BAT">
+        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -306,7 +320,18 @@ if (isset($_GET['code'])) {
      ?>
              
 
+            
+<footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100044762723817&locale=cs_CZ" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/bat_bezvatabor/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:informace@bezvatabor.cz" target="_blank"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+        <p class="footer-text">© 2025 Bezva Tábor | Všechna práva vyhrazena</p>
+        <p class="footer-text">Vytvořil | Matěj Kovařík</p>
 
+
+    </footer>
 
 
 

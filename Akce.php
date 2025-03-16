@@ -110,7 +110,8 @@ $result = $conn->query($sql);
     <title>BezvaTábor - Info o akcích</title>
     <link rel="stylesheet" href="akce.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   
+    <script src="https://kit.fontawesome.com/ca23847823.js" crossorigin="anonymous"></script>
+
     
 </head>
 <body>
@@ -312,6 +313,20 @@ $result = $conn->query($sql);
     </div>
 </div>
 
+
+
+     
+<footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100044762723817&locale=cs_CZ" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/bat_bezvatabor/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:informace@bezvatabor.cz" target="_blank"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+        <p class="footer-text">© 2025 Bezva Tábor | Všechna práva vyhrazena</p>
+        <p class="footer-text">Vytvořil | Matěj Kovařík</p>
+
+
+    </footer>
 
                
     

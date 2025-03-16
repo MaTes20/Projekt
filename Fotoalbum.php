@@ -151,6 +151,8 @@ do {
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/ca23847823.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
@@ -311,8 +313,9 @@ do {
     <div class="gallery-container">
     <div class="gallery-header">
         <h2>Fotoalbum z poslední akce</h2><br>
-        <?php echo $nazev_akce;?>
+       <h3><?php echo $nazev_akce;?></h3>
     </div>
+    <br>
     <div class="gallery-grid">
     <?php
         
@@ -343,10 +346,27 @@ do {
     <span class="arrow left" onclick="changeImage(-1)">&#10094;</span>
     <span class="arrow right" onclick="changeImage(1)">&#10095;</span>
 </div>
-    <footer>
-    <p>&copy; 2024 BezvaTábor</p>
+    
+
+
+</div>
+
+<footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100044762723817&locale=cs_CZ" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/bat_bezvatabor/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:informace@bezvatabor.cz" target="_blank"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+        <p class="footer-text">© 2025 Bezva Tábor | Všechna práva vyhrazena</p>
+        <p class="footer-text">Vytvořil | Matěj Kovařík</p>
+
 
     </footer>
+
+
+
+
+     
 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
@@ -371,6 +391,9 @@ do {
 
         </form>
 </div>
+
+
+
 
 <script>
    function onSignIn(googleUser) {
@@ -438,12 +461,6 @@ function updateModalImage() {
     modalImage.src = images[currentIndex]; // Ověřte správnou cestu
     caption.textContent = `Obrázek ${currentIndex + 1} z ${images.length}`;
 }
-
-
-
-
-
-
 
 
 

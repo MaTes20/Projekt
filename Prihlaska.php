@@ -188,6 +188,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="prihlaska.css">
+    <script src="https://kit.fontawesome.com/ca23847823.js" crossorigin="anonymous"></script>
 
     <title>BezvaTábor - Přihláška na <?php echo $nazev; ?></title>
 </head>
@@ -454,6 +455,19 @@ function vrat_pocet_deti_akce($akce_fk) {
  
  
  
+     
+<footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100044762723817&locale=cs_CZ" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/bat_bezvatabor/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:informace@bezvatabor.cz" target="_blank"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+        <p class="footer-text">© 2025 Bezva Tábor | Všechna práva vyhrazena</p>
+        <p class="footer-text">Vytvořil | Matěj Kovařík</p>
+
+
+    </footer>
+
  
  
  <!-- Registrační formulář -->
