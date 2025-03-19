@@ -24,6 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     header("Location: Akce.php");
     exit();
 }
+$existujiciJmena = [];
+$query = "SELECT uzivatelske_jmeno FROM ucet";
+$result = $conn->query($query);
+while ($row = $result->fetch_assoc()) {
+    $existujiciJmena[] = $row['uzivatelske_jmeno'];
+}
+
 
 // Zpracování přihlášení
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
@@ -102,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
     
     $akce = mysqli_fetch_array($conn->query("SELECT * FROM akce WHERE nazev = '$zvolenaAkce'"));
     $nazevAkce = $akce['nazev']; 
-    
+    $akce_id = $akce['akce_id'];
     
 }else {
     //echo "Žádná akce nebyla vybrána.";
@@ -110,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
     //$akce_id = ($_GET["akce_id"]);
     $akce_id = isset($_GET["akce_id"]) ? htmlspecialchars($_GET["akce_id"]) : "";
     
-    $akce_id = substr($akce_id, 0, 2);
+    //$akce_id = substr($akce_id, 0, 2);
     
     //$akce_id = htmlspecialchars(substr($akce_id, 0, 2)); // Získá první dva znaky
     
@@ -118,10 +125,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['akce'])) {
     $nazevAkce = $akce['nazev'];
 
      
+
+
+
 } 
 
 
-
+    $db = $conn->query("SELECT * FROM aktualita WHERE akce_fk = $akce_id ORDER BY aktualita_id DESC;");
+    $pocet_aktualit = $db->num_rows;
+    
 
 
 
@@ -276,6 +288,17 @@ $conn->close();
             <p><?php echo html_entity_decode($akce['dalsi_info']); ?></p>
         </div>
 
+        
+        <?php while($data = mysqli_fetch_array($db)) {?>
+        
+        <div class="event-info">
+            <h3><?php echo html_entity_decode($data ["nadpis"]); ?></h3>
+            <p><?php echo html_entity_decode($data ["text"]); ?></p>
+
+
+        </div>
+        <?php } ?>
+
         <a href="Akce.php" class="btn-back">Zpět na seznam akcí</a>
     <?php endif; ?>
 </div>
@@ -324,7 +347,7 @@ $conn->close();
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form action="Akce_info.php" method="POST">
+        <form action="Akce_info.php" method="POST" onsubmit="return kontrolaUsername();">
         <input type="hidden" name="register" value="true">
         
             <h2>Registrace</h2>
@@ -348,6 +371,25 @@ $conn->close();
     </div>
 
        
+    <script>
+function kontrolaUsername() {
+    let username = document.getElementById("new_username").value;
+
+    if (username === "") {
+        alert("Uživatelské jméno nesmí být prázdné.");
+        return false;
+    }
+
+    let existujiciJmena = <?php echo json_encode($existujiciJmena); ?>;
+    
+    if (existujiciJmena.includes(username)) {
+        alert("Toto uživatelské jméno je již obsazené!");
+        return false;
+    }
+
+    return true;
+}
+</script>
 
 
 

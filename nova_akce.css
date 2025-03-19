@@ -1,5 +1,190 @@
 /* Obecný reset stylu */
 
+/* Obecné stylování formuláře */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Stylování labelů */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Stylování vstupních polí */
+form input[type="text"],
+form input[type="number"],
+form input[type="date"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form input[type="date"]:focus,
+form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Stylování textarea */
+form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+
+/* Stylování tlačítka */
+form input[type="submit"] {
+    display: inline-block;
+    background-color: #007bff;
+    color: #000000;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Stylování odkazů */
+form a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+/* Nadpisy a sekce */
+form p,
+form hr,
+form small {
+    margin-bottom: 20px;
+}
+
+form hr {
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* Červené upozornění */
+form span[style*="color: red"] {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Sekce SPAM ochrany */
+form span {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+
+
+/* Fullscreen loading screen */
+.loading-screen {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Loading content container */
+.loading-content {
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Spinner animation */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid rgba(255, 255, 255, 0.3);
+    border-top: 6px solid #fffb00; /* Bright yellow spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+/* Spinner animation keyframes */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
+.title-section{
+    max-width: 600px; /* Maximální šířka */
+    margin: 20px auto; /* Zarovnání na střed */
+    text-align: center; /* Zarovnání textu na střed */
+    color: #ffffff; /* Neutrální barva textu */
+    font-family: Arial, sans-serif; /* Jednoduché písmo */
+
+}
+
+.title{
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #fefe00;
+}
+
+@media (max-width: 768px) {
+    form {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+    }
+}
 
 
 * {
@@ -30,65 +215,67 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('images/pozadi/foto_sleva.jpg') center center / cover no-repeat;
+    background: url('images/pozadi/foto_prihlaska_poslana.jpg') center center / cover no-repeat;
     opacity: 0.2;
     z-index: -1; /* Zajištění, že je pod obsahem */
 }
 
-/* Footer styling */
-.footer {
-    background-color: #1a1a1a;
-    color: #fff;
+/* Sekce obsahu */
+.intro-section {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    color: yellow;
+    text-align: justify;
+}
+
+.intro-title {
+    font-size: 36px;
     text-align: center;
-    padding: 10px 0;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-/* Ikony sociálních sítí */
-.social-icons {
-    margin-bottom: 10px;
+.intro-text {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #eaeaea;
 }
 
-.social-icons a {
-    color: #fff;
-    font-size: 24px;
-    margin: 0 15px;
-    transition: color 0.3s ease;
-}
-
-.social-icons a:hover {
-    color: #ffee00; /* Žlutá barva při najetí */
-}
-
-/* Text ve footeru */
-.footer-text {
-    font-size: 14px;
-    opacity: 0.8;
-}
-
-
-.title img {
-    width: 350px;
-    height: 50px;
-    left: 170px;
-    top: 5px;
+.UvodPanel {
     position: absolute;
+    width: 700px;
+    max-width: 90%; /* Responsivní šířka pro menší obrazovky */
+    background-color: #2e2e2ebd;
+    color: #ffffff; 
+    margin: 100px auto; /* Zarovnání na střed a odsazení */
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.6; /* Lepší čitelnost */
+    border-radius: 8px ;
+    padding: 20px 30px; /* Vnitřní odsazení */
+    z-index: 2;
+    left: 30%;
 }
 
 
+/* Nadpis styl */
+.UvodPanel h2 {
+    font-size: 35px; /* Velikost nadpisu */
+    color: #ffffff; /* Tmavší šedá pro nadpis */
+    margin-bottom: 15px; /* Odsazení pod nadpisem */
+    text-align: center; /* Zarovnání nadpisu na střed */
+    font-family: 'popins', sans-serif;
 
-@media screen and (max-width: 768px) {
-    .title img {
-        width: 250px;
-        height: 35px;
-        left: 40%;
-        top: 15px;
-        transform: translateX(-50%);
-    }
 }
+
+/* Styl odstavce */
+.UvodPanel p {
+    margin: 0; /* Odstranění vnějšího odsazení */
+    text-align: center; /* Zarovnání textu na střed */
+    font-family: 'popins', sans-serif;
+}
+
 
 
 #chat-container {
@@ -179,6 +366,8 @@ body::before {
 #chat-container.open {
     right: 20px; /* Slide in */
 }
+
+
 @media screen and (max-width: 768px) {
     #chat-container {
         width: 80%;
@@ -189,7 +378,6 @@ body::before {
     }
     
 }
-
 header {
     position: sticky;
     top: 0;
@@ -216,8 +404,8 @@ nav {
 nav ul {
     display: flex;
     list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
 nav ul li {
@@ -361,6 +549,95 @@ header.scrolled {
 }
 
 
+
+
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.dropdown-menu li {
+    width: 80%;
+}
+
+.dropdown-menu li a {
+    padding: 10px;
+    display: flex;
+    color: #000000;
+}
+
+/* Zobrazení dropdownu při hoveru */
+.dropdown:hover .dropdown-menu {
+    display:grid;
+}
+
+
+
+
+
+/* Footer styling */
+.footer {
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Ikony sociálních sítí */
+.social-icons {
+    margin-bottom: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 24px;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffee00; /* Žlutá barva při najetí */
+}
+
+/* Text ve footeru */
+.footer-text {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+
+.title img {
+    width: 350px;
+    height: 50px;
+    left: 170px;
+    top: 5px;
+    position: absolute;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .title img {
+        width: 250px;
+        height: 35px;
+        left: 40%;
+        top: 15px;
+        transform: translateX(-50%);
+    }
+}
+
+
 /* Kontejner loga */
 .logo-container {
     position: absolute;
@@ -388,6 +665,7 @@ header.scrolled {
     width: 150px; /* Velikost loga uvnitř kruhu */
     height: auto;
 }
+
 @media screen and (max-width: 768px) {
     .logo-container {
         top: 75px; /* Posunutí loga pod header */
@@ -407,7 +685,6 @@ header.scrolled {
         width: 80px; /* Zmenšení samotného loga */
     }
 }
-
 
 .account a {
     text-decoration: none;
@@ -444,13 +721,13 @@ header.scrolled {
 }
 
 
-
 .profile-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
 }
+
 
 .profile-dropdown {
     position: relative;
@@ -470,7 +747,7 @@ header.scrolled {
 }
 
 .profile:hover {
-    background-color: #6b6b6b;
+    background-color: #e0e0e0;
 }
 
 .dropdown-content {
@@ -504,77 +781,7 @@ header.scrolled {
 
 
 
-/* Základní sekce */
-.section {
-    width: 90%;
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px 0;
-    color: #ffffff;
-    font-family: popins, sans-serif;
-}
 
-/* Nadpisy */
-.section h2 {
-    font-size: 32px;
-    color: #ffee00;
-    margin-bottom: 20px;
-}
-
-.section h3 {
-    font-size: 26px;
-    color: #ffee00;
-    margin-bottom: 10px;
-}
-
-/* Odstavce */
-.section p {
-    font-size: 18px;
-    line-height: 1.8;
-    text-align: justify;
-    margin: 10px 0;
-}
-
-/* Seznamy */
-.section ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-
-.section ul li {
-    font-size: 18px;
-    margin-bottom: 5px;
-    color: #ffee00;
-}
-
-/* Oddělovač */
-.section hr {
-    border: none;
-    border-top: 1px solid #ffffff;
-    margin: 20px 0;
-}
-
-
-@media (max-width: 768px) {
-    .section {
-        width: 95%;
-        padding: 15px 0;
-    }
-
-    .section h2 {
-        font-size: 28px;
-    }
-
-    .section h3 {
-        font-size: 22px;
-    }
-
-    .section p,
-    .section ul li {
-        font-size: 16px;
-    }
-}
 
 
 
@@ -859,15 +1066,10 @@ form textarea:focus {
 
 /* Stylování textarea */
 form textarea {
-    height: 100px;
+    height: 300px;
     resize: vertical;
 }
 
-/* Stylování checkboxů a rádiových tlačítek */
-form input[type="checkbox"],
-form input[type="radio"] {
-    margin-right: 10px;
-}
 
 /* Stylování tlačítka */
 form input[type="submit"] {

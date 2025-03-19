@@ -23,7 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     echo $message;
     header("Location: Sleva.php");
     exit();
+} 
+
+$existujiciJmena = [];
+$query = "SELECT uzivatelske_jmeno FROM ucet";
+$result = $conn->query($query);
+while ($row = $result->fetch_assoc()) {
+    $existujiciJmena[] = $row['uzivatelske_jmeno'];
 }
+
 
 // Zpracování přihlášení
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
@@ -236,18 +244,17 @@ $conn->close();
         <li>Kamarád ..... <strong>200 Kč</strong></li>
     </ul>
 
-    <p><strong>Věrnostní</strong> - O tuto slevu může požádat každý táborník, který byl s námi na posledních dvou táborech (2022 a 2023).</p><br>
-    <p><strong>Sourozenec</strong> - O tuto slevu mohou požádat sourozenci žijící spolu v jedné domácnosti.</p><br>
-    <p><strong>Kamarád</strong> - O tuto slevu může požádat každý táborník, který přivede na náš tábor nového účastníka (nováčka - který se dosud našeho tábora nezúčastnil).</p><br>
+    <p><strong><span style="color: #ffee00;">Věrnostní</span></strong> - O tuto slevu může požádat každý táborník, který byl s námi na posledních dvou táborech (2022 a 2023).</p><br>
 
-    <p>Uznání slevy je podmíněno zaplacením tábora budoucím táborníkem. Vaší úhradu za tábor proto proveďte bez započítání této slevy. Peníze za nově přivedené účastníky vám nejpozději do 60 dnů od ukončení tábora zašleme na váš účet. Tuto slevu nelze uplatnit na sebe a mezi sourozenci.</p><br>
+    <p><strong><span style="color: #ffee00;">Sourozenec</span></strong> - O tuto slevu mohou požádat sourozenci žijící spolu v jedné domácnosti.</p><br>
 
-    <p>O slevu lze žádat vícekrát, záleží jenom na vás, kolik nových táborníků přivedete.</p>
+    <p><strong><span style="color: #ffee00;">Kamarád</span></strong> - O tuto slevu může požádat každý táborník, který přivede na náš tábor nového účastníka (nováčka - který se dosud našeho tábora nezúčastnil).</p>
+    <p>Uznání slevy je podmíněno zaplacením tábora budoucím táborníkem. Vaší úhradu za tábor proto proveďte bez započítání této slevy. Peníze za nově přivedené účastníky vám nejpozději do 60 dnů od ukončení tábora zašleme na váš účet. Tuto slevu nelze uplatnit na sebe a mezi sourozenci.</p> 
+    <p>O slevu lze žádat vícekrát, záleží jenom na vás, kolik nových táborníků přivedete.</p><br>
 
-    <p><strong>Slevy se sčítají až do výše vaší úhrady za tábor.</strong></p><br>
+    <p style="color:#ffee00;"><strong>Slevy se sčítají až do výše vaší úhrady za tábor.</strong></p><br>
 
-    <p>O slevu je potřeba si požádat prostřednictvím přihlášky, emailem nebo elektronickou žádostí, kterou naleznete na našich stránkách.</p>
-
+    <p style="color:#ffee00;">O slevu je potřeba si požádat prostřednictvím přihlášky, emailem nebo elektronickou žádostí, kterou naleznete na našich stránkách.</p>
     <p><em>O uznání slevy rozhoduje Bezva tábor z.s., který tyto slevy zároveň poskytuje.</em></p>
 </section>
 
@@ -302,7 +309,7 @@ $conn->close();
 
 <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form action="Sleva.php" method="POST">
+        <form action="Sleva.php" method="POST" onsubmit="return kontrolaUsername();">
         <input type="hidden" name="register" value="true">
         
             <h2>Registrace</h2>
@@ -325,6 +332,26 @@ $conn->close();
         </form>
     </div>  
 
+
+    <script>
+function kontrolaUsername() {
+    let username = document.getElementById("new_username").value;
+
+    if (username === "") {
+        alert("Uživatelské jméno nesmí být prázdné.");
+        return false;
+    }
+
+    let existujiciJmena = <?php echo json_encode($existujiciJmena); ?>;
+    
+    if (existujiciJmena.includes(username)) {
+        alert("Toto uživatelské jméno je již obsazené!");
+        return false;
+    }
+
+    return true;
+}
+</script>
 
     
  

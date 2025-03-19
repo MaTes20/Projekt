@@ -22,7 +22,6 @@ if (!$conn) {
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
 
-
 // Zpracování registrace
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
@@ -30,6 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     header("Location: Index.php");
     exit();
 }
+
+$existujiciJmena = [];
+$query = "SELECT uzivatelske_jmeno FROM ucet";
+$result = $conn->query($query);
+while ($row = $result->fetch_assoc()) {
+    $existujiciJmena[] = $row['uzivatelske_jmeno'];
+}
+
 
 // Zpracování přihlášení
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
@@ -377,7 +384,7 @@ if (isset($_GET['code'])) {
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-    <form action="Index.php" method="POST">
+    <form action="Index.php" method="POST" onsubmit="return kontrolaUsername();">
         <input type="hidden" name="register" value="true">
 
         <h2>Registrace</h2>
@@ -400,6 +407,25 @@ if (isset($_GET['code'])) {
     </form>
 </div>
 
+<script>
+function kontrolaUsername() {
+    let username = document.getElementById("new_username").value;
+
+    if (username === "") {
+        alert("Uživatelské jméno nesmí být prázdné.");
+        return false;
+    }
+
+    let existujiciJmena = <?php echo json_encode($existujiciJmena); ?>;
+    
+    if (existujiciJmena.includes(username)) {
+        alert("Toto uživatelské jméno je již obsazené!");
+        return false;
+    }
+
+    return true;
+}
+</script>
 
 
 
