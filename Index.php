@@ -148,7 +148,7 @@ if (isset($_GET['code'])) {
             <a href="#">Administrace</a>
             <ul class="dropdown-menu">
                 <li><a href="Nova_aktualita.php">Vytvořit aktualitu</a></li>
-                <li><a href="Vytvorit_akci.php">Vytvořit akci</a></li>
+                <li><a href="Nova_akce.php">Vytvořit akci</a></li>
             </ul>
         </li>
         <?php endif; ?>
