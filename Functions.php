@@ -34,11 +34,26 @@ function loginUser($conn, $username, $password) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
-    $result = $stmt->get_result();
+    //$result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['heslo'])) {
+    //if ($result->num_rows > 0) {
+       // $row = $result->fetch_assoc();
+       // if (password_verify($password, $row['heslo'])) {
+       //     $_SESSION['username'] = $username; // Uložení do session
+       //     return true;
+       // } else {
+       //     return "Chybné heslo.";
+      //  }
+   // } else {
+      //  return "Uživatel neexistuje.";
+   // }
+   
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($hashedPassword);
+        $stmt->fetch();
+
+        if (password_verify($password, $hashedPassword)) {
             $_SESSION['username'] = $username; // Uložení do session
             return true;
         } else {
@@ -47,4 +62,6 @@ function loginUser($conn, $username, $password) {
     } else {
         return "Uživatel neexistuje.";
     }
+   
+   
 }

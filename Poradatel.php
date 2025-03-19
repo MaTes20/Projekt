@@ -12,6 +12,7 @@ require_once 'config.php';
 
 // Připojení k databázi
 $conn = connectToDatabase();
+$conn->set_charset("utf8mb4");
 
 // Získání aktuálního uživatele
 $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -20,7 +21,7 @@ $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
     echo $message;
-    header("Location: Index.php");
+    header("Location: Poradatel.php");
     exit();
 }
 
@@ -28,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $result = loginUser($conn, $_POST['username'], $_POST['password']);
     if ($result === true) {
-        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        header("Location: Poradatel.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
         echo $result; // Zobrazení chyby
@@ -73,7 +74,7 @@ if (isset($_GET['code'])) {
         $_SESSION['profile_picture'] = $profile_picture; // Uložení obrázku do session
 
     }
-    header("Location: Index.php");
+    header("Location: Poradatel.php");
     exit();
 }
 
@@ -103,7 +104,7 @@ if (isset($_GET['code'])) {
  <header>
     
  <div class="title">
-    <img src="images/Nadpis/nadpis.png" alt="">
+    <img src="images/nadpis/nadpis.png" alt="">
 </div>
 
 
@@ -206,7 +207,7 @@ if (isset($_GET['code'])) {
  
 <div class="logo-container">
     <div class="logo-background">
-        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -221,10 +222,14 @@ if (isset($_GET['code'])) {
         <button onclick="sendMessage()">Odeslat</button>
     </div>
 </div>
-     <!-- Formulář jako modální okno -->
+   
+     <!-- prihlasovaci formular -->
      <div class="login-form-container" id="loginForm">
-        <form>
+        <form action="Poradatel.php" method="POST">
+        <input type="hidden" name="login" value="true">
+        
             <h2>Přihlášení</h2>
+        
             <label for="username">Uživatelské jméno</label>
             <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
             
@@ -233,7 +238,6 @@ if (isset($_GET['code'])) {
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
             <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
             </div>
-
             
             <button type="submit">Přihlásit se</button>
             <button type="button" onclick="closeForm()">Zavřít</button>
@@ -247,17 +251,19 @@ if (isset($_GET['code'])) {
 
     <!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form>
+        <form action="Poradatel.php" method="POST">
+        <input type="hidden" name="register" value="true">
+        
             <h2>Registrace</h2>
-            <label for="new-username">Uživatelské jméno</label>
-            <input type="text" id="new-username" name="new-username" placeholder="Zadejte uživatelské jméno" required>
+            <label for="new_username">Uživatelské jméno</label>
+            <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
             
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Zadejte email" required>
             
-            <label for="new-password">Heslo</label>
+            <label for="new_password">Heslo</label>
             <div class="new-password-container">
-                <input type="password" id="new-password" name="new-password" placeholder="Zadejte heslo" required>
+                <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
                 <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
             </div>
             
@@ -296,7 +302,6 @@ if (isset($_GET['code'])) {
         <p><strong>Kontakt:</strong> Karel BUKY Bukovský <a href="mailto:karel@bezvatabor.cz">karel@bezvatabor.cz</a></p>
         <p><strong>Kontakt:</strong> Aleš ALI Kovařík <a href="mailto:ali@bezvatabor.cz">ali@bezvatabor.cz</a></p>
         <p><strong>E-mail:</strong> <a href="mailto:informace@bezvatabor.cz">informace@bezvatabor.cz</a></p>
-        <p><strong>WWW:</strong> <a href="http://www.bezvatabor.cz/os" target="_blank">http://www.bezvatabor.cz/os</a></p>
     </div>
     <hr>
     <div class="kontakt-info">
@@ -345,10 +350,7 @@ if (isset($_GET['code'])) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
-</script>
 
-
-    <script>
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
             closeRegisterForm();
@@ -380,7 +382,7 @@ if (isset($_GET['code'])) {
 
 // Zobrazení a skrytí hesla pro registrační formulář
 document.getElementById('toggleNewPassword').addEventListener('click', function () {
-            const newPasswordField = document.getElementById('new-password');
+            const newPasswordField = document.getElementById('new_password');
             const type = newPasswordField.type === 'password' ? 'text' : 'password';
             newPasswordField.type = type;
 

@@ -11,11 +11,8 @@ if (session_status() === PHP_SESSION_NONE) {
     
 
 
-// vyčtení čísla akce z řádku
-//$akce_fk = htmlspecialchars($_GET["akce_id"]);
-//echo $akce_fk . ";";
-    
-    // Připojení k databázi
+
+// Připojení k databázi
 $conn = connectToDatabase();
 $conn->set_charset("utf8mb4");
 
@@ -94,44 +91,15 @@ if (isset($_GET['code'])) {
 
 
     
+    // nejvyšší číslo akce  
+    $akce = mysqli_fetch_array($conn->query("SELECT akce_fk FROM aktualita ORDER BY akce_fk DESC LIMIT 1"));
+    $cislo_akce = $akce ['akce_fk'];
     
-function vrat_pocet_deti_akce($akce_fk) {
-        global $conn; 
-        $pocet = $conn->query("SELECT akce_fk FROM deti WHERE akce_fk = $akce_fk");
-        $pocet_deti = $pocet->num_rows;
-        //echo $pocet_deti . ";";
-        return $pocet_deti;
-        
-      }
-
-    function vrat_pocet_deti() {
-        global $conn; 
-        $pocet = $conn->query("SELECT dite_id FROM deti");
-        $pocet_deti = $pocet->num_rows;
-        //echo $pocet_deti . ";";
-        return $pocet_deti;
-      }    
+    // nejvyšší číslo aktuality u dané akce
+    $akce = mysqli_fetch_array($conn->query("SELECT aktualita_id FROM aktualita WHERE akce_fk = $cislo_akce ORDER BY aktualita_id DESC LIMIT 1"));
+    $cislo_aktualita = $akce ['aktualita_id'];
     
-   
-   
-    $akce_fk = 29; 
     
-   
-   
-    $akce = mysqli_fetch_array($conn->query("SELECT akce_id, nazev, tema FROM akce WHERE akce_id = $akce_fk"));
-    $nazev = $akce['nazev'];
-    $tema = $akce['tema'];
-    //echo $nazev . ";";
-    //echo $tema . ";";   
-   
-          
-    $pocetdeti = vrat_pocet_deti();
-    $dite_id = $pocetdeti + 1;
-
-    $pocetdetiakce = vrat_pocet_deti_akce($akce_fk);
-    $diteakce_id = $pocetdetiakce + 1;
-
-     
       
    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -152,10 +120,9 @@ function vrat_pocet_deti_akce($akce_fk) {
     ];
    
 
-    //if ($_POST['pirat'] == "želva" )
-    //{
+    
         $nova_aktualita->execute($data);
-    //}
+    
     
     
 
@@ -188,7 +155,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <header>
         
     <div class="title">
-    <img src="images/Nadpis/nadpis.png" alt="">
+    <img src="images/nadpis/nadpis.png" alt="">
 </div>
 
 
@@ -201,7 +168,21 @@ function vrat_pocet_deti_akce($akce_fk) {
                 <li><a href="Dovednosti.php">Dovednosti</a></li>
                 <li><a href="Vzkaz.php">Vzkazy</a></li>
                 <li><a href="Fotoalbum.php">Fotoalbum</a></li>
+                
+                <?php if ($currentUsername == 'admin'): ?>
+        <li class="dropdown">
+            <a href="#">Administrace</a>
+            <ul class="dropdown-menu">
+                <li><a href="Nova_aktualita.php">Vytvořit aktualitu</a></li>
+                <li><a href="Vytvorit_akci.php">Vytvořit akci</a></li>
             </ul>
+          </li>
+        <?php endif; ?>
+
+            </ul>  
+            
+            
+            
             
         </nav>
         <div class="account">
@@ -242,7 +223,7 @@ function vrat_pocet_deti_akce($akce_fk) {
  
     <div class="logo-container">
     <div class="logo-background">
-        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -286,12 +267,12 @@ function vrat_pocet_deti_akce($akce_fk) {
 
     <!-- Číslo aktuality -->
     <label for="cislo_aktuality"><b>Číslo aktuality:</b> <b style="color: red; font-size: 20px;">*</b></label>
-    <input type="number" id="cislo_aktuality" name="cislo_aktuality" maxlength="3" required>
+    <input type="number" id="cislo_aktuality" name="cislo_aktuality" placeholder="Poslední číslo aktuality je <?php echo $cislo_aktualita; ?>" maxlength="3" required>
     <br><br>
     
     <!-- Číslo akce -->
     <label for="cislo_akce"><b>Číslo akce:</b> <b style="color: red; font-size: 20px;">*</b></label>
-    <input type="number" id="cislo_akce" name="cislo_akce" maxlength="3" required>
+    <input type="number" id="cislo_akce" name="cislo_akce" placeholder="Poslední číslo akce je <?php echo $cislo_akce; ?>" maxlength="3" required>
     <br><br>
     
     
@@ -307,7 +288,7 @@ function vrat_pocet_deti_akce($akce_fk) {
 
     <!-- Datum aktuality -->
     <label for="datum"><b>Datum aktuality:</b> <b style="color: red; font-size: 20px;">*</b></label>
-    <input type="date" id="datum" name="datum" required>
+    <input type="date" id="datum" name="datum" >
     <br><br>
 
  
@@ -319,42 +300,9 @@ function vrat_pocet_deti_akce($akce_fk) {
 
 
  
- 
- 
- 
- 
- <!-- Registrační formulář -->
-    <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="register">
-
-            <h2>Registrace</h2>
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
-            
-            <label for="password">Heslo</label>
-            <div class="new-password-container">
-                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
-            </div>
-  
-            <button type="submit">Registrovat se</button>
-            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
-            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
-
-
-            
-
-        </form>
-    </div>
-
-    
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
-    <form action="Index.php" method="POST">
+    <form action="Nova_aktualita.php" method="POST">
         <input type="hidden" name="login" value="true">
 
         <h2>Přihlášení</h2>
@@ -365,18 +313,48 @@ function vrat_pocet_deti_akce($akce_fk) {
         <label for="password">Heslo</label>
         <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
         </div>
         
         <button type="submit">Přihlásit se</button>
         <button type="button" onclick="closeForm()">Zavřít</button>
-        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-        <p>Nebo se přihlaste pomocí Google:</p>
-        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-
-        </form>
+        <p class="register-link">
+               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+               <p>Nebo se přihlaste pomocí Google:</p>
+               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
+        </p>
+    </form>
 </div>
 
+<!-- Registrační formulář -->
+    <div class="register-form-container" id="registerForm">
+        <form action="Nova_aktualita.php" method="POST">
+        <input type="hidden" name="register" value="true">
+        
+            <h2>Registrace</h2>
+            <label for="new_username">Uživatelské jméno</label>
+            <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
+            
+            <label for="new_password">Heslo</label>
+            <div class="new-password-container">
+                <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
+            </div>
+            
+            <button type="submit">Registrovat se</button>
+            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
+            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
 
+        </form>
+    </div>
+
+ 
+ 
+ 
+ 
 
     <script>
 
@@ -435,7 +413,7 @@ function onSignIn(googleUser) {
 
 // Zobrazení a skrytí hesla pro registrační formulář
 document.getElementById('toggleNewPassword').addEventListener('click', function () {
-            const newPasswordField = document.getElementById('new-password');
+            const newPasswordField = document.getElementById('new_password');
             const type = newPasswordField.type === 'password' ? 'text' : 'password';
             newPasswordField.type = type;
 

@@ -8,6 +8,16 @@ if (session_status() === PHP_SESSION_NONE) {
     require_once 'vendor/autoload.php';
     require_once 'config.php';
     
+// Funkce pro zápis do logu
+function zapisLog($zprava) {
+    $soubor = 'prihlaska.log'; // Název logovacího souboru
+    $cas = date('Y-m-d H:i:s'); // Aktuální čas
+    $logZaznam = "[$cas] $zprava" . PHP_EOL; // Formát záznamu
+
+// Zápis do souboru (přidání na konec)
+    file_put_contents($soubor, $logZaznam, FILE_APPEND | LOCK_EX);
+    
+}
 
 
 // vyčtení čísla akce z řádku
@@ -22,7 +32,19 @@ $conn->set_charset("utf8mb4");
         die('Chyba připojení k databázi.');
     }
 
+// Generování slova pro zápis do DB
+$gencislo = rand(1,8);
 
+switch ($gencislo) {
+  case 1: $zapis = "želva"; break;
+  case 2: $zapis = "čmelák"; break;
+  case 3: $zapis = "včela"; break;
+  case 4: $zapis = "hruška"; break;
+  case 5: $zapis = "švestka"; break;
+  case 6: $zapis = "řeřicha"; break;
+  case 7: $zapis = "žralok"; break;
+  case 8: $zapis = "čutora"; break;
+}
 
 
 // Získání aktuálního uživatele
@@ -32,7 +54,7 @@ $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
     echo $message;
-    header("Location: Index.php");
+    header("Location: Akce.php");
     exit();
 }
 
@@ -40,12 +62,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $result = loginUser($conn, $_POST['username'], $_POST['password']);
     if ($result === true) {
-        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        header("Location: Akce.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
         echo $result; // Zobrazení chyby
     }
 }
+
 // authenticate code from Google OAuth Flow
 if (isset($_GET['code'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -91,7 +114,6 @@ if (isset($_GET['code'])) {
 
 
 
-
     
     
 function vrat_pocet_deti_akce($akce_fk) {
@@ -103,7 +125,8 @@ function vrat_pocet_deti_akce($akce_fk) {
         
       }
 
-    function vrat_pocet_deti() {
+
+function vrat_pocet_deti() {
         global $conn; 
         $pocet = $conn->query("SELECT dite_id FROM deti");
         $pocet_deti = $pocet->num_rows;
@@ -111,12 +134,11 @@ function vrat_pocet_deti_akce($akce_fk) {
         return $pocet_deti;
       }    
     
-    
+   
     $akce = mysqli_fetch_array($conn->query("SELECT akce_id, nazev, tema FROM akce WHERE akce_id = $akce_fk"));
     $nazev = $akce['nazev'];
     $tema = $akce['tema'];
-    //echo $nazev . ";";
-    //echo $tema . ";";   
+     
    
           
     $pocetdeti = vrat_pocet_deti();
@@ -126,7 +148,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     $diteakce_id = $pocetdetiakce + 1;
 
      
-      
+     
    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
@@ -159,22 +181,27 @@ function vrat_pocet_deti_akce($akce_fk) {
       $zdravi = $_POST['zdravi'],
       $poznamka = $_POST['poznamka']
     ];
-   
 
-    if ($_POST['pirat'] == "želva" )
-    {
+
+
         $prihlaska->execute($data);
-    }
-    
-    
-    $_SESSION['submitted_email'] = $_POST['email']; // Uložení emailu do session
+        
+        zapisLog("data zapsána");
+        zapisLog($jmeno . " " . $prijmeni . "," . $rodic1 . "," . $telefonrod1 . "," . $email );
+        
+        
+        $_SESSION['submitted_email'] = $_POST['email']; // Uložení emailu do session
 
-    header("Location: Prihlaska_poslana.php"); // Přesměrování na aktuální stránku
-    exit();
+        header("Location: Prihlaska_poslana.php"); // Přesměrování na aktuální stránku
+        exit();
+   
+    
 
     
     $conn->close();
+ 
 }
+
 
 
 
@@ -199,8 +226,9 @@ function vrat_pocet_deti_akce($akce_fk) {
     <header>
         
     <div class="title">
-    <img src="images/Nadpis/nadpis.png" alt="">
+    <img src="images/nadpis/nadpis.png" alt="">
 </div>
+
 
 
     <div class="menu-toggle">&#9776;</div>
@@ -300,7 +328,7 @@ function vrat_pocet_deti_akce($akce_fk) {
  
 <div class="logo-container">
     <div class="logo-background">
-        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -324,7 +352,7 @@ function vrat_pocet_deti_akce($akce_fk) {
   
   
   
-  
+
 
 
   <div class="title-section">
@@ -338,6 +366,8 @@ function vrat_pocet_deti_akce($akce_fk) {
 	</p></b>
   </div>
 </div>
+
+
 
 
 <form name="prihlaska" id="prihlaska" method="POST" onsubmit="handleFormSubmit(event)" action="Prihlaska.php?akce_id=<?php echo $akce_fk; ?>" >
@@ -433,7 +463,7 @@ function vrat_pocet_deti_akce($akce_fk) {
     <input type="checkbox" name="sourozenec" value="ANO"> Sourozenec
     <input type="checkbox" name="kamarad" value="ANO"> Kamarád <br><br>
     <input type="text" name="kamaradjmeno" placeholder="Při slevě Kamarád vyplňte jméno kamaráda/ky" maxlength="30">
-    <br><a href="sleva.php" target="_blank">Informace ke slevám</a>
+    <br><a href="Sleva.php" target="_blank">Informace ke slevám</a>
     <br><br><br>
 
     <!-- Souhlas -->
@@ -444,8 +474,9 @@ function vrat_pocet_deti_akce($akce_fk) {
 
     <!-- Antispam -->
     <label for="pirat"><b>Ochrana proti SPAM robotům:</b></label><br>
-    <span>Napište slovo "želva": </span><input type="text" id="pirat" name="pirat" style="font: 12px Arial" required>
+    <input type="text" id="pirat" name="pirat" placeholder="Napište slovo <?php echo $zapis; ?>" required>
     <br><br>
+
 
     <!-- Odeslat -->
     <input type="submit" name="poslat" value="Odeslat přihlášku">
@@ -462,7 +493,7 @@ function vrat_pocet_deti_akce($akce_fk) {
 </div>
  
  
- 
+
      
 <footer class="footer">
         <div class="social-icons">
@@ -476,40 +507,11 @@ function vrat_pocet_deti_akce($akce_fk) {
 
     </footer>
 
+
  
- 
- <!-- Registrační formulář -->
-    <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="register">
-
-            <h2>Registrace</h2>
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
-            
-            <label for="password">Heslo</label>
-            <div class="new-password-container">
-                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
-                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
-            </div>
-  
-            <button type="submit">Registrovat se</button>
-            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
-            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
-
-
-            
-
-        </form>
-    </div>
-
-    
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
-    <form action="Index.php" method="POST">
+    <form action="Prihlaska.php" method="POST">
         <input type="hidden" name="login" value="true">
 
         <h2>Přihlášení</h2>
@@ -520,22 +522,53 @@ function vrat_pocet_deti_akce($akce_fk) {
         <label for="password">Heslo</label>
         <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
         </div>
         
         <button type="submit">Přihlásit se</button>
         <button type="button" onclick="closeForm()">Zavřít</button>
-        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-        <p>Nebo se přihlaste pomocí Google:</p>
-        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-
-        </form>
+        <p class="register-link">
+               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+               <p>Nebo se přihlaste pomocí Google:</p>
+               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
+        </p>
+    </form>
 </div>
 
 
+<!-- Registrační formulář -->
+    <div class="register-form-container" id="registerForm">
+        <form action="Prihlaska.php" method="POST">
+        <input type="hidden" name="register" value="true">
+        
+            <h2>Registrace</h2>
+            <label for="new_username">Uživatelské jméno</label>
+            <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
+            
+            <label for="new_password">Heslo</label>
+            <div class="new-password-container">
+                <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
+            </div>
+            
+            <button type="submit">Registrovat se</button>
+            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
+            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+
+        </form>
+    </div>
+
+ 
+ 
+ 
+ 
 
     <script>
 
-         document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
     console.log("Fetching messages on page load...");
     fetchMessages(); // Fetch messages as soon as the page loads
     setInterval(fetchMessages, 3000); // Continue fetching every 3 seconds
@@ -571,15 +604,17 @@ function onSignIn(googleUser) {
 function showLoadingScreen() {
     document.getElementById('loadingScreen').style.display = 'flex'; // Show the loading screen
 }
+   
     function kontrola() {
 	           
-               if (document.prihlaska.pirat.value != 'želva')  {
-                 alert('Špatné Heslo!');
+               if (document.prihlaska.pirat.value != '<?php echo($zapis); ?>')  {
+                 alert('Špatné Heslo! Heslo je <?php echo($zapis); ?>');
                  return false;
                }
-               return true;
                
+               return true;
              }
+
 
         function openForm() {
             document.getElementById("loginForm").style.display = "flex";
@@ -614,7 +649,7 @@ function showLoadingScreen() {
 
 // Zobrazení a skrytí hesla pro registrační formulář
 document.getElementById('toggleNewPassword').addEventListener('click', function () {
-            const newPasswordField = document.getElementById('new-password');
+            const newPasswordField = document.getElementById('new_password');
             const type = newPasswordField.type === 'password' ? 'text' : 'password';
             newPasswordField.type = type;
 
@@ -657,9 +692,6 @@ document.addEventListener("DOMContentLoaded", function () {
     </script>
 
 
-
- 
- 
     
 </body>
 </html>

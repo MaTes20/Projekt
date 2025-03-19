@@ -29,7 +29,7 @@ $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
     echo $message;
-    header("Location: Index.php");
+    header("Location: Akce.php");
     exit();
 }
 
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $result = loginUser($conn, $_POST['username'], $_POST['password']);
     if ($result === true) {
-        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        header("Location: Akce.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
         echo $result; // Zobrazení chyby
@@ -121,7 +121,7 @@ $result = $conn->query($sql);
     <header>
         
     <div class="title">
-    <img src="images/Nadpis/nadpis.png" alt="">
+    <img src="images/nadpis/nadpis.png" alt="">
 </div>
 
 
@@ -219,7 +219,7 @@ $result = $conn->query($sql);
  
 <div class="logo-container">
     <div class="logo-background">
-        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -267,7 +267,7 @@ $result = $conn->query($sql);
   <?php
     
     
-        $db = $conn->query("SELECT * FROM akce WHERE datum_uzaverky > NOW()");
+        $db = $conn->query("SELECT * FROM akce WHERE datum_uzaverky > NOW() ORDER BY datum_uzaverky ASC");
         $pocet_akci = $db->num_rows;
         
     
@@ -309,7 +309,7 @@ $result = $conn->query($sql);
 
 
 
-                  <?php if (isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest'): ?>
+  <?php if (isset($_SESSION['username']) && $_SESSION['username'] !== 'Guest'): ?>
     <button id="chat-toggle" onclick="toggleChat()">Chat</button>
 <?php endif; ?>
     <div id="chat-container">
@@ -338,48 +338,47 @@ $result = $conn->query($sql);
                
     
    
- <!-- Formulář jako modální okno -->
-    <div class="login-form-container" id="loginForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="login">
+ <!-- prihlasovaci formular -->
+ <div class="login-form-container" id="loginForm">
+    <form action="Akce.php" method="POST">
+        <input type="hidden" name="login" value="true">
 
-            <h2>Přihlášení</h2>
-            
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
-            
-            <label for="password">Heslo</label>
-            <div class="password-container">
+        <h2>Přihlášení</h2>
+        
+        <label for="username">Uživatelské jméno</label>
+        <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+        
+        <label for="password">Heslo</label>
+        <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
             <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
-            </div>
-
-            
-            <button type="submit">Přihlásit se</button>
-            <button type="button" onclick="closeForm()">Zavřít</button>
-            <p class="register-link">
+        </div>
+        
+        <button type="submit">Přihlásit se</button>
+        <button type="button" onclick="closeForm()">Zavřít</button>
+        <p class="register-link">
                <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
                <p>Nebo se přihlaste pomocí Google:</p>
                <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-            </p>
-        </form>
-    </div>
+        </p>
+    </form>
+</div>
 
-    <!-- Registrační formulář -->
+<!-- Registrační formulář -->
     <div class="register-form-container" id="registerForm">
-        <form action="Index.php" method="POST">
-        <input type="hidden" name="action" value="register">
-
+        <form action="Akce.php" method="POST">
+        <input type="hidden" name="register" value="true">
+        
             <h2>Registrace</h2>
-            <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username" placeholder="Zadejte uživatelské jméno" required>
+            <label for="new_username">Uživatelské jméno</label>
+            <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
             
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Zadejte email" required>
             
-            <label for="password">Heslo</label>
+            <label for="new_password">Heslo</label>
             <div class="new-password-container">
-                <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+                <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
                 <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
             </div>
             
@@ -387,11 +386,9 @@ $result = $conn->query($sql);
             <button type="button" onclick="closeRegisterForm()">Zavřít</button>
             <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
 
-
-            
-
         </form>
     </div>
+
 
 
 
@@ -443,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Zobrazení a skrytí hesla pro registrační formulář
 document.getElementById('toggleNewPassword').addEventListener('click', function () {
-            const newPasswordField = document.getElementById('new-password');
+            const newPasswordField = document.getElementById('new_password');
             const type = newPasswordField.type === 'password' ? 'text' : 'password';
             newPasswordField.type = type;
 

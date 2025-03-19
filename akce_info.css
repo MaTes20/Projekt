@@ -238,8 +238,8 @@ nav ul li a {
 
 /* Hover efekty */
 nav ul li a:hover {
-    color: #dadada;
-    transform: scale(1.05);
+    color: #000000;
+    transform: scale(1.02);
 }
 
 nav ul li a::after {

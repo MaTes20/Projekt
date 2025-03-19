@@ -28,7 +28,7 @@ $currentUsername = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $message = registerUser($conn, $_POST['new_username'], $_POST['email'], $_POST['new_password']);
     echo $message;
-    header("Location: Index.php");
+    header("Location: Dovednosti.php");
     exit();
 }
 
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $result = loginUser($conn, $_POST['username'], $_POST['password']);
     if ($result === true) {
-        header("Location: Index.php"); // Přesměrování na aktuální stránku
+        header("Location: Dovednosti.php"); // Přesměrování na aktuální stránku
         exit();
     } else {
         echo $result; // Zobrazení chyby
@@ -127,7 +127,7 @@ if (isset($_GET['code'])) {
     <header>
         
     <div class="title">
-    <img src="images/Nadpis/nadpis.png" alt="">
+    <img src="images/nadpis/nadpis.png" alt="">
 </div>
 
 
@@ -232,7 +232,7 @@ if (isset($_GET['code'])) {
  
 <div class="logo-container">
     <div class="logo-background">
-        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -276,9 +276,9 @@ if (isset($_GET['code'])) {
     <div id="morseovka" class="skill-grid">
         <h3 class="skill-title">Morseovka</h3>
         <div class="skill-row">
-            <img src="images/morseovka1.gif" alt="Morseovka část 1" class="skill-image">
-            <img src="images/morseovka2.gif" alt="Morseovka část 2" class="skill-image">
-            <img src="images/morseovka3.gif" alt="Morseovka část 3" class="skill-image">
+            <img src="images/dovednosti/morseovka1.gif" alt="Morseovka část 1" class="skill-image">
+            <img src="images/dovednosti/morseovka2.gif" alt="Morseovka část 2" class="skill-image">
+            <img src="images/dovednosti/morseovka3.gif" alt="Morseovka část 3" class="skill-image">
         </div>
     </div>
 <br>
@@ -286,8 +286,8 @@ if (isset($_GET['code'])) {
     <div id="polsky_klic" class="skill-grid">
         <h3 class="skill-title">Velký polský klíč</h3>
         <div class="skill-row">
-            <img src="images/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
-            <img src="images/m1.gif" alt="Velký polský klíč krok 2" class="skill-image">
+            <img src="images/dovednosti/velpolkl1.gif" alt="Velký polský klíč krok 1" class="skill-image">
+            <img src="images/dovednosti/velpolkl2.gif" alt="Velký polský klíč krok 2" class="skill-image">
         </div>
     </div> 
     <br>
@@ -297,37 +297,37 @@ if (isset($_GET['code'])) {
         
         <div id="amb_uzel" class="knot">
             <h4 class="knot-title">Ambulanční uzel</h4>
-            <img src="images/ambulantní-spojka1.jpg" alt="Ambulanční uzel" class="large-image">
+            <img src="images/dovednosti/ambulantni_spojka.jpg" alt="Ambulanční uzel" class="large-image">
             <p class="knot-description">Používá se k upevňování obvazů, dlah, atd., protože je plochá (netlačí) a částečně se sama tahem povoluje.</p>
         </div>
 
         <div id="skotovy_uzel" class="knot">
             <h4 class="knot-title">Škotový uzel</h4>
-            <img src="images/škotová-spojka1.jpg" alt="Škotový uzel" class="large-image">
+            <img src="images/dovednosti/skotova_spojka.jpg" alt="Škotový uzel" class="large-image">
             <p class="knot-description">Dříve se používala na lodích k vázání tzv. škotové plachty (odtud název), jeden z nejpevnějších uzlů, lze s ním vázat i nestejně silná lana (lano – šátek,…), v tahu se sama ještě více dotahuje.</p>
         </div>
 
         <div id="rybarsky_uzel" class="knot">
             <h4 class="knot-title">Rybářský uzel</h4>
-            <img src="images/rybářská-spojka1.jpg" alt="Rybářský uzel" class="large-image">
+            <img src="images/dovednosti/rybarska_spojka.jpg" alt="Rybářský uzel" class="large-image">
             <p class="knot-description">Je časově náročná, ale zato pevná a neprokluzuje. Hodí se k vázání hladkých lan, vlasců, strun, atd. Jen se na ni neptejte žádného rybáře – nezná ji.</p>
         </div>
 
         <div id="draci_smycka" class="knot">
             <h4 class="knot-title">Dračí smyčka</h4>
-            <img src="images/dračí-smyčka1.jpg" alt="Dračí smyčka" class="large-image">
+            <img src="images/dovednosti/draci_smycka.jpg" alt="Dračí smyčka" class="large-image">
             <p class="knot-description">Pevné oko, v podstatě obrácená škotová spojka. Dokáže udržet člověka na skále stejně dobře jako omotat kmen stromu stahovaného z lesa.</p>
         </div>
 
         <div id="lodni_smycka" class="knot">
             <h4 class="knot-title">Lodní smyčka</h4>
-            <img src="images/lodní-smyčka1.jpg" alt="Lodní smyčka" class="large-image">
+            <img src="images/dovednosti/lodni_smycka.jpg" alt="Lodní smyčka" class="large-image">
             <p class="knot-description">Používají ji nejenom námořníci, ale i např. horolezci k upevnění lana na slaňování, skautíci pro stavbu lanovek všeho druhu. Zkrátka všude, kde je potřeba pevně přivázat lano ke kolíku, stromu nebo čemukoliv jinému.</p>
         </div>
 
         <div id="zkracovacka" class="knot">
             <h4 class="knot-title">Zkracovačka</h4>
-            <img src="images/zkracovačka1.jpg" alt="Zkracovačka" class="large-image">
+            <img src="images/dovednosti/zkracovacka.jpg" alt="Zkracovačka" class="large-image">
             <p class="knot-description">Ideální uzel nejenom na zkracování příliš dlouhého lana, ale i na výrobu pout na lotry i jiné zlosyny všeho druhu.</p>
         </div>
     </div>
@@ -347,10 +347,9 @@ if (isset($_GET['code'])) {
 
     </footer>
 
- 
  <!-- prihlasovaci formular -->
  <div class="login-form-container" id="loginForm">
-    <form action="Index.php" method="POST">
+    <form action="Dovednosti.php" method="POST">
         <input type="hidden" name="login" value="true">
 
         <h2>Přihlášení</h2>
@@ -361,18 +360,49 @@ if (isset($_GET['code'])) {
         <label for="password">Heslo</label>
         <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
         </div>
         
         <button type="submit">Přihlásit se</button>
         <button type="button" onclick="closeForm()">Zavřít</button>
-        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-        <p>Nebo se přihlaste pomocí Google:</p>
-        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-
-        </form>
+        <p class="register-link">
+               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+               <p>Nebo se přihlaste pomocí Google:</p>
+               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
+        </p>
+    </form>
 </div>
 
+<!-- Registrační formulář -->
+    <div class="register-form-container" id="registerForm">
+        <form action="Dovednosti.php" method="POST">
+        <input type="hidden" name="register" value="true">
+        
+            <h2>Registrace</h2>
+            <label for="new_username">Uživatelské jméno</label>
+            <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Zadejte email" required>
+            
+            <label for="new_password">Heslo</label>
+            <div class="new-password-container">
+                <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+                <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
+            </div>
+            
+            <button type="submit">Registrovat se</button>
+            <button type="button" onclick="closeRegisterForm()">Zavřít</button>
+            <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
+
+        </form>
+    </div>
+ 
+ 
+ 
+
 <script>
+
    function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -380,36 +410,8 @@ if (isset($_GET['code'])) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
-</script>
-
-    <!-- Registrační formulář -->
-    <div class="register-form-container" id="registerForm">
-    <form action="Index.php" method="POST">
-        <input type="hidden" name="register" value="true">
-
-        <h2>Registrace</h2>
-        <label for="new_username">Uživatelské jméno</label>
-        <input type="text" id="new_username" name="new_username" placeholder="Zadejte uživatelské jméno" required>
-        
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Zadejte email" required>
-        
-        <label for="new_password">Heslo</label>
-        <div class="new-password-container">
-            <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
-        </div>
-        
-        <button type="submit">Registrovat se</button>
-        <button type="button" onclick="closeRegisterForm()">Zavřít</button>
-        <p>Již máte účet? <a href="#" onclick="openForm()">Přihlaste se zde</a></p>
-    </form>
-</div>
 
 
-
-
-
-    <script>
         document.addEventListener('DOMContentLoaded', () => {
     console.log("Fetching messages on page load...");
     fetchMessages(); // Fetch messages as soon as the page loads
@@ -447,7 +449,7 @@ if (isset($_GET['code'])) {
 
 // Zobrazení a skrytí hesla pro registrační formulář
 document.getElementById('toggleNewPassword').addEventListener('click', function () {
-            const newPasswordField = document.getElementById('new-password');
+            const newPasswordField = document.getElementById('new_password');
             const type = newPasswordField.type === 'password' ? 'text' : 'password';
             newPasswordField.type = type;
 

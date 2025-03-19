@@ -121,7 +121,7 @@ if (isset($_GET['code'])) {
     <header>
 
     <div class="title">
-    <img src="images/Nadpis/nadpis.png" alt="">
+    <img src="images/nadpis/nadpis.png" alt="">
 </div>
 
 
@@ -249,7 +249,7 @@ if (isset($_GET['code'])) {
  
     <div class="logo-container">
     <div class="logo-background">
-        <img src="images/web_foto/BATold2.png" alt="Logo BAT">
+        <img src="images/logoBAT.png" alt="Logo BAT">
     </div>
 </div>
 
@@ -352,15 +352,17 @@ if (isset($_GET['code'])) {
         <label for="password">Heslo</label>
         <div class="password-container">
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+            <span id="togglePassword" class="toggle-password">&#128065;</span> <!-- Ikona oka -->
         </div>
         
         <button type="submit">Přihlásit se</button>
         <button type="button" onclick="closeForm()">Zavřít</button>
-        <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
-        <p>Nebo se přihlaste pomocí Google:</p>
-        <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
-
-        </form>
+        <p class="register-link">
+               <p>Nemáte účet? <a href="#" onclick="openRegisterForm()">Registrovat se</a></p>
+               <p>Nebo se přihlaste pomocí Google:</p>
+               <a href="<?= htmlspecialchars($client->createAuthUrl()); ?>">Login with Google</a>
+        </p>
+    </form>
 </div>
 
 <script>
@@ -388,6 +390,7 @@ if (isset($_GET['code'])) {
         <label for="new_password">Heslo</label>
         <div class="new-password-container">
             <input type="password" id="new_password" name="new_password" placeholder="Zadejte heslo" required>
+            <span id="toggleNewPassword" class="toggle-password">&#128065;</span> <!-- Ikona oka pro nový heslo -->
         </div>
         
 
@@ -439,7 +442,7 @@ if (isset($_GET['code'])) {
 
 // Zobrazení a skrytí hesla pro registrační formulář
 document.getElementById('toggleNewPassword').addEventListener('click', function () {
-            const newPasswordField = document.getElementById('new-password');
+            const newPasswordField = document.getElementById('new_password');
             const type = newPasswordField.type === 'password' ? 'text' : 'password';
             newPasswordField.type = type;
 
